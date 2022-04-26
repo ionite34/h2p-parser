@@ -40,7 +40,8 @@ class Dictionary:
             raise ValueError('Dictionary is empty or invalid')
 
     # Check if a word is in the dictionary
-    def is_word(self, word):
+    def contains(self, word):
+        word = word.lower()
         return word in self.dictionary
 
     # Get the phonetic pronunciation of a word using Part of Speech tag
