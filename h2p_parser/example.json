@@ -1,0 +1,10 @@
+{
+    "absent": {
+        "VERB": "AH1 B S AE1 N T",
+        "DEFAULT": "AE1 B S AH0 N T"
+    },
+    "abstract": {
+        "VERB": "AE0 B S T R AE1 K T",
+        "DEFAULT": "AE1 B S T R AE2 K T"
+    }
+}
