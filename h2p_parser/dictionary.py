@@ -2,19 +2,21 @@
 
 # Defines a dictionary class that can be used to store and retrieve from the json file
 
+from os.path import exists
 import importlib.resources
 import json
-import pos as pos_parser
+import pos_parser
 
 
 # Dictionary class
 class Dictionary:
     def __init__(self, file_name=None):
         # If a file name is not provided, use the default file name
+        self.file_name = file_name
+        self.use_default = False
         if file_name is None:
             self.file_name = 'dict.json'
             self.use_default = True
-        self.file_name = file_name
         self.dictionary = {}
         self.load_dictionary()
 
@@ -29,8 +31,8 @@ class Dictionary:
                     self.dictionary = json.load(file)
         else:
             # If the file does not exist, throw an error
-            if importlib.resources.path(__package__, self.file_name) is None:
-                raise FileNotFoundError(f'User Defined Dictionary {self.file_name} file not found')
+            if not exists(self.file_name):
+                raise FileNotFoundError(f'Dictionary {self.file_name} file not found')
             with open(self.file_name) as file:
                 self.dictionary = json.load(file)
         # Check dictionary has at least one entry
