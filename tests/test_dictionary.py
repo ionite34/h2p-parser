@@ -38,5 +38,9 @@ class TestDictionary(TestCase):
                                            'DEFAULT': 'AE1 B S T R AE2 K T'}})
             # ock_file.assert_called_with("path/to/open")
 
-    def test_read(self):
-        pass
+    # Test contains method
+    def test_contains(self):
+        dictionary = Dictionary()
+        self.assertTrue(dictionary.contains("absent"))
+        self.assertTrue(dictionary.contains("ABsTRAct"))
+        self.assertFalse(dictionary.contains("another"))
