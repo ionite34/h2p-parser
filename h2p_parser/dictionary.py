@@ -53,15 +53,13 @@ class Dictionary:
         if pos in sub_dict:
             return sub_dict[pos]
 
-        # If not, get the parent pos of the pos tag
+        # If not, use the parent pos of the pos tag
         parent_pos = pos_parser.get_parent_pos(pos)
-        # If none, return None
-        if parent_pos is None:
-            return None
 
-        # Check if the sub_dict contains the parent pos
-        if parent_pos in sub_dict:
-            return sub_dict[parent_pos]
+        if parent_pos is not None:
+            # Check if the sub_dict contains the parent pos
+            if parent_pos in sub_dict:
+                return sub_dict[parent_pos]
 
         # If not, check if the sub_dict contains a DEFAULT key
         if 'DEFAULT' in sub_dict:

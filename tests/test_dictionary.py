@@ -44,3 +44,18 @@ class TestDictionary(TestCase):
         self.assertTrue(dictionary.contains("absent"))
         self.assertTrue(dictionary.contains("ABsTRAct"))
         self.assertFalse(dictionary.contains("another"))
+
+    # Test get_phoneme method
+    def test_get_phoneme(self):
+        dictionary = Dictionary()
+        # Test Verb
+        self.assertEqual(dictionary.get_phoneme("absent", "VBD"), "AH1 B S AE1 N T")
+        self.assertEqual(dictionary.get_phoneme("abstract", "VB"), "AE0 B S T R AE1 K T")
+        # Test Noun
+        self.assertEqual(dictionary.get_phoneme("absent", "NNS"), "AE1 B S AH0 N T")
+        self.assertEqual(dictionary.get_phoneme("abstract", "NN"), "AE1 B S T R AE2 K T")
+        # Test Unknown default
+        self.assertEqual(dictionary.get_phoneme("absent", "RP"), "AE1 B S AH0 N T")
+        self.assertEqual(dictionary.get_phoneme("abstract", "UH"), "AE1 B S T R AE2 K T")
+
+
