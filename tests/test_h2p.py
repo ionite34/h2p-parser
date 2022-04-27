@@ -94,17 +94,17 @@ class TestH2p(TestCase):
     # Test the replace_het function
     def test_replace_het(self):
         lines = self.ex_lines
-        expected = self.ex_expected_results
+        expected_results = self.ex_expected_results
         # Loop through lines
-        for line, expected_result in zip(lines, expected):
+        for line, expected in zip(lines, expected_results):
             self.assertEqual(self.h2p.replace_het(line), expected)
 
     # Test the replace_het_list function
     def test_replace_het_list(self):
         lines = self.ex_lines
-        expected = self.ex_expected_results
+        expected_results = self.ex_expected_results
         # Do all lines
         results = self.h2p.replace_het_list(lines)
         # Loop through lines to check
-        for result, expected_result in zip(results, expected):
-            self.assertEqual(expected_result, result)
+        for result, expected in zip(results, expected_results):
+            self.assertEqual(expected, result)
