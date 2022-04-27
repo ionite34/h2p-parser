@@ -53,7 +53,7 @@ class Perf:
         """
         self.h2p = self.get_h2p()
 
-    @patch('dictionary.exists', side_effect=always_exists)
+    @patch('h2p_parser.dictionary.exists', side_effect=always_exists)
     def get_h2p(self, exists_function):
         with patch('builtins.open', mock_open(read_data=self.file_mock_content)):
             with patch('os.path.exists', return_value=True):

@@ -30,7 +30,7 @@ def gen_line(n):
 
 class TestH2p(TestCase):
 
-    @patch('dictionary.exists', side_effect=always_exists)
+    @patch('h2p_parser.dictionary.exists', side_effect=always_exists)
     def setUp(self, exists_function):
         self.file_mock_path = "file/path/mock"
         self.file_mock_content = """

@@ -5,7 +5,7 @@
 from os.path import exists
 import importlib.resources
 import json
-import pos_parser
+import h2p_parser.pos_parser as pos_parser
 
 
 # Dictionary class
