@@ -34,7 +34,7 @@ class TestDictionary(TestCase):
     # Test default initialization
     def test_dictionary_init_default(self):
         # Test default mode
-        with patch('builtins.open', mock_open(read_data=self.file_mock_content)) as mock_file:
+        with patch('builtins.open', mock_open(read_data=self.file_mock_content)):
             assert open("path/to/open").read() == self.file_mock_content
             dictionary = Dictionary()
             self.assertEqual(dictionary.dictionary,
