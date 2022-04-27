@@ -94,10 +94,6 @@ class Perf:
             # Calculate the time and return it
             return end - start
 
-        # Method to convert time to milliseconds rounded to 3 decimal places, as string
-        def to_ms(time_sec):
-            return str(round(time_sec * 1000, 3))
-
         # Generate a test line
         t1 = gen_line(2)
 
