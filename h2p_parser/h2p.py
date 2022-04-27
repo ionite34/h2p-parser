@@ -1,12 +1,13 @@
 import nltk
 from nltk.tokenize import TweetTokenizer
 from nltk import pos_tag
-import dictionary
+from dictionary import Dictionary
 from filter import filter_text as ft
 
+
 class H2p:
-    def __init__(self):
-        self.dict = dictionary.Dictionary()
+    def __init__(self, dict_path=None):
+        self.dict = Dictionary(dict_path)
         self.tokenize = TweetTokenizer().tokenize
 
     # Method to check if a text line contains a heteronym
