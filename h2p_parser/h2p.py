@@ -6,6 +6,13 @@ from h2p_parser.dictionary import Dictionary
 from h2p_parser.filter import filter_text as ft
 
 
+# Check that the nltk data is downloaded, if not, download it
+try:
+    nltk.data.find('taggers/averaged_perceptron_tagger.zip')
+except LookupError:
+    nltk.download('averaged_perceptron_tagger')
+
+
 # Method for formatting phonemes
 def format_phonemes(phoneme_str):
     # Surround with { }
