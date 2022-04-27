@@ -14,27 +14,7 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10"]
-        
+    runs-on: ubuntu-latest 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install flake8 mypy pylint vulture
-    - uses: rahul-deepsource/pyaction@master
-      name: Lint Check
-      with:
-        python-root-list: "h2p-parser/ tests/"
-        use-pycodestyle: false
-        use-mypy: false
-        use-vulture: true
-        extra-pylint-options: --output-format="colorized"
+      - uses: actions/checkout@v1
+      - uses: rahul-deepsource/pyaction@1.4.0
