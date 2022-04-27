@@ -13,31 +13,42 @@ class Dictionary:
     def __init__(self, file_name=None):
         # If a file name is not provided, use the default file name
         self.file_name = file_name
-        self.use_default = False
         if file_name is None:
             self.file_name = 'dict.json'
             self.use_default = True
+        else:
+            self.file_name = file_name
+            self.use_default = False
         self.dictionary = {}
-        self.load_dictionary()
+        self.dictionary = self.load_dictionary(file_name)
 
     # Loads the dictionary from the json file
-    def load_dictionary(self):
-        if self.use_default:
+    def load_dictionary(self, path=None):
+        # Default Mode
+        if path is None:
             # If the file does not exist, throw an error
             if importlib.resources.path(__package__, self.file_name) is None:
                 raise FileNotFoundError(f'Default Dictionary {self.file_name} file not found')
-            with importlib.resources.path(__package__, self.file_name) as path:
-                with open(path) as file:
-                    self.dictionary = json.load(file)
+            with importlib.resources.path(__package__, self.file_name) as def_path:
+                with open(def_path) as def_file:
+                    read_dict = json.load(def_file)
+                    # Check dictionary has at least one entry
+                    if len(read_dict) > 0:
+                        return read_dict
+                    else:
+                        raise ValueError('Dictionary is empty or invalid')
+        # Custom Dictionary Path Mode
         else:
             # If the file does not exist, throw an error
-            if not exists(self.file_name):
+            if not exists(path):
                 raise FileNotFoundError(f'Dictionary {self.file_name} file not found')
-            with open(self.file_name) as file:
-                self.dictionary = json.load(file)
-        # Check dictionary has at least one entry
-        if len(self.dictionary) == 0:
-            raise ValueError('Dictionary is empty or invalid')
+            with open(path) as file:
+                read_dict = json.load(file)
+                # Check dictionary has at least one entry
+                if len(read_dict) > 0:
+                    return read_dict
+                else:
+                    raise ValueError('Dictionary is empty or invalid')
 
     # Check if a word is in the dictionary
     def contains(self, word):
