@@ -2,6 +2,7 @@ import nltk
 import re
 from nltk.tokenize import TweetTokenizer
 from nltk import pos_tag
+from nltk import pos_tag_sents
 from h2p_parser.dictionary import Dictionary
 from h2p_parser.filter import filter_text as ft
 
@@ -63,3 +64,28 @@ class H2p:
             # Replace word with phonemes
             text = replace(word, f_ph, text)
         return text
+
+    # Replaces heteronyms in a list of text lines
+    # Slightly faster than replace_het() called on each line
+    def replace_het_list(self, text_list):
+        # Filter the text
+        working_text_list = [ft(text) for text in text_list]
+        # Tokenize
+        list_sentence_words = [self.tokenize(text) for text in working_text_list]
+        # Get pos tags list
+        tags_list = pos_tag_sents(list_sentence_words)
+        # Loop through lines
+        for index in range(len(text_list)):
+            # Loop through words and pos tags in tags_list index
+            for word, pos in tags_list[index]:
+                # Skip if word not in dictionary
+                if not self.dict.contains(word):
+                    continue
+                # Get phonemes
+                phonemes = self.dict.get_phoneme(word, pos)
+                # Format phonemes
+                f_ph = format_phonemes(phonemes)
+                # Replace word with phonemes
+                text_list[index] = replace(word, f_ph, text_list[index])
+        return text_list
+
