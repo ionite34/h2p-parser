@@ -56,8 +56,7 @@ class Perf:
     @patch('h2p_parser.dictionary.exists', side_effect=always_exists)
     def get_h2p(self, exists_function):
         with patch('builtins.open', mock_open(read_data=self.file_mock_content)):
-            with patch('os.path.exists', return_value=True):
-                return H2p("path/to/open")
+            return H2p("path/to/open")
 
     # Measuring the performance of the replace_het function
     def test_performance_replace_het(self, n):
