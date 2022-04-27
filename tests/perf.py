@@ -3,11 +3,24 @@ import random
 from statistics import mean
 from unittest.mock import patch, mock_open
 
-import unicodedata
-
 from h2p_parser.h2p import H2p
 from timeit import default_timer as timer
-from timeit import timeit
+
+
+# Method to convert time to milliseconds rounded to 3 decimal places, as string
+def to_ms(time_sec):
+    return str(round(time_sec * 1000, 3))
+
+
+# Method to convert 2 int values to string percentage delta rounded to 3 decimal places, as string
+def to_percent(value1, value2):
+    if (value1 == 0) or (value2 == 0):
+        return "0.000"
+    if value1 < value2:
+        return str(round(((value2 - value1) / value2) * 100, 3))
+    elif value1 > value2:
+        return str(round(((value1 - value2) / value1) * 100, 3))
+    return "0.000"
 
 
 # Function to generate test lines with n sentences, randomly chosen from the list of lines
@@ -27,14 +40,6 @@ def gen_line(n):
             test_line += " "
         test_line += (random.choice(lines))
     return test_line
-
-
-# Function to run a method using timeit n times and returns time metrics
-def run_time(method, n):
-    # Run the method n times
-    times = timeit(method, number=n)
-    # Return the mean time
-    return times
 
 
 # noinspection PyUnusedLocal
@@ -89,10 +94,6 @@ class Perf:
             # Calculate the time and return it
             return end - start
 
-        # Method to convert time to milliseconds rounded to 3 decimal places, as string
-        def to_ms(time_sec):
-            return str(round(time_sec * 1000, 3))
-
         # Generate a test line
         t1 = gen_line(2)
 
@@ -118,60 +119,70 @@ class Perf:
         print(f"Avg 2nd Subsequent time: {to_ms(sub1_avg)} ms")
         print(f"Avg 3rd Subsequent time: {to_ms(sub2_avg)} ms")
 
+    # Measuring performance of replace_het vs replace_het_list
+    def test_performance_replace_het_list(self, n):
+        # Single Line Method
+        def perf_test(line_in):
+            start = timer()
+            self.h2p.replace_het(line_in)
+            end = timer()
+            return end - start
 
-# noinspection SpellCheckingInspection
-def test_perf_accent_norm(iters):
-    # Tests performance of accent normalization
-    no_accents = "aeinou"
-    accents = "áéíñóú"
-    run_mult = [10, 100, 1000]
+        # List Method
+        def perf_test_list(list_in):
+            start = timer()
+            self.h2p.replace_het_list(list_in)
+            end = timer()
+            return end - start
 
-    # Standard mode
-    def m1(text_in):
-        return ''.join(char for char in unicodedata.normalize('NFD', text_in)
-                       if unicodedata.category(char) != 'Mn')
+        # Generate a list of lines by random selection using gen_line
+        gen_lines = []
+        for i in range(n):
+            gen_lines.append(gen_line(1))
 
-    # With contains check
-    def m2(text_in):
-        return unicodedata.normalize('NFD', text_in)
+        def run_test(lines):
+            # Run using list call
+            list_total_time = perf_test_list(lines)
+            # Run using single calls
+            single_times = []
+            for line in lines:
+                single_times.append(perf_test(line))
+            # Calculate sum of single times
+            single_time_sum = sum(single_times)
+            return single_time_sum, list_total_time
 
-    # loop for number of runs in run_mult
-    for mult in run_mult:
-        # build the lines
-        no_accents_line = ''.join(random.choice(no_accents) for _ in range(mult))
-        accents_line = ''.join(random.choice(accents) for _ in range(mult))
+        # Call run_test 5 times, use the average of the best 3 results
+        all_runs_single = []
+        all_runs_list = []
+        for i in range(5):
+            single_time, list_time = run_test(gen_lines)
+            all_runs_single.append(single_time)
+            all_runs_list.append(list_time)
+        single_avg = mean(sorted(all_runs_single)[:3])
+        list_avg = mean(sorted(all_runs_list)[:3])
 
+        # Report both as ms, round to 3 decimal places
         print("-" * 10)
-        print(f"Run for {mult}")
-        print("-" * 5)
-        print("Accents:")
-        # Time m1
-        t1_acc = run_time(lambda: m1(accents_line), iters)
-        t2_acc = run_time(lambda: m2(accents_line), iters)
-        print(f"T1, Accents: {t1_acc} ms")
-        print(f"T2, Accents: {t2_acc} ms")
-        # Calculate winner
-        if t1_acc < t2_acc:
-            # percent difference
-            print(f"Type 1 is {round(t2_acc / t1_acc * 100, 2)}% faster")
+        print(f"Perf Test: Replace Het List - Size {n}")
+        print(f"[replace_het] x {n} -> Time: {to_ms(single_avg)} ms")
+        print(f"[replace_het_list] -> Time: {to_ms(list_avg)} ms")
+        # Determine if the list method is faster in print
+        if single_avg > list_avg:
+            print("[replace_het_list] is faster")
         else:
-            print(f"Type 2 is {round(t1_acc / t2_acc * 100, 2)}% faster")
-        print("-" * 5)
-        print("No Accents:")
-        t1_no_acc = run_time(lambda: m1(no_accents_line), iters)
-        t2_no_acc = run_time(lambda: m2(no_accents_line), iters)
-        print(f"T1, No Accents: {t1_no_acc} ms")
-        print(f"T2, No Accents: {t2_no_acc} ms")
-        # Calculate winner
-        if t1_no_acc < t2_no_acc:
-            # percent difference
-            print(f"Type 1 is {round(t2_no_acc / t1_no_acc * 100, 2)}% faster")
-        else:
-            print(f"Type 2 is {round(t1_no_acc / t2_no_acc * 100, 2)}% faster")
+            print("[replace_het] is faster")
+        print(f"Difference: {to_ms(single_avg - list_avg)} ms, {to_percent(single_avg, list_avg)}%")
 
 
 if __name__ == '__main__':
     p = Perf()
-    count = 30
-    p.test_performance_replace_het(count)
-    test_perf_accent_norm(30)
+    # Perf Test for replace_het
+    p.test_performance_replace_het(30)
+    # Perf Test for replace_het_list vs replace_het
+    p.test_performance_replace_het_list(1)
+    p.test_performance_replace_het_list(2)
+    p.test_performance_replace_het_list(10)
+    p.test_performance_replace_het_list(32)
+    p.test_performance_replace_het_list(64)
+    p.test_performance_replace_het_list(128)
+    p.test_performance_replace_het_list(256)
