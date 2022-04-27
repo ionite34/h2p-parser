@@ -65,10 +65,13 @@ class Perf:
         """
         self.h2p = self.get_h2p()
 
+    # noinspection PyUnusedLocal
     @patch('h2p_parser.dictionary.exists', side_effect=always_exists)
     def get_h2p(self, exists_function):
         with patch('builtins.open', mock_open(read_data=self.file_mock_content)):
-            return H2p("path/to/open")
+            result = H2p("path/to/open")
+        result.preload()
+        return result
 
     # Measuring the performance of the replace_het function
     def test_performance_replace_het(self, n):
