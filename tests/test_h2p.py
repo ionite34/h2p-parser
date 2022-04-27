@@ -51,6 +51,19 @@ class TestH2p(TestCase):
             }
         }
         """
+        # List of lines
+        self.ex_lines = [
+            "The cat read the book. It was a good book to read.",
+            "You should absent yourself from the meeting. Then you would be absent.",
+            "The machine would automatically reject products. These were the reject products.",
+        ]
+
+        # List of expected results
+        self.ex_expected_results = [
+            "The cat {R EH1 D} the book. It was a good book to {R IY1 D}.",
+            "You should {AH1 B S AE1 N T} yourself from the meeting. Then you would be {AE1 B S AH0 N T}.",
+            "The machine would automatically {R IH0 JH EH1 K T} products. These were the {R IY1 JH EH0 K T} products."
+        ]
         with patch('builtins.open', mock_open(read_data=self.file_mock_content)) as mock_file:
             assert open("path/to/open").read() == self.file_mock_content
             # Override the os.path.exists function
@@ -80,20 +93,18 @@ class TestH2p(TestCase):
 
     # Test the replace_het function
     def test_replace_het(self):
-        # List of lines
-        lines = [
-            "The cat read the book. It was a good book to read.",
-            "You should absent yourself from the meeting. Then you would be absent.",
-            "The machine would automatically reject products. These were the reject products.",
-        ]
-
-        # List of expected results
-        expected_results = [
-            "The cat {R EH1 D} the book. It was a good book to {R IY1 D}.",
-            "You should {AH1 B S AE1 N T} yourself from the meeting. Then you would be {AE1 B S AH0 N T}.",
-            "The machine would automatically {R IH0 JH EH1 K T} products. These were the {R IY1 JH EH0 K T} products."
-        ]
-
+        lines = self.ex_lines
+        expected = self.ex_expected_results
         # Loop through lines
-        for line, expected_result in zip(lines, expected_results):
-            self.assertEqual(self.h2p.replace_het(line), expected_result)
+        for line, expected_result in zip(lines, expected):
+            self.assertEqual(self.h2p.replace_het(line), expected)
+
+    # Test the replace_het_list function
+    def test_replace_het_list(self):
+        lines = self.ex_lines
+        expected = self.ex_expected_results
+        # Do all lines
+        results = self.h2p.replace_het_list(lines)
+        # Loop through lines to check
+        for result, expected_result in zip(results, expected):
+            self.assertEqual(expected_result, result)
