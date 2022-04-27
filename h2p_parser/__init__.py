@@ -1,4 +1,8 @@
-# __init__.py
+"""
+h2p_parser
 
-# Version of the h2p_parser package
+Heteronym to Phoneme Parser
+
+"""
+
 __version__ = "1.0.0"
