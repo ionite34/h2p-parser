@@ -1,10 +1,7 @@
 import random
-import time
-from statistics import mean
 from unittest import TestCase
 from unittest.mock import patch, mock_open
 from h2p import H2p
-from timeit import default_timer as timer
 
 
 # noinspection PyUnusedLocal
@@ -100,46 +97,3 @@ class TestH2p(TestCase):
         # Loop through lines
         for line, expected_result in zip(lines, expected_results):
             self.assertEqual(self.h2p.replace_het(line), expected_result)
-
-    # Measuring the performance of the replace_het function
-    def test_performance_replace_het(self):
-        # Method to test single line performance
-        def perf_test(line_in, startup=False):
-            # Start startup time measurement
-            start = timer()
-            # Call setUp function, if startup is True
-            if startup:
-                self.setUp()
-            # Get one result
-            self.h2p.replace_het(line_in)
-            # Stop time measurement
-            end = timer()
-            # Calculate the time and return it
-            return end - start
-
-        # Method to convert time to milliseconds rounded to 3 decimal places, as string
-        def to_ms(time_sec):
-            return str(round(time_sec * 1000, 3))
-
-        # Generate a test line
-        t1 = gen_line(2)
-
-        # Loop 30 times, get 1 startup and 2 subsequent results, append to lists
-        startup_times = []
-        sub1_times = []
-        sub2_times = []
-        for i in range(30):
-            startup_times.append(perf_test(t1, startup=True))
-            sub1_times.append(perf_test(t1))
-            sub2_times.append(perf_test(t1))
-
-        # Calculate the average times
-        startup_avg = mean(startup_times)
-        sub1_avg = mean(sub1_times)
-        sub2_avg = mean(sub2_times)
-
-        # Report both as ms, round to 3 decimal places
-        print(f"Avg Startup time: {to_ms(startup_avg)} ms")
-        print(f'First 5 Startup times: {[to_ms(t) for t in startup_times[:5]]} ms')
-        print(f"Avg 2nd Subsequent time: {to_ms(sub1_avg)} ms")
-        print(f"Avg 3rd Subsequent time: {to_ms(sub2_avg)} ms")
