@@ -6,5 +6,11 @@
     "abstract": {
         "VERB": "AE0 B S T R AE1 K T",
         "DEFAULT": "AE1 B S T R AE2 K T"
+    },
+    "read": {
+        "VBD": "R EH1 D",
+        "VBN": "R EH1 D",
+        "VBP": "R EH1 D",
+        "DEFAULT": "R IY1 D"
     }
 }
