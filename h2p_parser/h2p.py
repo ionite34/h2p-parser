@@ -22,7 +22,7 @@ def format_phonemes(phoneme_str):
 
 
 # Method to use Regex to replace the first instance of a word with its phonemes
-def replace(target, replacement, text):
+def format_ph(target, replacement, text):
     # Replace the first instance of a word with its phonemes
     return re.sub(r'\b' + target + r'\b', replacement, text, 1)
 
@@ -62,7 +62,7 @@ class H2p:
             # Format phonemes
             f_ph = format_phonemes(phonemes)
             # Replace word with phonemes
-            text = replace(word, f_ph, text)
+            text = format_ph(word, f_ph, text)
         return text
 
     # Replaces heteronyms in a list of text lines
@@ -86,6 +86,6 @@ class H2p:
                 # Format phonemes
                 f_ph = format_phonemes(phonemes)
                 # Replace word with phonemes
-                text_list[index] = replace(word, f_ph, text_list[index])
+                text_list[index] = format_ph(word, f_ph, text_list[index])
         return text_list
 
