@@ -1,0 +1,26 @@
+name: Python Lint Check
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'h2p_parser/**'
+      - 'tests/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'h2p_parser/**'
+      - 'tests/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: rahul-deepsource/pyaction@1.4.0
+      with:
+        python-root-list: "h2p-parser/ tests/"
+        use-pycodestyle: false
+        use-mypy: false
+        use-vulture: true
+        extra-pylint-options: --output-format="colorized"
