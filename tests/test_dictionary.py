@@ -15,6 +15,12 @@ class TestDictionary(TestCase):
             "abstract": {
                 "VERB": "AE0 B S T R AE1 K T",
                 "DEFAULT": "AE1 B S T R AE2 K T"
+            },
+            "read": {
+                "VBD": "R EH1 D",
+                "VBN": "R EH1 D",
+                "VBP": "R EH1 D",
+                "DEFAULT": "R IY1 D"
             }
         }
         """
@@ -35,27 +41,41 @@ class TestDictionary(TestCase):
                              {'absent': {'VERB': 'AH1 B S AE1 N T',
                                          'DEFAULT': 'AE1 B S AH0 N T'},
                               'abstract': {'VERB': 'AE0 B S T R AE1 K T',
-                                           'DEFAULT': 'AE1 B S T R AE2 K T'}})
-            # ock_file.assert_called_with("path/to/open")
+                                           'DEFAULT': 'AE1 B S T R AE2 K T'},
+                              'read': {'VBD': 'R EH1 D',
+                                       'VBN': 'R EH1 D',
+                                       'VBP': 'R EH1 D',
+                                       'DEFAULT': 'R IY1 D'},
+                              })
 
     # Test contains method
     def test_contains(self):
-        dictionary = Dictionary()
-        self.assertTrue(dictionary.contains("absent"))
-        self.assertTrue(dictionary.contains("ABsTRAct"))
-        self.assertFalse(dictionary.contains("another"))
+        with patch('builtins.open', mock_open(read_data=self.file_mock_content)) as mock_file:
+            assert open("path/to/open").read() == self.file_mock_content
+            dictionary = Dictionary()
+            self.assertTrue(dictionary.contains("absent"))
+            self.assertTrue(dictionary.contains("ABsTRAct"))
+            self.assertFalse(dictionary.contains("another"))
 
     # Test get_phoneme method
     def test_get_phoneme(self):
-        dictionary = Dictionary()
-        # Test Verb
-        self.assertEqual(dictionary.get_phoneme("absent", "VBD"), "AH1 B S AE1 N T")
-        self.assertEqual(dictionary.get_phoneme("abstract", "VB"), "AE0 B S T R AE1 K T")
-        # Test Noun
-        self.assertEqual(dictionary.get_phoneme("absent", "NNS"), "AE1 B S AH0 N T")
-        self.assertEqual(dictionary.get_phoneme("abstract", "NN"), "AE1 B S T R AE2 K T")
-        # Test Unknown default
-        self.assertEqual(dictionary.get_phoneme("absent", "RP"), "AE1 B S AH0 N T")
-        self.assertEqual(dictionary.get_phoneme("abstract", "UH"), "AE1 B S T R AE2 K T")
+        with patch('builtins.open', mock_open(read_data=self.file_mock_content)) as mock_file:
+            assert open("path/to/open").read() == self.file_mock_content
+            dictionary = Dictionary()
+            # Test Verb
+            self.assertEqual(dictionary.get_phoneme("absent", "VBD"), "AH1 B S AE1 N T")
+            self.assertEqual(dictionary.get_phoneme("abstract", "VB"), "AE0 B S T R AE1 K T")
+            # Test Noun
+            self.assertEqual(dictionary.get_phoneme("absent", "NNS"), "AE1 B S AH0 N T")
+            self.assertEqual(dictionary.get_phoneme("abstract", "NN"), "AE1 B S T R AE2 K T")
+            # Test Unknown default
+            self.assertEqual(dictionary.get_phoneme("absent", "RP"), "AE1 B S AH0 N T")
+            self.assertEqual(dictionary.get_phoneme("abstract", "UH"), "AE1 B S T R AE2 K T")
+            # Test Specific
+            self.assertEqual(dictionary.get_phoneme("read", "VBD"), "R EH1 D")
+            self.assertEqual(dictionary.get_phoneme("read", "VBN"), "R EH1 D")
+            self.assertEqual(dictionary.get_phoneme("read", "VBP"), "R EH1 D")
+            self.assertEqual(dictionary.get_phoneme("read", "NN"), "R IY1 D")
+
 
 
