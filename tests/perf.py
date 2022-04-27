@@ -119,8 +119,70 @@ class Perf:
         print(f"Avg 2nd Subsequent time: {to_ms(sub1_avg)} ms")
         print(f"Avg 3rd Subsequent time: {to_ms(sub2_avg)} ms")
 
+    # Measuring performance of replace_het vs replace_het_list
+    def test_performance_replace_het_list(self, n):
+        # Single Line Method
+        def perf_test(line_in):
+            start = timer()
+            self.h2p.replace_het(line_in)
+            end = timer()
+            return end - start
+
+        # List Method
+        def perf_test_list(list_in):
+            start = timer()
+            self.h2p.replace_het_list(list_in)
+            end = timer()
+            return end - start
+
+        # Generate a list of lines by random selection using gen_line
+        gen_lines = []
+        for i in range(n):
+            gen_lines.append(gen_line(1))
+
+        def run_test(lines):
+            # Run using list call
+            list_total_time = perf_test_list(lines)
+            # Run using single calls
+            single_times = []
+            for line in lines:
+                single_times.append(perf_test(line))
+            # Calculate sum of single times
+            single_time_sum = sum(single_times)
+            return single_time_sum, list_total_time
+
+        # Call run_test 5 times, use the average of the best 3 results
+        all_runs_single = []
+        all_runs_list = []
+        for i in range(5):
+            single_time, list_time = run_test(gen_lines)
+            all_runs_single.append(single_time)
+            all_runs_list.append(list_time)
+        single_avg = mean(sorted(all_runs_single)[:3])
+        list_avg = mean(sorted(all_runs_list)[:3])
+
+        # Report both as ms, round to 3 decimal places
+        print("-" * 10)
+        print(f"Perf Test: Replace Het List - Size {n}")
+        print(f"[replace_het] x {n} -> Time: {to_ms(single_avg)} ms")
+        print(f"[replace_het_list] -> Time: {to_ms(list_avg)} ms")
+        # Determine if the list method is faster in print
+        if single_avg > list_avg:
+            print("[replace_het_list] is faster")
+        else:
+            print("[replace_het] is faster")
+        print(f"Difference: {to_ms(single_avg - list_avg)} ms, {to_percent(single_avg, list_avg)}%")
+
 
 if __name__ == '__main__':
     p = Perf()
-    count = 30
-    p.test_performance_replace_het(count)
+    # Perf Test for replace_het
+    p.test_performance_replace_het(30)
+    # Perf Test for replace_het_list vs replace_het
+    p.test_performance_replace_het_list(1)
+    p.test_performance_replace_het_list(2)
+    p.test_performance_replace_het_list(10)
+    p.test_performance_replace_het_list(32)
+    p.test_performance_replace_het_list(64)
+    p.test_performance_replace_het_list(128)
+    p.test_performance_replace_het_list(256)
