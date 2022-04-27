@@ -17,4 +17,4 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v1
-      - uses: rahul-deepsource/pyaction@1.4.0
+      - uses: marian-code/python-lint-annotate@v3
