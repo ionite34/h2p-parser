@@ -4,13 +4,15 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'h2p_parser'
-      - 'tests'
+      - '*.py'
+      - 'h2p_parser/**'
+      - 'tests/**'
   pull_request:
     branches: [ main ]
     paths:
-      - 'h2p_parser'
-      - 'tests'
+      - '*.py'
+      - 'h2p_parser/**'
+      - 'tests/**'
 
 jobs:
   build:
