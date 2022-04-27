@@ -7,6 +7,22 @@ from h2p_parser.h2p import H2p
 from timeit import default_timer as timer
 
 
+# Method to convert time to milliseconds rounded to 3 decimal places, as string
+def to_ms(time_sec):
+    return str(round(time_sec * 1000, 3))
+
+
+# Method to convert 2 int values to string percentage delta rounded to 3 decimal places, as string
+def to_percent(value1, value2):
+    if (value1 == 0) or (value2 == 0):
+        return "0.000"
+    if value1 < value2:
+        return str(round(((value2 - value1) / value2) * 100, 3))
+    elif value1 > value2:
+        return str(round(((value1 - value2) / value1) * 100, 3))
+    return "0.000"
+
+
 # Function to generate test lines with n sentences, randomly chosen from the list of lines
 # The number of heteronyms would be 2n
 def gen_line(n):
