@@ -1,5 +1,5 @@
 from unittest import TestCase
-import pos_parser
+import h2p_parser.pos_parser as pos_parser
 
 
 class Test(TestCase):

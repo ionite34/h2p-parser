@@ -1,5 +1,5 @@
 from unittest import TestCase
-import filter
+import h2p_parser.filter as h2p_filter
 
 
 # noinspection SpellCheckingInspection
@@ -8,14 +8,14 @@ class Test(TestCase):
     def test_filter_text_accents(self):
         orig = "áéíóú"
         expect = "aeiou"
-        result = filter.filter_text(orig)
+        result = h2p_filter.filter_text(orig)
         self.assertEqual(expect, result)
 
     # Test for lowercase
     def test_filter_text_lowercase(self):
         orig = "TESTcase"
         expect = "testcase"
-        result = filter.filter_text(orig)
+        result = h2p_filter.filter_text(orig)
         self.assertEqual(expect, result)
 
     # Test for puncutations removal
@@ -23,12 +23,12 @@ class Test(TestCase):
         # Test safe punctuation
         orig = "w, case[s]?! 'Ts"
         expect = "w, cases?! 'ts"
-        result = filter.filter_text(orig)
+        result = h2p_filter.filter_text(orig)
         self.assertEqual(expect, result)
 
         # Test invalid punctuation
         orig = r"te@#$%^&*()_+=[]{};:\"\/<>`~st"
         expect = "test"
-        result = filter.filter_text(orig)
+        result = h2p_filter.filter_text(orig)
         self.assertEqual(expect, result)
 

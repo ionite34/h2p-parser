@@ -2,7 +2,7 @@
 import random
 from statistics import mean
 from unittest.mock import patch, mock_open
-from h2p import H2p
+from h2p_parser.h2p import H2p
 from timeit import default_timer as timer
 
 
