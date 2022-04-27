@@ -1,8 +1,8 @@
-# Functions to filter text before parsing
 import unicodedata
 import re
 
 
+# Filters text before parsing
 def filter_text(text):
     # Strip accents
     text = ''.join(char for char in unicodedata.normalize('NFD', text)
