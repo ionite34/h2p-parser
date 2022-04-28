@@ -3,7 +3,6 @@
 # Defines a dictionary class that can be used to store and retrieve from the json file
 
 from os.path import exists
-from os.path import join
 import importlib.resources
 import json
 import h2p_parser.pos_parser as pos_parser
@@ -11,10 +10,10 @@ import h2p_parser.pos_parser as pos_parser
 
 # Method to get data path
 def get_data_path():
-    data_path = importlib.resources.path(__package__, "data")
+    data_path = importlib.resources.files('data')
     if data_path is None:
         raise FileNotFoundError("Data folder not found")
-    return str(data_path)
+    return data_path
 
 
 # Dictionary class
@@ -37,8 +36,8 @@ class Dictionary:
         if path is None:
             # If the file does not exist, throw an error
             data_path = get_data_path()
-            dict_path = join(data_path, self.file_name)
-            with open(dict_path) as def_file:
+            dict_path = data_path.joinpath(self.file_name)
+            with open(str(dict_path)) as def_file:
                 read_dict = json.load(def_file)
                 # Check dictionary has at least one entry
                 if len(read_dict) > 0:
