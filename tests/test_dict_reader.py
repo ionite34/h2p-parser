@@ -1,8 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch
-import dict_reader
 from h2p_parser.dict_reader import DictReader
-import h2p_parser.dict_reader
+from h2p_parser import dict_reader
 
 
 # Mock for read_dict
