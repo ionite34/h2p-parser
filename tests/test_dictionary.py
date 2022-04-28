@@ -76,7 +76,7 @@ class TestDictionary(TestCase):
         with self.assertRaises(FileNotFoundError) as context:
             Dictionary()
         # Check if the exception message is correct
-        self.assertEqual("Default Dictionary dict.json file not found",
+        self.assertEqual("Data folder not found",
                          str(context.exception))
 
     # Test initialization exceptions - Custom Dictionary
