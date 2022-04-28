@@ -1,6 +1,6 @@
 # This reads a CMUDict formatted dictionary as a dictionary object
 import re
-import format_ph as ph
+import h2p_parser.format_ph as ph
 import nltk
 from nltk.corpus import cmudict
 
