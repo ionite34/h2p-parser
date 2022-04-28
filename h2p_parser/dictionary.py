@@ -1,16 +1,21 @@
 # dictionary.py
 
 # Defines a dictionary class that can be used to store and retrieve from the json file
-
+import sys
+if sys.version_info < (3, 9):
+    # In Python versions below 3.9, this is needed
+    import importlib_resources as pkg_resources
+else:
+    # Since python 3.9+, importlib.resources.files is built-in
+    import importlib.resources as pkg_resources
 from os.path import exists
-import importlib.resources
 import json
 import h2p_parser.pos_parser as pos_parser
 
 
 # Method to get data path
 def get_data_path():
-    data_path = importlib.resources.files('h2p_parser.data')
+    data_path = pkg_resources.files('h2p_parser.data')
     if data_path is None:
         raise FileNotFoundError("Data folder not found")
     return data_path

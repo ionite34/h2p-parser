@@ -69,7 +69,7 @@ class TestDictionary(TestCase):
         self.test_dictionary_init_custom()
 
     # Test initialization exceptions - Default Dictionary
-    @patch('h2p_parser.dictionary.importlib.resources.files', side_effect=always_none)
+    @patch('h2p_parser.dictionary.pkg_resources.files', side_effect=always_none)
     def test_dictionary_init_default_ex(self, mock_importlib):
         # Try to use a file that doesn't exist
         # Assert exception is raised
