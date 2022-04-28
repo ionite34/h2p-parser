@@ -50,18 +50,44 @@ class TestDictReader(TestCase):
     # Mock the read_dict function
     @patch('h2p_parser.dict_reader.read_dict', side_effect=read_dict)
     def test_init(self, mock_read_dict):
-        # Create object
-        target = DictReader("test_dict.txt")
-        self.assertIsInstance(target, DictReader)
+        with self.subTest("File Mode"):
+            target = DictReader("test_dict.txt")
+            self.assertIsInstance(target, DictReader)
+            self.assertIsInstance(target.dict, dict)
+            self.assertEqual(len(target.dict), len(self.test_line_list)-3)
+            result = target.dict["park"]
+            self.assertIsInstance(result, list)
+            self.assertIsInstance(result[0], list)
+            self.assertEqual(4, len(result[0]))
+            phonemes = result[0]
+            self.assertEqual(phonemes[0], "P")
+            self.assertEqual(phonemes[1], "AA1")
+            self.assertEqual(phonemes[2], "R")
+            self.assertEqual(phonemes[3], "K")
+
+        with self.subTest("Default mode"):
+            target = DictReader()
+            self.assertIsInstance(target, DictReader)
+            self.assertIsInstance(target.dict, dict)
+            result = target.dict["park"]
+            self.assertIsInstance(result, list)
+            self.assertIsInstance(result[0], list)
+            self.assertEqual(4, len(result[0]))
+            phonemes = result[0]
+            self.assertEqual(phonemes[0], "P")
+            self.assertEqual(phonemes[1], "AA1")
+            self.assertEqual(phonemes[2], "R")
+            self.assertEqual(phonemes[3], "K")
 
     def test_parse_dict(self):
+        import h2p_parser.format_ph as ph
         # Test using test line list
         result = dict_reader.parse_dict(self.test_line_list)
         # Verify result length correct
         self.assertEqual(len(result), len(self.test_line_list)-3)
         # Verify result contains expected values
-        self.assertEqual(result["#HASH-MARK"][0], "HH AE1 M AA2 R K")
-        self.assertEqual(result["PARK"][0], "P AA1 R K")
+        self.assertEqual(result["#hash-mark"][0], ph.to_list("HH AE1 M AA2 R K"))
+        self.assertEqual(result["park"][0], ph.to_list("P AA1 R K"))
         # Test multi-entries
-        self.assertEqual(result["CONSOLE"][0], "K AA1 N S OW0 L")
-        self.assertEqual(result["CONSOLE"][1], "K AH0 N S OW1 L")
+        self.assertEqual(result["console"][0], ph.to_list("K AA1 N S OW0 L"))
+        self.assertEqual(result["console"][1], ph.to_list("K AH0 N S OW1 L"))
