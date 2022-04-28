@@ -1,5 +1,8 @@
 # This reads a CMUDict formatted dictionary as a dictionary object
 import re
+import h2p_parser.format_ph as ph
+import nltk
+from nltk.corpus import cmudict
 
 
 def read_dict(filename):
@@ -32,8 +35,9 @@ def parse_dict(lines: list) -> dict:
         if len(pairs) == 0:
             continue
 
-        word = pairs[0]
-        phonemes = pairs[1:]
+        word = str.lower(pairs[0])  # Get word and lowercase it
+        phonemes = ph.to_list(pairs[1])   # Convert to list of phonemes
+        phonemes = [phonemes]  # Wrap in nested list
         word_num = 0
         word_orig = None
 
@@ -68,9 +72,22 @@ def parse_dict(lines: list) -> dict:
     return parsed_dict
 
 
+def get_cmu_dict() -> dict:
+    # Get the CMU dictionary from nltk
+    # Ensure nltk data downloaded
+    try:
+        nltk.data.find('corpora/cmudict.zip')
+    except LookupError:
+        nltk.download('cmudict')
+    return cmudict.dict()
+
+
 class DictReader:
     def __init__(self, filename=None):
         # If filename is None, use the default dictionary (nltk)
         self.filename = filename
         self.dict = {}
-        self.dict = read_dict(filename)
+        if self.filename is not None:
+            self.dict = parse_dict(read_dict(self.filename))
+        else:
+            self.dict = get_cmu_dict()

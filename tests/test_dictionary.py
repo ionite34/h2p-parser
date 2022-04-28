@@ -11,7 +11,7 @@ def always_exists(path):
 
 # Replaces importlib.resources.path
 # noinspection PyUnusedLocal
-def always_none(a, b):
+def always_none(name):
     return None
 
 
@@ -69,14 +69,14 @@ class TestDictionary(TestCase):
         self.test_dictionary_init_custom()
 
     # Test initialization exceptions - Default Dictionary
-    @patch('h2p_parser.dictionary.importlib.resources.path', side_effect=always_none)
+    @patch('h2p_parser.dictionary.pkg_resources.files', side_effect=always_none)
     def test_dictionary_init_default_ex(self, mock_importlib):
         # Try to use a file that doesn't exist
         # Assert exception is raised
         with self.assertRaises(FileNotFoundError) as context:
             Dictionary()
         # Check if the exception message is correct
-        self.assertEqual("Default Dictionary dict.json file not found",
+        self.assertEqual("Data folder not found",
                          str(context.exception))
 
     # Test initialization exceptions - Custom Dictionary

@@ -1,11 +1,24 @@
 # dictionary.py
 
 # Defines a dictionary class that can be used to store and retrieve from the json file
-
+import sys
+if sys.version_info < (3, 9):
+    # In Python versions below 3.9, this is needed
+    import importlib_resources as pkg_resources
+else:
+    # Since python 3.9+, importlib.resources.files is built-in
+    import importlib.resources as pkg_resources
 from os.path import exists
-import importlib.resources
 import json
 import h2p_parser.pos_parser as pos_parser
+
+
+# Method to get data path
+def get_data_path():
+    data_path = pkg_resources.files('h2p_parser.data')
+    if data_path is None:
+        raise FileNotFoundError("Data folder not found")
+    return data_path
 
 
 # Dictionary class
@@ -27,16 +40,15 @@ class Dictionary:
         # Default Mode
         if path is None:
             # If the file does not exist, throw an error
-            if importlib.resources.path(__package__, self.file_name) is None:
-                raise FileNotFoundError(f'Default Dictionary {self.file_name} file not found')
-            with importlib.resources.path(__package__, self.file_name) as def_path:
-                with open(def_path) as def_file:
-                    read_dict = json.load(def_file)
-                    # Check dictionary has at least one entry
-                    if len(read_dict) > 0:
-                        return read_dict
-                    else:
-                        raise ValueError('Dictionary is empty or invalid')
+            data_path = get_data_path()
+            dict_path = data_path.joinpath(self.file_name)
+            with open(str(dict_path)) as def_file:
+                read_dict = json.load(def_file)
+                # Check dictionary has at least one entry
+                if len(read_dict) > 0:
+                    return read_dict
+                else:
+                    raise ValueError('Dictionary is empty or invalid')
         # Custom Dictionary Path Mode
         else:
             # If the file does not exist, throw an error
