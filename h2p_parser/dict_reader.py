@@ -69,7 +69,8 @@ def parse_dict(lines: list) -> dict:
 
 
 class DictReader:
-    def __init__(self, filename):
+    def __init__(self, filename=None):
+        # If filename is None, use the default dictionary (nltk)
         self.filename = filename
-        self.dictionary = {}
-        self.dictionary = read_dict(filename)
+        self.dict = {}
+        self.dict = read_dict(filename)
