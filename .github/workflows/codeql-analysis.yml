@@ -18,13 +18,6 @@ on:
       - '*.py'
       - 'h2p_parser/**'
       - 'tests/**'
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ main ]
-    paths:
-      - '*.py'
-      - 'h2p_parser/**'
-      - 'tests/**'
   schedule:
     - cron: '45 3 * * 3'
 
