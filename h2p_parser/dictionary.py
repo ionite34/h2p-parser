@@ -12,7 +12,7 @@ import h2p_parser.pos_parser as pos_parser
 # Method to get data path
 def get_data_path():
     data_path = str(importlib.resources.path(__package__, "data"))
-    if (data_path is None) or not exists(data_path):
+    if data_path is None:
         raise FileNotFoundError("Data folder not found")
     return data_path
 
