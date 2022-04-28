@@ -2,6 +2,7 @@ from unittest import TestCase
 from unittest.mock import patch
 from h2p_parser.dict_reader import DictReader
 from h2p_parser import dict_reader
+import h2p_parser.format_ph as ph
 
 
 # Mock for read_dict
@@ -80,7 +81,6 @@ class TestDictReader(TestCase):
             self.assertEqual(phonemes[3], "K")
 
     def test_parse_dict(self):
-        import h2p_parser.format_ph as ph
         # Test using test line list
         result = dict_reader.parse_dict(self.test_line_list)
         # Verify result length correct
