@@ -76,7 +76,7 @@ class H2p:
             # Get phonemes
             phonemes = self.dict.get_phoneme(word, pos)
             # Format phonemes
-            f_ph = format_phonemes(phonemes)
+            f_ph = ph.with_cb(ph.to_sds(phonemes))
             # Replace word with phonemes
             text = replace_first(word, f_ph, text)
         return text
@@ -100,7 +100,7 @@ class H2p:
                 # Get phonemes
                 phonemes = self.dict.get_phoneme(word, pos)
                 # Format phonemes
-                f_ph = format_phonemes(phonemes)
+                f_ph = ph.with_cb(ph.to_sds(phonemes))
                 # Replace word with phonemes
                 text_list[index] = replace_first(word, f_ph, text_list[index])
         return text_list
