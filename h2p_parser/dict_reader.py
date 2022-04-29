@@ -9,10 +9,9 @@ def read_dict(filename):
     with open(filename, encoding='utf-8', mode='r') as f:
         # Read the file into lines
         lines = f.readlines()
-        # Remove trailing whitespaces
-        for line in lines:
-            line = line.rstrip()
-        return lines
+    # Remove trailing whitespaces
+    lines = [line.rstrip() for line in lines]
+    return lines
 
 
 def parse_dict(lines: list) -> dict:
