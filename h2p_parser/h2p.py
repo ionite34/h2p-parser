@@ -3,9 +3,9 @@ import re
 from nltk.tokenize import TweetTokenizer
 from nltk import pos_tag
 from nltk import pos_tag_sents
-from h2p_parser.dictionary import Dictionary
-from h2p_parser.filter import filter_text as ft
-
+from .dictionary import Dictionary
+from .filter import filter_text as ft
+from . import format_ph as ph
 
 # Check that the nltk data is downloaded, if not, download it
 try:
