@@ -15,9 +15,9 @@ except LookupError:
 
 
 # Method to use Regex to replace the first instance of a word with its phonemes
-def format_ph(target, replacement, text):
+def replace_first(target, replacement, text):
     # Replace the first instance of a word with its phonemes
-    return re.sub(r'\b' + target + r'\b', replacement, text, 1)
+    return re.sub(r'(?i)\b' + target + r'\b', replacement, text, 1)
 
 
 class H2p:
@@ -71,7 +71,7 @@ class H2p:
             # Format phonemes
             f_ph = format_phonemes(phonemes)
             # Replace word with phonemes
-            text = format_ph(word, f_ph, text)
+            text = replace_first(word, f_ph, text)
         return text
 
     # Replaces heteronyms in a list of text lines
@@ -95,6 +95,6 @@ class H2p:
                 # Format phonemes
                 f_ph = format_phonemes(phonemes)
                 # Replace word with phonemes
-                text_list[index] = format_ph(word, f_ph, text_list[index])
+                text_list[index] = replace_first(word, f_ph, text_list[index])
         return text_list
 
