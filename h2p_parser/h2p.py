@@ -106,3 +106,14 @@ class H2p:
                 text_list[index] = replace_first(word, f_ph, text_list[index])
         return text_list
 
+    # Method to tag a text line, returns a list of tags
+    def tag(self, text):
+        # Filter the text
+        working_text = ft(text)
+        # Tokenize
+        words = self.tokenize(working_text)
+        # Get pos tags
+        tags = pos_tag(words)
+        # Only return element 1 of each list
+        return [tag[1] for tag in tags]
+

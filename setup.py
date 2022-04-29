@@ -5,9 +5,11 @@ setup(
     version='1.0.0',
     packages=[''],
     package_dir={'': 'h2p_parser'},
+    install_requires=['nltk', 'inflect'],
+    python_requires='>=3.7',
     url='https://github.com/ionite34/h2p-parser',
-    license='Apache License, Version 2.0',
+    license='Apache 2.0',
     author='ionite',
-    author_email='me@ionite.io',
+    author_email='dev@ionite.io',
     description='Heteronym to Phoneme Parser'
 )
