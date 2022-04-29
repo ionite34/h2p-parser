@@ -82,3 +82,14 @@ def to_list(ph: str or list) -> list or None:
 
     # Error if no matches
     raise TypeError('to_list() expects a list or string')
+
+
+# Surrounds text with curly brackets
+def with_cb(text: str) -> str:
+    """
+    Surrounds text with curly brackets
+
+    :param text: Text to surround
+    :return: Surrounded text
+    """
+    return '{' + text + '}'
