@@ -21,15 +21,22 @@ def replace_first(target, replacement, text):
 
 
 class H2p:
-    def __init__(self, dict_path=None, preload=False):
+    def __init__(self, dict_path=None, preload=False, phoneme_format=''):
         """
         Creates a H2p parser
+
+        Supported phoneme formats:
+            - Space delimited
+            - Space delimited surrounded by { }
 
         :param dict_path: Path to a heteronym dictionary json file. Built-in dictionary will be used if None
         :type dict_path: str
         :param preload: Preloads the tokenizer and tagger during initialization
         :type preload: bool
         """
+
+        # Supported phoneme formats
+        self.phoneme_format = phoneme_format
         self.dict = Dictionary(dict_path)
         self.tokenize = TweetTokenizer().tokenize
         if preload:
