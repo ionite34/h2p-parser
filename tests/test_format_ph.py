@@ -81,3 +81,7 @@ class TestFormatPh(TestCase):
         with self.assertRaises(TypeError):
             ph.to_list([[5], [1]])
 
+    def test_with_cb(self):
+        sample = "P AA1 R K"
+        expected = "{P AA1 R K}"
+        self.assertEqual(expected, ph.with_cb(sample))

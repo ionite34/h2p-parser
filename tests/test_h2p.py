@@ -2,6 +2,7 @@ import random
 from unittest import TestCase
 from unittest.mock import patch, mock_open
 from h2p_parser.h2p import H2p
+from h2p_parser import h2p as h2p_m
 
 
 # noinspection PyUnusedLocal
@@ -108,3 +109,34 @@ class TestH2p(TestCase):
         # Loop through lines to check
         for result, expected in zip(results, expected_results):
             self.assertEqual(expected, result)
+
+    def test_replace_first(self):
+        # List of test lines
+        lines = [
+            "The cat read the book.",
+            "The effect was absent.",
+            "Symbols like !, ?, and ;"
+            ]
+        # List of expected results
+        expected_results = [
+            "<re> cat read the book.",
+            "<re> effect was absent.",
+            ]
+
+        with self.subTest("Test case insensitive"):
+            sample = "The cat read the book."
+            expected = "re cat read the book."
+            self.assertEqual(h2p_m.replace_first("the", "re", sample), expected)
+
+        with self.subTest("Test normal"):
+            sample = "The effect was effective in its effect."
+            exp1 = "The re was effective in its effect."
+            exp2 = "The re was effective in its re."
+            exp3 = "The effect was re in its effect."
+            # First run for 'effect'
+            result1 = h2p_m.replace_first("effect", "re", sample)
+            self.assertEqual(result1, exp1)
+            # Check repeated run does not change 'effective'
+            self.assertEqual(h2p_m.replace_first("effect", "re", result1), exp2)
+            # Run for 'effective'
+            self.assertEqual(h2p_m.replace_first("effective", "re", sample), exp3)

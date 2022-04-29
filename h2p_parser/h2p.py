@@ -3,9 +3,9 @@ import re
 from nltk.tokenize import TweetTokenizer
 from nltk import pos_tag
 from nltk import pos_tag_sents
-from h2p_parser.dictionary import Dictionary
-from h2p_parser.filter import filter_text as ft
-
+from .dictionary import Dictionary
+from .filter import filter_text as ft
+from . import format_ph as ph
 
 # Check that the nltk data is downloaded, if not, download it
 try:
@@ -14,29 +14,29 @@ except LookupError:
     nltk.download('averaged_perceptron_tagger')
 
 
-# Method for formatting phonemes
-def format_phonemes(phoneme_str):
-    # Surround with { }
-    phoneme_str = '{' + phoneme_str + '}'
-    return phoneme_str
-
-
 # Method to use Regex to replace the first instance of a word with its phonemes
-def format_ph(target, replacement, text):
+def replace_first(target, replacement, text):
     # Replace the first instance of a word with its phonemes
-    return re.sub(r'\b' + target + r'\b', replacement, text, 1)
+    return re.sub(r'(?i)\b' + target + r'\b', replacement, text, 1)
 
 
 class H2p:
-    def __init__(self, dict_path=None, preload=False):
+    def __init__(self, dict_path=None, preload=False, phoneme_format=''):
         """
         Creates a H2p parser
+
+        Supported phoneme formats:
+            - Space delimited
+            - Space delimited surrounded by { }
 
         :param dict_path: Path to a heteronym dictionary json file. Built-in dictionary will be used if None
         :type dict_path: str
         :param preload: Preloads the tokenizer and tagger during initialization
         :type preload: bool
         """
+
+        # Supported phoneme formats
+        self.phoneme_format = phoneme_format
         self.dict = Dictionary(dict_path)
         self.tokenize = TweetTokenizer().tokenize
         if preload:
@@ -76,9 +76,9 @@ class H2p:
             # Get phonemes
             phonemes = self.dict.get_phoneme(word, pos)
             # Format phonemes
-            f_ph = format_phonemes(phonemes)
+            f_ph = ph.with_cb(ph.to_sds(phonemes))
             # Replace word with phonemes
-            text = format_ph(word, f_ph, text)
+            text = replace_first(word, f_ph, text)
         return text
 
     # Replaces heteronyms in a list of text lines
@@ -100,8 +100,8 @@ class H2p:
                 # Get phonemes
                 phonemes = self.dict.get_phoneme(word, pos)
                 # Format phonemes
-                f_ph = format_phonemes(phonemes)
+                f_ph = ph.with_cb(ph.to_sds(phonemes))
                 # Replace word with phonemes
-                text_list[index] = format_ph(word, f_ph, text_list[index])
+                text_list[index] = replace_first(word, f_ph, text_list[index])
         return text_list
 
