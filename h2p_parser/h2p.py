@@ -39,6 +39,7 @@ class H2p:
         self.phoneme_format = phoneme_format
         self.dict = Dictionary(dict_path)
         self.tokenize = TweetTokenizer().tokenize
+        self.get_tags = pos_tag
         if preload:
             self.preload()
 
