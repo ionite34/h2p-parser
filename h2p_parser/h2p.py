@@ -14,13 +14,6 @@ except LookupError:
     nltk.download('averaged_perceptron_tagger')
 
 
-# Method for formatting phonemes
-def format_phonemes(phoneme_str):
-    # Surround with { }
-    phoneme_str = '{' + phoneme_str + '}'
-    return phoneme_str
-
-
 # Method to use Regex to replace the first instance of a word with its phonemes
 def format_ph(target, replacement, text):
     # Replace the first instance of a word with its phonemes
