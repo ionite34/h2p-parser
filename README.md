@@ -14,34 +14,40 @@ This package also offers a combined Grapheme-to-Phoneme dictionary,
 combining the functionality of fixed lookups handled by CMUdict and context-based parsing as
 offered by this module.
 
-## Usage - CMUDict Direct Replacement
-
-Using the CMUDict compatibility wrapper, you can integrate heteronym parsing
-support into your existing machine-learning pipeline by replacing 1 line of code:
-
-Example: `FastPitch/common/text/__init__.py` from NVIDIA's [FastPitch](https://github.com/NVIDIA/DeepLearningExamples/tree/master/PyTorch/SpeechSynthesis/FastPitch)
-
-```diff
-- from .cmudict import CMUDict
-+ from h2p-parser.compat.cmudict import CMUDict
-
-cmudict = CMUDict()
-```
->**Note**: The CMUDict wrapper was designed around the module as used in NVIDIA's [DeepLearningExamples](https://github.com/NVIDIA/DeepLearningExamples) repository.
-> Your existing implementation may be different. 
->
-> Specifically this [`cmudict.py`](https://github.com/NVIDIA/DeepLearningExamples/blob/master/PyTorch/SpeechSynthesis/FastPitch/common/text/cmudict.py) file was used as the replacement target.
-
 ## Usage
 
 ### 1. Combined Grapheme-to-Phoneme dictionary
 
-`Feature pending`
+The `CMUDictExt` class combines a pipeline for context-based heteronym parsing to phonemes and a fixed dictionary lookup
+replacement using the CMU Pronouncing Dictionary. 
+
+Example: 
+
+```python
+from h2p_parser.cmudictext import CMUDictExt
+
+CMUDictExt = CMUDictExt()
+
+# Parsing replacements for a line. This can be one or more sentences.
+line = CMUDictExt.convert("The cat read the book. It was a good book to read.")
+# -> "{DH AH0} {K AE1 T} {R EH1 D} {DH AH0} {B UH1 K}. {IH1 T} {W AA1 Z} {AH0} {G UH1 D} {B UH1 K} {T UW1} {R IY1 D}."
+```
+
+> Additional optional parameters are available when defining a `CMUDictExt` instance:
+
+| Parameter          | Type   | Default Value | Description                                                                                                                                                                                                             |
+|--------------------|--------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `cmu_dict_path`    | `str`  | `None`        | Path to a custom CMUDict file in `.txt` format                                                                                                                                                                          |
+| `h2p_dict_path`    | `str`  | `None`        | Path to a custom H2p Dictionary file in `.json` format. See the [example.json](h2p_parser/data/example.json) for the expected format.                                                                                   |
+| `cmu_multi_mode`   | `int`  | `0`           | Default selection index for CMUDict entries with multiple pronunciations as donated by the `(1)` or `(n)` format                                                                                                        |
+| `process_numbers`  | `bool` | `True`        | Toggles conversion of some numbers and symbols to their spoken pronunciation forms. See [numbers.py](h2p_parser/text/numbers.py) for details on what is covered.                                                        |
+| `phoneme_brackets` | `bool` | `True`        | Surrounds phonetic words with curly brackets i.e. `{R IY1 D}`                                                                                                                                                           |
+| `unresolved_mode`  | `str`  | `keep`        | Unresolved word resolution modes: <br> `keep` - Keeps the text-form word in the output. <br> `remove` - Removes the text-form word from the output. <br> `drop` - Returns the line as `None` if any word is unresolved. |
+
 
 ### 2. Heteronym-to-Phoneme parsing only
 To use only the core heteronym-to-phoneme parsing functions,
-without fixed dictionary support, the `H2p` class
-is able to be directly instantiated and called.
+without fixed dictionary support, use `H2p` class.
 
 Example:
 
