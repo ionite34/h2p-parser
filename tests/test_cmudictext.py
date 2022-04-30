@@ -26,6 +26,13 @@ class TestCMUDictExt(TestCase):
         target = CMUDictExt()
         self.assertIsInstance(target, CMUDictExt)
 
+    def test_lookup(self):
+        target = CMUDictExt()
+        self.assertEqual(' '.join(target.lookup("cat")[0]), "K AE1 T")
+        self.assertEqual(' '.join(target.lookup("CaT")[0]), "K AE1 T")
+        self.assertEqual(' '.join(target.lookup("CAT")[0]), "K AE1 T")
+        self.assertEqual(target.lookup("Does_Not_Exist"), None)
+
     def test_convert(self):
         # Test conversion
         target = CMUDictExt()
@@ -33,4 +40,3 @@ class TestCMUDictExt(TestCase):
             result = target.convert(line)
             expected = self.ex_expected_results[i]
             self.assertEqual(result, expected)
-
