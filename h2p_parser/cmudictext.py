@@ -94,12 +94,11 @@ class CMUDictExt:
                 entry = self.lookup(word)
                 if entry is None:
                     if ur_mode == 'drop':
-                        return
+                        return None
                     elif ur_mode == 'keep':
                         continue
                     elif ur_mode == 'remove':
                         text = replace_first(word, '', text)
-                        continue
                 else:
                     # Do replace
                     f_ph = ph.with_cb(ph.to_sds(entry))

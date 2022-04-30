@@ -49,16 +49,40 @@ class TestCMUDictExt(TestCase):
         # Default should be 'keep'
         with self.subTest("Unknown word - Mode 'keep'"):
             self.assertEqual(target.convert("DoesNotExist"), "DoesNotExist")
+            self.assertEqual(target.convert("DoesNotExist: Such;"), "DoesNotExist: {S AH1 CH};")
             self.assertEqual(target.convert("In DoesNotExist line."), "{IH0 N} DoesNotExist {L AY1 N}.")
+            # Test numbers
+            target.process_numbers = True
+            self.assertEqual(target.convert("1"), "{W AH1 N}")
+            self.assertEqual(target.convert("In 1 line."), "{IH0 N} {W AH1 N} {L AY1 N}.")
+            # Test numbers with process_numbers=False
+            target.process_numbers = False
+            self.assertEqual(target.convert("1"), "1")
+            self.assertEqual(target.convert("In 1 line."), "{IH0 N} 1 {L AY1 N}.")
 
         # Test mode for 'remove'
         with self.subTest("Unknown word - Mode 'remove'"):
             target.unresolved_mode = 'remove'
             self.assertEqual(target.convert("DoesNotExist"), "")
+            self.assertEqual(target.convert("DoesNotExist: Such;"), ": {S AH1 CH};")
             self.assertEqual(target.convert("In DoesNotExist line."), "{IH0 N}  {L AY1 N}.")
+            # Test numbers
+            target.process_numbers = True
+            self.assertEqual(target.convert("1"), "{W AH1 N}")
+            self.assertEqual(target.convert("In 1 line."), "{IH0 N} {W AH1 N} {L AY1 N}.")
+            # Test numbers with process_numbers=False
+            target.process_numbers = False
+            self.assertEqual(target.convert("1"), "1")
+            self.assertEqual(target.convert("In 1 line."), "{IH0 N} 1 {L AY1 N}.")
 
         # Test mode for 'drop'
         with self.subTest("Unknown word - Mode 'drop'"):
             target.unresolved_mode = 'drop'
             self.assertEqual(target.convert("DoesNotExist"), None)
+            self.assertEqual(target.convert("DoesNotExist: Such;"), None)
             self.assertEqual(target.convert("In DoesNotExist line."), None)
+
+        # Test invalid unresolved_mode
+        with self.assertRaises(ValueError):
+            target.unresolved_mode = "invalid"
+            target.convert("Does_Not_Exist")
