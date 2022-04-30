@@ -8,6 +8,7 @@ on:
       - 'requirements.txt'
       - 'h2p_parser/**'
       - 'tests/**'
+      - '.github/workflows/coverage.yml'
   pull_request:
     branches: [ main ]
     paths:
@@ -15,6 +16,7 @@ on:
       - 'requirements.txt'
       - 'h2p_parser/**'
       - 'tests/**'
+      - '.github/workflows/coverage.yml'
 
 jobs:
   run:

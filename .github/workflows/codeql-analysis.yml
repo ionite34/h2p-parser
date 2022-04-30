@@ -18,6 +18,7 @@ on:
       - '*.py'
       - 'h2p_parser/**'
       - 'tests/**'
+      - '.github/workflows/codeql-analysis.yml'
   schedule:
     - cron: '45 3 * * 3'
 
