@@ -29,6 +29,9 @@ class TestCMUDictExt(TestCase):
         # Test all default initialization
         self.assertIsInstance(self.target.dict, dict)
         self.assertIsInstance(self.target.h2p, H2p)
+        # Test value error for unresolved_mode
+        with self.assertRaises(ValueError):
+            CMUDictExt(unresolved_mode='invalid')
 
     def test_lookup(self):
         target = self.target
