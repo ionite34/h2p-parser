@@ -40,19 +40,39 @@ WP$	    possessive wh-pronoun	whose
 WRB	    wh-abverb	where, when
 """
 
+from __future__ import annotations
 
-class Symbols:
-    # noinspection SpellCheckingInspection
-    def __init__(self):
-        self.graphemes = list("abcdefghijklmnopqrstuvwxyz")
-        self.phonemes = ['AA0', 'AA1', 'AA2', 'AE0', 'AE1', 'AE2', 'AH0', 'AH1', 'AH2', 'AO0',
-                         'AO1', 'AO2', 'AW0', 'AW1', 'AW2', 'AY0', 'AY1', 'AY2', 'B', 'CH', 'D', 'DH',
-                         'EH0', 'EH1', 'EH2', 'ER0', 'ER1', 'ER2', 'EY0', 'EY1', 'EY2', 'F', 'G', 'HH',
-                         'IH0', 'IH1', 'IH2', 'IY0', 'IY1', 'IY2', 'JH', 'K', 'L', 'M', 'N', 'NG',
-                         'OW0', 'OW1', 'OW2', 'OY0', 'OY1', 'OY2', 'P', 'R', 'S', 'SH', 'T', 'TH',
-                         'UH0', 'UH1', 'UH2', 'UW', 'UW0', 'UW1', 'UW2', 'V', 'W', 'Y', 'Z', 'ZH']
-        self.pos_tags = ['CC', 'CD', 'DT', 'EX', 'FW', 'IN', 'JJ', 'JJR', 'JJS', 'LS', 'MD', 'NN', 'NNS',
-                         'NNP', 'NNPS', 'PDT', 'POS', 'PRP', 'PRP$', 'RB', 'RBR', 'RBS', 'RP', 'TO', 'UH',
-                         'VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ', 'WDT', 'WP', 'WP$', 'WRB']
-        self.pos_type_tags = ['VERB', 'NOUN', 'PRON', 'ADJ', 'ADV']
-        self.pos_type_short_tags = ['V', 'N', 'P', 'A', 'R']
+# noinspection SpellCheckingInspection,GrazieInspection
+graphemes = list("abcdefghijklmnopqrstuvwxyz")
+phonemes = ['AA0', 'AA1', 'AA2', 'AE0', 'AE1', 'AE2', 'AH0', 'AH1', 'AH2', 'AO0',
+            'AO1', 'AO2', 'AW0', 'AW1', 'AW2', 'AY0', 'AY1', 'AY2', 'B', 'CH', 'D', 'DH',
+            'EH0', 'EH1', 'EH2', 'ER0', 'ER1', 'ER2', 'EY0', 'EY1', 'EY2', 'F', 'G', 'HH',
+            'IH0', 'IH1', 'IH2', 'IY0', 'IY1', 'IY2', 'JH', 'K', 'L', 'M', 'N', 'NG',
+            'OW0', 'OW1', 'OW2', 'OY0', 'OY1', 'OY2', 'P', 'R', 'S', 'SH', 'T', 'TH',
+            'UH0', 'UH1', 'UH2', 'UW', 'UW0', 'UW1', 'UW2', 'V', 'W', 'Y', 'Z', 'ZH']
+pos_tags = ['CC', 'CD', 'DT', 'EX', 'FW', 'IN', 'JJ', 'JJR', 'JJS', 'LS', 'MD', 'NN', 'NNS',
+            'NNP', 'NNPS', 'PDT', 'POS', 'PRP', 'PRP$', 'RB', 'RBR', 'RBS', 'RP', 'TO', 'UH',
+            'VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ', 'WDT', 'WP', 'WP$', 'WRB']
+pos_type_tags = ['VERB', 'NOUN', 'PRON', 'ADJ', 'ADV']
+pos_type_short_tags = ['V', 'N', 'P', 'A', 'R']
+graphemes_set = set(graphemes)
+phonemes_set = set(phonemes)
+pos_tags_set = set(pos_tags)
+pos_type_tags_set = set(pos_type_tags)
+pos_type_short_tags_set = set(pos_type_short_tags)
+
+
+# Method to convert from short type tags to full type tags.
+def to_full_type_tag(short_type_tag: str) -> str | None:
+    if short_type_tag == 'V':
+        return 'VERB'
+    elif short_type_tag == 'N':
+        return 'NOUN'
+    elif short_type_tag == 'P':
+        return 'PRON'
+    elif short_type_tag == 'A':
+        return 'ADJ'
+    elif short_type_tag == 'R':
+        return 'ADV'
+    else:
+        return None
