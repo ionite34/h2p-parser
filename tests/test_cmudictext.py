@@ -1,4 +1,6 @@
 from unittest import TestCase
+
+from h2p_parser.h2p import H2p
 from h2p_parser.cmudictext import CMUDictExt
 
 
@@ -20,14 +22,16 @@ class TestCMUDictExt(TestCase):
             "{DH AH0} {M AH0 SH IY1 N} {W UH1 D} {AO2 T AH0 M AE1 T IH0 K L IY0} {R IH0 JH EH1 K T} "
             "{P R AA1 D AH0 K T S}. {DH IY1 Z} {W ER0} {DH AH0} {R IY1 JH EH0 K T} {P R AA1 D AH0 K T S}."
         ]
+        self.target = CMUDictExt()
+        self.assertIsInstance(self.target, CMUDictExt)
 
     def test_cmudict_ext(self):
         # Test all default initialization
-        target = CMUDictExt()
-        self.assertIsInstance(target, CMUDictExt)
+        self.assertIsInstance(self.target.dict, dict)
+        self.assertIsInstance(self.target.h2p, H2p)
 
     def test_lookup(self):
-        target = CMUDictExt()
+        target = self.target
         self.assertEqual(' '.join(target.lookup("cat")[0]), "K AE1 T")
         self.assertEqual(' '.join(target.lookup("CaT")[0]), "K AE1 T")
         self.assertEqual(' '.join(target.lookup("CAT")[0]), "K AE1 T")
@@ -35,8 +39,26 @@ class TestCMUDictExt(TestCase):
 
     def test_convert(self):
         # Test conversion
-        target = CMUDictExt()
+        target = self.target
         for i, line in enumerate(self.ex_lines):
             result = target.convert(line)
             expected = self.ex_expected_results[i]
             self.assertEqual(result, expected)
+
+        # Test unknown word handling
+        # Default should be 'keep'
+        with self.subTest("Unknown word - Mode 'keep'"):
+            self.assertEqual(target.convert("DoesNotExist"), "DoesNotExist")
+            self.assertEqual(target.convert("In DoesNotExist line."), "{IH0 N} DoesNotExist {L AY1 N}.")
+
+        # Test mode for 'remove'
+        with self.subTest("Unknown word - Mode 'remove'"):
+            target.unresolved_mode = 'remove'
+            self.assertEqual(target.convert("DoesNotExist"), "")
+            self.assertEqual(target.convert("In DoesNotExist line."), "{IH0 N}  {L AY1 N}.")
+
+        # Test mode for 'drop'
+        with self.subTest("Unknown word - Mode 'drop'"):
+            target.unresolved_mode = 'drop'
+            self.assertEqual(target.convert("DoesNotExist"), None)
+            self.assertEqual(target.convert("In DoesNotExist line."), None)
