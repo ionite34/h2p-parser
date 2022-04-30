@@ -86,6 +86,9 @@ class CMUDictExt:
 
         # Loop through words and pos tags
         for word, pos in tags:
+            # Skip punctuation
+            if word == '.':
+                continue
             # If word not in h2p dict, check CMU dict
             if not self.h2p.dict.contains(word):
                 entry = self.lookup(word)
