@@ -1,4 +1,6 @@
 # Extended Grapheme to Phoneme conversion using CMU Dictionary and Heteronym parsing.
+from __future__ import annotations
+
 from typing import Optional
 
 from .h2p import H2p
@@ -50,26 +52,27 @@ class CMUDictExt:
         self.dict = DictReader(self.cmu_dict_path).dict  # CMU Dictionary
         self.h2p = H2p(self.h2p_dict_path, preload=True)
 
-    def lookup(self, text: str) -> Optional[str]:
+    def lookup(self, text: str) -> str | None:
+        # noinspection GrazieInspection
         """
         Gets the CMU Dictionary entry for a word.
 
         :param text: Word to lookup
         :type: str
-        :return: CMU Dictionary entry
-        :rtype: str | None
         """
+
+        # Get the CMU Dictionary entry for the word
         return self.dict.get(text.lower())
 
-    def convert(self, text: str) -> Optional[str]:
+    def convert(self, text: str) -> str | None:
+        # noinspection GrazieInspection
         """
         Replace a grapheme text line with phonemes.
 
         :param text: Text line to be converted
         :type: str
-        :return: Text line with phoneme replacements
-        :rtype: str
         """
+
         # Check valid unresolved_mode argument
         if self.unresolved_mode not in ['keep', 'remove', 'drop']:
             raise ValueError('Invalid value for unresolved_mode: {}'.format(self.unresolved_mode))
@@ -95,10 +98,11 @@ class CMUDictExt:
                 if entry is None:
                     if ur_mode == 'drop':
                         return None
-                    elif ur_mode == 'keep':
-                        continue
                     elif ur_mode == 'remove':
                         text = replace_first(word, '', text)
+                        continue
+                    else:
+                        continue
                 else:
                     # Do replace
                     f_ph = ph.with_cb(ph.to_sds(entry))
