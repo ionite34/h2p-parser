@@ -32,3 +32,23 @@ class Test(TestCase):
         result = h2p_filter.filter_text(orig)
         self.assertEqual(expect, result)
 
+    # Test for multiple spaces removal
+    def test_filter_text_spaces(self):
+        orig = "In some  line   like    this."
+        expect = "in some line like this."
+        result = h2p_filter.filter_text(orig)
+        self.assertEqual(expect, result)
+
+    # Test for numbers mode
+    def test_filter_text_numbers(self):
+        orig = "In 123 line."
+        expected1 = "in 123 line."
+        expected2 = "in line."
+        # Mode True
+        with self.subTest("Allow numbers mode"):
+            result = h2p_filter.filter_text(orig, True)
+            self.assertEqual(expected1, result)
+        with self.subTest("Disallow numbers mode"):
+            result = h2p_filter.filter_text(orig, False)
+            self.assertEqual(expected2, result)
+
