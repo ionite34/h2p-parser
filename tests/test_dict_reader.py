@@ -27,6 +27,24 @@ def read_dict(filename):
     return test_line_list
 
 
+# Mock for nltk download error
+# noinspection PyUnusedLocal
+def always_error(path):
+    raise LookupError("Mock error")
+
+
+# Mock for nltk download success
+# noinspection PyUnusedLocal
+def fake_download(path):
+    a = 1 + 1
+
+
+# Mock for cmudict
+# noinspection PyUnusedLocal
+def fake_cmudict():
+    return {}
+
+
 class TestDictReader(TestCase):
     def setUp(self):
         # Define test line list
@@ -55,7 +73,7 @@ class TestDictReader(TestCase):
             target = DictReader("test_dict.txt")
             self.assertIsInstance(target, DictReader)
             self.assertIsInstance(target.dict, dict)
-            self.assertEqual(len(target.dict), len(self.test_line_list)-3)
+            self.assertEqual(len(target.dict), len(self.test_line_list) - 3)
             result = target.dict["park"]
             self.assertIsInstance(result, list)
             self.assertIsInstance(result[0], list)
@@ -84,10 +102,19 @@ class TestDictReader(TestCase):
         # Test using test line list
         result = dict_reader.parse_dict(self.test_line_list)
         # Verify result length correct
-        self.assertEqual(len(result), len(self.test_line_list)-3)
+        self.assertEqual(len(result), len(self.test_line_list) - 3)
         # Verify result contains expected values
         self.assertEqual(result["#hash-mark"][0], ph.to_list("HH AE1 M AA2 R K"))
         self.assertEqual(result["park"][0], ph.to_list("P AA1 R K"))
         # Test multi-entries
         self.assertEqual(result["console"][0], ph.to_list("K AA1 N S OW0 L"))
         self.assertEqual(result["console"][1], ph.to_list("K AH0 N S OW1 L"))
+
+    # @patch('h2p_parser.dict_reader.nltk.data.find', side_effect=always_error)
+    # @patch('h2p_parser.dict_reader.nltk.download', side_effect=fake_download)
+    def test_get_cmu_dict(self):
+        # Test download (not exist mode)
+        with patch('h2p_parser.dict_reader.nltk.data.find', side_effect=always_error) as patch_data:
+            result = dict_reader.get_cmu_dict()
+            self.assertIsInstance(result, dict)
+            self.assertEqual(patch_data.call_count, 1)

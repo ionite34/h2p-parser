@@ -34,58 +34,53 @@ class TestCMUDictExt(TestCase):
             CMUDictExt(unresolved_mode='invalid')
 
     def test_lookup(self):
-        target = self.target
-        self.assertEqual(' '.join(target.lookup("cat")[0]), "K AE1 T")
-        self.assertEqual(' '.join(target.lookup("CaT")[0]), "K AE1 T")
-        self.assertEqual(' '.join(target.lookup("CAT")[0]), "K AE1 T")
-        self.assertEqual(target.lookup("Does_Not_Exist"), None)
+        self.assertEqual(' '.join(self.target.lookup("cat")[0]), "K AE1 T")
+        self.assertEqual(' '.join(self.target.lookup("CaT")[0]), "K AE1 T")
+        self.assertEqual(' '.join(self.target.lookup("CAT")[0]), "K AE1 T")
+        self.assertEqual(self.target.lookup("Does_Not_Exist"), None)
 
     def test_convert(self):
-        # Test conversion
-        target = self.target
         for i, line in enumerate(self.ex_lines):
-            result = target.convert(line)
+            result = self.target.convert(line)
             expected = self.ex_expected_results[i]
             self.assertEqual(result, expected)
 
-        # Test unknown word handling
-        # Default should be 'keep'
-        with self.subTest("Unknown word - Mode 'keep'"):
-            self.assertEqual(target.convert("DoesNotExist"), "DoesNotExist")
-            self.assertEqual(target.convert("DoesNotExist: Such;"), "DoesNotExist: {S AH1 CH};")
-            self.assertEqual(target.convert("In DoesNotExist line."), "{IH0 N} DoesNotExist {L AY1 N}.")
-            # Test numbers
-            target.process_numbers = True
-            self.assertEqual(target.convert("1"), "{W AH1 N}")
-            self.assertEqual(target.convert("In 1 line."), "{IH0 N} {W AH1 N} {L AY1 N}.")
-            # Test numbers with process_numbers=False
-            target.process_numbers = False
-            self.assertEqual(target.convert("1"), "1")
-            self.assertEqual(target.convert("In 1 line."), "{IH0 N} 1 {L AY1 N}.")
+    # Test unknown word handling
+    # Default should be 'keep'
+    def test_convert_unresolved_keep(self):
+        self.assertEqual(self.target.convert("DoesNotExist"), "DoesNotExist")
+        self.assertEqual(self.target.convert("DoesNotExist: Such;"), "DoesNotExist: {S AH1 CH};")
+        self.assertEqual(self.target.convert("In DoesNotExist line."), "{IH0 N} DoesNotExist {L AY1 N}.")
+        # Test numbers
+        self.target.process_numbers = True
+        self.assertEqual(self.target.convert("1"), "{W AH1 N}")
+        self.assertEqual(self.target.convert("In 1 line."), "{IH0 N} {W AH1 N} {L AY1 N}.")
+        # Test numbers with process_numbers=False
+        self.target.process_numbers = False
+        self.assertEqual(self.target.convert("1"), "1")
+        self.assertEqual(self.target.convert("In 1 line."), "{IH0 N} 1 {L AY1 N}.")
 
-        # Test mode for 'remove'
-        with self.subTest("Unknown word - Mode 'remove'"):
-            target.unresolved_mode = 'remove'
-            self.assertEqual(target.convert("DoesNotExist"), "")
-            self.assertEqual(target.convert("DoesNotExist: Such;"), ": {S AH1 CH};")
-            self.assertEqual(target.convert("In DoesNotExist line."), "{IH0 N}  {L AY1 N}.")
-            # Test numbers
-            target.process_numbers = True
-            self.assertEqual(target.convert("1"), "{W AH1 N}")
-            self.assertEqual(target.convert("In 1 line."), "{IH0 N} {W AH1 N} {L AY1 N}.")
-            # Test numbers with process_numbers=False
-            target.process_numbers = False
-            self.assertEqual(target.convert("1"), "1")
-            self.assertEqual(target.convert("In 1 line."), "{IH0 N} 1 {L AY1 N}.")
+    def test_convert_unresolved_remove(self):
+        self.target.unresolved_mode = 'remove'
+        self.assertEqual(self.target.convert("DoesNotExist"), "")
+        self.assertEqual(self.target.convert("DoesNotExist: Such;"), ": {S AH1 CH};")
+        self.assertEqual(self.target.convert("In DoesNotExist line."), "{IH0 N}  {L AY1 N}.")
+        # Test numbers
+        self.target.process_numbers = True
+        self.assertEqual(self.target.convert("1"), "{W AH1 N}")
+        self.assertEqual(self.target.convert("In 1 line."), "{IH0 N} {W AH1 N} {L AY1 N}.")
+        # Test numbers with process_numbers=False
+        self.target.process_numbers = False
+        self.assertEqual(self.target.convert("1"), "1")
+        self.assertEqual(self.target.convert("In 1 line."), "{IH0 N} 1 {L AY1 N}.")
 
-        # Test mode for 'drop'
-        with self.subTest("Unknown word - Mode 'drop'"):
-            target.unresolved_mode = 'drop'
-            self.assertEqual(target.convert("DoesNotExist"), None)
-            self.assertEqual(target.convert("DoesNotExist: Such;"), None)
-            self.assertEqual(target.convert("In DoesNotExist line."), None)
+    def test_convert_unresolved_drop(self):
+        self.target.unresolved_mode = 'drop'
+        self.assertEqual(self.target.convert("DoesNotExist"), None)
+        self.assertEqual(self.target.convert("DoesNotExist: Such;"), None)
+        self.assertEqual(self.target.convert("In DoesNotExist line."), None)
 
-        # Test invalid unresolved_mode
+    def test_convert_invalid_args(self):
+        self.target.unresolved_mode = "invalid"
         with self.assertRaises(ValueError):
-            target.unresolved_mode = "invalid"
-            target.convert("Does_Not_Exist")
+            self.target.convert("Does_Not_Exist")
