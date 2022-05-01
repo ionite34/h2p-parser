@@ -7,13 +7,27 @@
 # Coverage configuration
 # ----------------------
 coverage:
-  status:
-    patch: false
-
   range: 70..90     # First number represents red, and second represents green
-                    # (default is 70..100)
+  # (default is 70..100)
   round: up       # up, down, or nearest
   precision: 2      # Number of decimal places, between 0 and 5
+
+  status:
+    project:
+      default:
+        enabled: yes
+        target: auto
+        threshold: 18%
+        if_not_found: success
+        if_ci_failed: error
+    patch:
+      default:
+        enabled: yes
+        target: auto
+        threshold: 18%
+        base: auto
+        if_ci_failed: error
+
 
 # Ignoring Paths
 # --------------
@@ -22,12 +36,4 @@ ignore:
   - /tests/.*
   - /tests_old/.*
   - /h2p_parser/data/.*
-  - main.py
   - setup.py
-
-# Pull request comments:
-# ----------------------
-# Diff is the Coverage Diff of the pull request.
-# Files are the files impacted by the pull request
-comment:
-  layout: diff, files  # accepted in any order: reach, diff, flags, and/or files
