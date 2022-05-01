@@ -54,7 +54,7 @@ def fake_download(file):
 def test_get_cmu_dict(mocker, mock_dict_reader_live):
     # We need to patch nltk.data.find to raise an error
     mocker.patch("nltk.data.find", side_effect=LookupError)
-    mocker.patch("dict_reader.cmudict.dict", return_value={})
+    mocker.patch("h2p_parser.dict_reader.cmudict.dict", return_value={})
     downloader = mocker.patch("nltk.download", side_effect=fake_download)
     var = dict_reader.get_cmu_dict()
     assert isinstance(var, dict)
