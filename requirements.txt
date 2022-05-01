@@ -1,3 +1,7 @@
 nltk~=3.7
 inflect~=5.5.2
 importlib_resources~=5.7.1; python_version < '3.9'
+pytest~=7.1.2
+setuptools~=62.1.0
+inquirerpy~=0.3.3
+tqdm~=4.64.0
