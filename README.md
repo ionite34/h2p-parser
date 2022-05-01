@@ -2,6 +2,7 @@
 
 [![Python package](https://github.com/ionite34/h2p-parser/actions/workflows/python-package.yml/badge.svg)](https://github.com/ionite34/h2p-parser/actions/workflows/python-package.yml)
 [![CodeQL](https://github.com/ionite34/h2p-parser/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/ionite34/h2p-parser/actions/workflows/codeql-analysis.yml)
+[![codecov](https://codecov.io/gh/ionite34/h2p-parser/branch/main/graph/badge.svg?token=AAJWXIG728)](https://codecov.io/gh/ionite34/h2p-parser)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fionite34%2Fh2p-parser.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fionite34%2Fh2p-parser?ref=badge_shield)
 
 ### Fast parsing of English Heteronyms to Phonemes using contextual part-of-speech.
