@@ -1,87 +1,71 @@
-from unittest import TestCase
+import pytest
 import h2p_parser.format_ph as ph
 
+data_sds = [
+    "HH AE1 M AA2 R K",
+    "P ER0 S EH1 N T",
+    "AO1",
+    "P AA1 R K",
+    "K AA1 N S OW0 L"
+]
+data_list = [
+    ['HH', 'AE1', 'M', 'AA2', 'R', 'K'],
+    ['P', 'ER0', 'S', 'EH1', 'N', 'T'],
+    ['AO1'],
+    ['P', 'AA1', 'R', 'K'],
+    ['K', 'AA1', 'N', 'S', 'OW0', 'L']
+]
+data_invalid = [
+    (1, TypeError),
+    (1.0, TypeError),
+    ([1], TypeError),
+    ([[1.0], [1.0]], TypeError),
+    ({"a": 1}, TypeError),
+    (("A", "B"), TypeError),
+    (None, None),
+    ([None], None),
+    ([[None], [None]], None),
+    ([], None),
+    ([[]], None)
+]
 
-class TestFormatPh(TestCase):
 
-    def setUp(self):
-        self.data_sds = [
-            "HH AE1 M AA2 R K",
-            "P ER0 S EH1 N T",
-            "AO1",
-            "P AA1 R K",
-            "K AA1 N S OW0 L"
-        ]
-        self.data_list = [
-            ['HH', 'AE1', 'M', 'AA2', 'R', 'K'],
-            ['P', 'ER0', 'S', 'EH1', 'N', 'T'],
-            ['AO1'],
-            ['P', 'AA1', 'R', 'K'],
-            ['K', 'AA1', 'N', 'S', 'OW0', 'L']
-        ]
+# noinspection PyTypeChecker
+@pytest.mark.parametrize("ph_sds, ph_list", zip(data_sds, data_list))
+def test_to_sds(ph_sds, ph_list):
+    # SDS -> SDS
+    assert ph.to_sds(ph_sds) == ph_sds
+    # List -> SDS
+    assert ph.to_sds(ph_list) == ph_sds
+    # Nested Lists -> SDS
+    assert ph.to_sds([ph_list]) == ph_sds
+    assert ph.to_sds([[ph_list]]) == ph_sds
 
-    # noinspection PyTypeChecker
-    def test_to_sds(self):
-        # Test str input
-        for sds in self.data_sds:
-            self.assertEqual(ph.to_sds(sds), sds)
 
-        # Test for list input
-        for ls, sds in zip(self.data_list, self.data_sds):
-            self.assertEqual(ph.to_sds(ls), sds)
+@pytest.mark.parametrize("ph_sds, ph_list", zip(data_sds, data_list))
+def test_to_list(ph_sds, ph_list):
+    # SDS -> List
+    assert ph.to_list(ph_sds) == ph_list
+    # List -> List
+    assert ph.to_list(ph_list) == ph_list
+    # Nested Lists -> List
+    assert ph.to_list([ph_list]) == ph_list
+    assert ph.to_list([[ph_list]]) == ph_list
 
-        # Test for nested list input
-        for ls, sds in zip(self.data_list, self.data_sds):
-            self.assertEqual(ph.to_sds([ls]), sds)
 
-        # Test type errors
-        with self.assertRaises(TypeError):
-            ph.to_sds(1)
-        with self.assertRaises(TypeError):
-            ph.to_sds([1])
-        with self.assertRaises(TypeError):
-            ph.to_sds([[5], [1]])
+@pytest.mark.parametrize("source, expected", data_invalid)
+def test_to_sds_invalid(source, expected):
+    if expected is TypeError:
+        with pytest.raises(TypeError):
+            ph.to_sds(source)
+    else:
+        assert ph.to_sds(source) == expected
 
-        # Test for None in list
-        self.assertEqual(ph.to_sds([None]), None)
-        self.assertEqual(ph.to_sds([[None]]), None)
 
-        # Test for empty list
-        self.assertEqual(ph.to_sds([]), None)
-        self.assertEqual(ph.to_sds([[]]), None)
-
-    # noinspection PyTypeChecker
-    def test_to_list(self):
-        # Test standard input
-        for ls, sds in zip(self.data_list, self.data_sds):
-            self.assertEqual(ph.to_list(sds), ls)  # str input
-            self.assertEqual(ph.to_list(ls), ls)  # list input
-            self.assertEqual(ph.to_list([ls]), ls)  # nested list input
-
-        # Test for none in list
-        self.assertEqual(ph.to_list(None), None)
-
-        # Test for empty list
-        self.assertEqual(ph.to_list([]), None)
-        self.assertEqual(ph.to_list([[]]), None)
-
-        # Test for None in list
-        self.assertEqual(ph.to_list([None]), None)
-        self.assertEqual(ph.to_list([[None]]), None)
-
-        # Test for empty list
-        self.assertEqual(ph.to_list([]), None)
-        self.assertEqual(ph.to_list([[]]), None)
-
-        # Test type errors
-        with self.assertRaises(TypeError):
-            ph.to_list(1)
-        with self.assertRaises(TypeError):
-            ph.to_list([1])
-        with self.assertRaises(TypeError):
-            ph.to_list([[5], [1]])
-
-    def test_with_cb(self):
-        sample = "P AA1 R K"
-        expected = "{P AA1 R K}"
-        self.assertEqual(expected, ph.with_cb(sample))
+@pytest.mark.parametrize("source, expected", data_invalid)
+def test_to_list_invalid(source, expected):
+    if expected is TypeError:
+        with pytest.raises(TypeError):
+            ph.to_list(source)
+    else:
+        assert ph.to_list(source) == expected

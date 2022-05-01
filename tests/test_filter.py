@@ -1,54 +1,59 @@
-from unittest import TestCase
+import pytest
 import h2p_parser.filter as h2p_filter
 
 
+# Test for accents
 # noinspection SpellCheckingInspection
-class Test(TestCase):
-    # Test for accents
-    def test_filter_text_accents(self):
-        orig = "áéíóú"
-        expect = "aeiou"
-        result = h2p_filter.filter_text(orig)
-        self.assertEqual(expect, result)
+@pytest.mark.parametrize("source, expected", [
+    ("áéíóú", "aeiou"),
+    ("ÁÉÍÓÚ", "aeiou"),
+    ("àèìòù", "aeiou"),
+    ("ÀÈÌÒÙ", "aeiou"),
+])
+def test_filter_text_accents(source, expected):
+    result = h2p_filter.filter_text(source)
+    assert result == expected
 
-    # Test for lowercase
-    def test_filter_text_lowercase(self):
-        orig = "TESTcase"
-        expect = "testcase"
-        result = h2p_filter.filter_text(orig)
-        self.assertEqual(expect, result)
 
-    # Test for puncutations removal
-    def test_filter_text_punctuation(self):
-        # Test safe punctuation
-        orig = "w, case[s]?! 'Ts"
-        expect = "w, cases?! 'ts"
-        result = h2p_filter.filter_text(orig)
-        self.assertEqual(expect, result)
+# Test for case
+@pytest.mark.parametrize("source, expected", [
+    ("TESTCase", "testcase"),
+    ("TestCase", "testcase"),
+    ("testcase", "testcase")
+])
+def test_filter_text_lowercase(source, expected):
+    result = h2p_filter.filter_text(source)
+    assert result == expected
 
-        # Test invalid punctuation
-        orig = r"te@#$%^&*()_+=[]{};:\"\/<>`~st"
-        expect = "test"
-        result = h2p_filter.filter_text(orig)
-        self.assertEqual(expect, result)
 
-    # Test for multiple spaces removal
-    def test_filter_text_spaces(self):
-        orig = "In some  line   like    this."
-        expect = "in some line like this."
-        result = h2p_filter.filter_text(orig)
-        self.assertEqual(expect, result)
+# Test for invalid punctuation removal
+@pytest.mark.parametrize("source, expected", [
+    ("w, case[s]?! 'Ts", "w, cases?! 'ts"),
+    (r"te@#$%^&*_+=[]{};:\"\/<>`~st", "test")
+])
+def test_filter_text_punctuation(source, expected):
+    result = h2p_filter.filter_text(source)
+    assert result == expected
 
-    # Test for numbers mode
-    def test_filter_text_numbers(self):
-        orig = "In 123 line."
-        expected1 = "in 123 line."
-        expected2 = "in line."
-        # Mode True
-        with self.subTest("Allow numbers mode"):
-            result = h2p_filter.filter_text(orig, True)
-            self.assertEqual(expected1, result)
-        with self.subTest("Disallow numbers mode"):
-            result = h2p_filter.filter_text(orig, False)
-            self.assertEqual(expected2, result)
 
+# Test for multiple spaces removal
+@pytest.mark.parametrize("source, expected", [
+    ("In some  line   like    this.",
+     "in some line like this."),
+    ("normal spaces.",
+     "normal spaces.")
+])
+def test_filter_text_spaces(source, expected):
+    result = h2p_filter.filter_text(source)
+    assert result == expected
+
+
+# Test for numbers mode
+@pytest.mark.parametrize("source, expected, mode_on", [
+    ("1234567890", "1234567890", True),
+    ("1234567890", "", False),
+    ("In 1234567890 line 56.", "in line .", False)
+])
+def test_filter_text_numbers(source, expected, mode_on):
+    result = h2p_filter.filter_text(source, mode_on)
+    assert result == expected
