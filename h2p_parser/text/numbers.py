@@ -9,11 +9,13 @@ import re
 
 _magnitudes = ['trillion', 'billion', 'million', 'thousand', 'hundred', 'm', 'b', 't']
 _magnitudes_key = {'m': 'million', 'b': 'billion', 't': 'trillion'}
-_measurements = '(f|c|k|d|m)'
+_measurements = '(f|c|k|d|m|km|ft)'
 _measurements_key = {'f': 'fahrenheit',
                      'c': 'celsius',
                      'k': 'thousand',
-                     'm': 'meters'}
+                     'm': 'meters',
+                     'km': 'kilometers',
+                     'ft': 'feet'}
 _currency_key = {'$': 'dollar', '£': 'pound', '€': 'euro', '₩': 'won'}
 _inflect = inflect.engine()
 _comma_number_re = re.compile(r'([0-9][0-9,]+[0-9])')
@@ -22,7 +24,7 @@ _currency_re = re.compile(r'([$€£₩])([0-9.,]*[0-9]+)(?:[ ]?({})(?=[^a-zA-Z]
                           re.IGNORECASE)
 _measurement_re = re.compile(r'([0-9.,]*[0-9]+(\s)?{}\b)'.format(_measurements), re.IGNORECASE)
 _ordinal_re = re.compile(r'[0-9]+(st|nd|rd|th)')
-# _range_re = re.compile(r'(?<=[0-9])+(-)(?=[0-9])+.*?')
+_range_re = re.compile(r'(?<=[0-9])+(-)(?=[0-9])+.*?')
 _roman_re = re.compile(r'\b(?=[MDCLXVI]+\b)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{2,3})\b')  # avoid I
 _multiply_re = re.compile(r'(\b[0-9]+)(x)([0-9]+)')
 _number_re = re.compile(r"[0-9]+'s|[0-9]+s|[0-9]+")
@@ -90,6 +92,10 @@ def _expand_measurement(m):
     number = _inflect.number_to_words(number)
     measurement = "".join(measurement.split())
     measurement = _measurements_key[measurement.lower()]
+    # if measurement is plural, and number is singular, remove the 's'
+    if number == "one" and str.endswith(measurement, "s"):
+        # Remove the 's' from the end of the measurement
+        measurement = measurement[:-1]
     return "{} {}".format(number, measurement)
 
 
@@ -153,7 +159,7 @@ def normalize_numbers(text):
     text = re.sub(_decimal_number_re, _expand_decimal_point, text)
     text = re.sub(_ordinal_re, _expand_ordinal, text)
     # text = re.sub(_range_re, _expand_range, text)
-    # text = re.sub(_measurement_re, _expand_measurement, text)
+    text = re.sub(_measurement_re, _expand_measurement, text)
     text = re.sub(_roman_re, _expand_roman, text)
     text = re.sub(_multiply_re, _expand_multiply, text)
     text = re.sub(_number_re, _expand_number, text)
