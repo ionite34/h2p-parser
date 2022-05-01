@@ -34,7 +34,7 @@ def from_binary_delim(path, delimiter) -> dict:
             if len(tokens) != 4:
                 raise ValueError('Invalid number of tokens in line: ' + line)
             # Get word (token 0) and check validity (no spaces)
-            word = tokens[0]
+            word = tokens[0].lower()
             if ' ' in word:
                 raise ValueError('Invalid word in line: ' + line)
             # Get phonemes and check validity (alphanumeric)

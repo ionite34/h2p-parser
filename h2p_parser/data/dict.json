@@ -1,1499 +1,1499 @@
 {
-    "ABSENT": {
+    "absent": {
         "DEFAULT": "AE1 B S AH0 N T",
         "VERB": "AH1 B S AE1 N T"
     },
-    "ABSTRACT": {
+    "abstract": {
         "DEFAULT": "AE1 B S T R AE2 K T",
         "VERB": "AE0 B S T R AE1 K T"
     },
-    "ABSTRACTS": {
+    "abstracts": {
         "DEFAULT": "AE1 B S T R AE0 K T S",
         "VERB": "AE0 B S T R AE1 K T S"
     },
-    "ABUSE": {
+    "abuse": {
         "DEFAULT": "AH0 B Y UW1 S",
         "VERB": "AH0 B Y UW1 Z"
     },
-    "ABUSES": {
+    "abuses": {
         "DEFAULT": "AH0 B Y UW1 S IH0 Z",
         "VERB": "AH0 B Y UW1 Z IH0 Z"
     },
-    "ACCENT": {
+    "accent": {
         "DEFAULT": "AE1 K S EH2 N T",
         "VERB": "AH0 K S EH1 N T"
     },
-    "ACCENTS": {
+    "accents": {
         "DEFAULT": "AE1 K S EH0 N T S",
         "VERB": "AE1 K S EH0 N T S"
     },
-    "ADDICT": {
+    "addict": {
         "DEFAULT": "AE1 D IH2 K T",
         "VERB": "AH0 D IH1 K T"
     },
-    "ADDICTS": {
+    "addicts": {
         "DEFAULT": "AE1 D IH2 K T S",
         "VERB": "AH0 D IH1 K T S"
     },
-    "ADVOCATE": {
+    "advocate": {
         "DEFAULT": "AE1 D V AH0 K AH0 T",
         "VERB": "AE1 D V AH0 K EY2 T"
     },
-    "ADVOCATES": {
+    "advocates": {
         "DEFAULT": "AE1 D V AH0 K AH0 T S",
         "VERB": "AE1 D V AH0 K EY2 T S"
     },
-    "AFFECT": {
+    "affect": {
         "DEFAULT": "AE1 F EH0 K T",
         "VERB": "AH0 F EH1 K T"
     },
-    "AFFECTS": {
+    "affects": {
         "DEFAULT": "AE1 F EH0 K T S",
         "VERB": "AH0 F EH1 K T S"
     },
-    "AFFIX": {
+    "affix": {
         "DEFAULT": "AE1 F IH0 K S",
         "VERB": "AH0 F IH1 K S"
     },
-    "AFFIXES": {
+    "affixes": {
         "DEFAULT": "AE1 F IH0 K S IH0 Z",
         "VERB": "AH0 F IH1 K S IH0 Z"
     },
-    "AGGLOMERATE": {
+    "agglomerate": {
         "DEFAULT": "AH0 G L AA1 M ER0 AH0 T",
         "VERB": "AH0 G L AA1 M ER0 EY2 T"
     },
-    "AGGREGATE": {
+    "aggregate": {
         "DEFAULT": "AE1 G R AH0 G AH0 T",
         "VERB": "AE1 G R AH0 G EY0 T"
     },
-    "AGGREGATES": {
+    "aggregates": {
         "DEFAULT": "AE1 G R AH0 G IH0 T S",
         "VERB": "AE1 G R AH0 G EY2 T S"
     },
-    "ALLIES": {
+    "allies": {
         "DEFAULT": "AE1 L AY0 Z",
         "VERB": "AH0 L AY1 Z"
     },
-    "ALLOY": {
+    "alloy": {
         "DEFAULT": "AE1 L OY2",
         "VERB": "AH0 L OY1"
     },
-    "ALLOYS": {
+    "alloys": {
         "DEFAULT": "AE1 L OY2 Z",
         "VERB": "AH0 L OY1 Z"
     },
-    "ALLY": {
+    "ally": {
         "DEFAULT": "AE1 L AY0",
         "VERB": "AH0 L AY1"
     },
-    "ALTERNATE": {
+    "alternate": {
         "DEFAULT": "AO0 L T ER1 N AH0 T",
         "VERB": "AO1 L T ER0 N EY2 T"
     },
-    "ANALYSES": {
+    "analyses": {
         "DEFAULT": "AE1 N AH0 L AY0 Z IH2 Z",
         "VERB": "AH0 N AE1 L IH0 S IY2 Z"
     },
-    "ANIMATE": {
+    "animate": {
         "DEFAULT": "AE1 N AH0 M AH0 T",
         "VERB": "AE1 N AH0 M EY2 T"
     },
-    "ANNEX": {
+    "annex": {
         "DEFAULT": "AE1 N EH2 K S",
         "VERB": "AH0 N EH1 K S"
     },
-    "ANNEXES": {
+    "annexes": {
         "DEFAULT": "AE1 N EH2 K S IH0 Z",
         "VERB": "AH0 N EH1 K S IH0 Z"
     },
-    "APPROPRIATE": {
+    "appropriate": {
         "DEFAULT": "AH0 P R OW1 P R IY0 AH0 T",
         "VERB": "AH0 P R OW1 P R IY0 EY2 T"
     },
-    "APPROXIMATE": {
+    "approximate": {
         "DEFAULT": "AH0 P R AA1 K S AH0 M AH0 T",
         "VERB": "AH0 P R AA1 K S AH0 M EY2 T"
     },
-    "ARTICULATE": {
+    "articulate": {
         "DEFAULT": "AA0 R T IH1 K Y AH0 L EY2 T",
         "VERB": "AA0 R T IH1 K Y AH0 L AH0 T"
     },
-    "ASPIRATE": {
+    "aspirate": {
         "DEFAULT": "AE1 S P ER0 AH0 T",
         "VERB": "AE1 S P ER0 EY2 T"
     },
-    "ASPIRATES": {
+    "aspirates": {
         "DEFAULT": "AE1 S P ER0 AH0 T S",
         "VERB": "AE1 S P ER0 EY2 T S"
     },
-    "ASSOCIATE": {
+    "associate": {
         "DEFAULT": "AH0 S OW1 S IY0 AH0 T",
         "VERB": "AH0 S OW1 S IY0 EY2 T"
     },
-    "ASSOCIATES": {
+    "associates": {
         "DEFAULT": "AH0 S OW1 S IY0 AH0 T S",
         "VERB": "AH0 S OW1 S IY0 EY2 T S"
     },
-    "ATTRIBUTE": {
+    "attribute": {
         "DEFAULT": "AE1 T R IH0 B Y UW0 T",
         "VERB": "AH0 T R IH1 B Y UW2 T"
     },
-    "ATTRIBUTES": {
+    "attributes": {
         "DEFAULT": "AE1 T R IH0 B Y UW0 T S",
         "VERB": "AH0 T R IH1 B Y UW2 T S"
     },
-    "BATHS": {
+    "baths": {
         "DEFAULT": "B AE1 DH Z",
         "VERB": "B AE1 TH S"
     },
-    "BLESSED": {
+    "blessed": {
         "DEFAULT": "B L EH1 S T",
         "VERB": "B L EH1 S IH0 D"
     },
-    "CERTIFICATE": {
+    "certificate": {
         "DEFAULT": "S ER0 T IH1 F IH0 K EY2 T",
         "VERB": "S ER0 T IH1 F IH0 K AH0 T"
     },
-    "CERTIFICATES": {
+    "certificates": {
         "DEFAULT": "S ER0 T IH1 F IH0 K AH0 T S",
         "VERB": "S ER0 T IH1 F IH0 K EY2 T S"
     },
-    "CLOSE": {
+    "close": {
         "DEFAULT": "K L OW1 S",
         "VERB": "K L OW1 Z"
     },
-    "CLOSER": {
+    "closer": {
         "DEFAULT": "K L OW1 S ER0",
         "NOUN": "K L OW1 Z ER0"
     },
-    "CLOSES": {
+    "closes": {
         "DEFAULT": "K L OW1 S IH0 Z",
         "VERB": "K L OW1 Z IH0 Z"
     },
-    "COLLECT": {
+    "collect": {
         "DEFAULT": "K AA1 L EH0 K T",
         "VERB": "K AH0 L EH1 K T"
     },
-    "COLLECTS": {
+    "collects": {
         "DEFAULT": "K AA1 L EH0 K T S",
         "VERB": "K AH0 L EH1 K T S"
     },
-    "COMBAT": {
+    "combat": {
         "DEFAULT": "K AA1 M B AE0 T",
         "VERB": "K AH0 M B AE1 T"
     },
-    "COMBATS": {
+    "combats": {
         "DEFAULT": "K AH1 M B AE0 T S",
         "VERB": "K AH0 M B AE1 T S"
     },
-    "COMBINE": {
+    "combine": {
         "DEFAULT": "K AA1 M B AY0 N",
         "VERB": "K AH0 M B AY1 N"
     },
-    "COMMUNE": {
+    "commune": {
         "DEFAULT": "K AA1 M Y UW0 N",
         "VERB": "K AH0 M Y UW1 N"
     },
-    "COMMUNES": {
+    "communes": {
         "DEFAULT": "K AA1 M Y UW0 N Z",
         "VERB": "K AH0 M Y UW1 N Z"
     },
-    "COMPACT": {
+    "compact": {
         "DEFAULT": "K AA1 M P AE0 K T",
         "VERB": "K AH0 M P AE1 K T"
     },
-    "COMPACTS": {
+    "compacts": {
         "DEFAULT": "K AA1 M P AE0 K T S",
         "VERB": "K AH0 M P AE1 K T S"
     },
-    "COMPLEX": {
+    "complex": {
         "ADJ": "K AH0 M P L EH1 K S",
         "DEFAULT": " K AA1 M P L EH0 K S"
     },
-    "COMPLIMENT": {
+    "compliment": {
         "DEFAULT": "K AA1 M P L AH0 M AH0 N T",
         "VERB": "K AA1 M P L AH0 M EH0 N T"
     },
-    "COMPLIMENTS": {
+    "compliments": {
         "DEFAULT": "K AA1 M P L AH0 M AH0 N T S",
         "VERB": "K AA1 M P L AH0 M EH0 N T S"
     },
-    "COMPOUND": {
+    "compound": {
         "DEFAULT": "K AA1 M P AW0 N D",
         "VERB": "K AH0 M P AW1 N D"
     },
-    "COMPOUNDS": {
+    "compounds": {
         "DEFAULT": "K AA1 M P AW0 N D Z",
         "VERB": "K AH0 M P AW1 N D Z"
     },
-    "COMPRESS": {
+    "compress": {
         "DEFAULT": "K AA1 M P R EH0 S",
         "VERB": "K AH0 M P R EH1 S"
     },
-    "COMPRESSES": {
+    "compresses": {
         "DEFAULT": "K AA1 M P R EH0 S AH0 Z",
         "VERB": "K AH0 M P R EH1 S IH0 Z"
     },
-    "CONCERT": {
+    "concert": {
         "DEFAULT": "K AA1 N S ER0 T",
         "VERB": "K AH0 N S ER1 T"
     },
-    "CONCERTS": {
+    "concerts": {
         "DEFAULT": "K AA1 N S ER0 T S",
         "VERB": "K AH0 N S ER1 T S"
     },
-    "CONDUCT": {
+    "conduct": {
         "DEFAULT": "K AA1 N D AH0 K T",
         "VERB": "K AA0 N D AH1 K T"
     },
-    "CONFEDERATE": {
+    "confederate": {
         "DEFAULT": "K AH0 N F EH1 D ER0 AH0 T",
         "VERB": "K AH0 N F EH1 D ER0 EY2 T"
     },
-    "CONFEDERATES": {
+    "confederates": {
         "DEFAULT": "K AH0 N F EH1 D ER0 AH0 T S",
         "VERB": "K AH0 N F EH1 D ER0 EY2 T S"
     },
-    "CONFINES": {
+    "confines": {
         "DEFAULT": "K AA1 N F AY2 N Z",
         "VERB": "K AH0 N F AY1 N Z"
     },
-    "CONFLICT": {
+    "conflict": {
         "DEFAULT": "K AA1 N F L IH0 K T",
         "VERB": "K AH0 N F L IH1 K T"
     },
-    "CONFLICTS": {
+    "conflicts": {
         "DEFAULT": "K AA1 N F L IH0 K T S",
         "VERB": "K AH0 N F L IH1 K T S"
     },
-    "CONGLOMERATE": {
+    "conglomerate": {
         "DEFAULT": "K AH0 N G L AA1 M ER0 AH0 T",
         "VERB": "K AH0 N G L AA1 M ER0 EY2 T"
     },
-    "CONGLOMERATES": {
+    "conglomerates": {
         "DEFAULT": "K AH0 N G L AA1 M ER0 AH0 T S",
         "VERB": "K AH0 N G L AA1 M ER0 EY2 T S"
     },
-    "CONSCRIPT": {
+    "conscript": {
         "DEFAULT": "K AA1 N S K R IH0 P T",
         "VERB": "K AH0 N S K R IH1 P T"
     },
-    "CONSCRIPTS": {
+    "conscripts": {
         "DEFAULT": "K AA1 N S K R IH0 P T S",
         "VERB": "K AH0 N S K R IH1 P T S"
     },
-    "CONSOLE": {
+    "console": {
         "DEFAULT": "K AA1 N S OW0 L",
         "VERB": "K AH0 N S OW1 L"
     },
-    "CONSOLES": {
+    "consoles": {
         "DEFAULT": "K AA1 N S OW0 L Z",
         "VERB": "K AH0 N S OW1 L Z"
     },
-    "CONSORT": {
+    "consort": {
         "DEFAULT": "K AA1 N S AO0 R T",
         "VERB": "K AH0 N S AO1 R T"
     },
-    "CONSTRUCT": {
+    "construct": {
         "DEFAULT": "K AA1 N S T R AH0 K T",
         "VERB": "K AH0 N S T R AH1 K T"
     },
-    "CONSTRUCTS": {
+    "constructs": {
         "DEFAULT": "K AA1 N S T R AH0 K T S",
         "VERB": "K AH0 N S T R AH1 K T S"
     },
-    "CONSUMMATE": {
+    "consummate": {
         "DEFAULT": "K AA0 N S AH1 M AH0 T",
         "VERB": "K AA1 N S AH0 M EY2 T"
     },
-    "CONTENT": {
+    "content": {
         "DEFAULT": "K AH0 N T EH1 N T",
         "NOUN": "K AA1 N T EH0 N T"
     },
-    "CONTENTS": {
+    "contents": {
         "DEFAULT": "K AA1 N T EH0 N T S",
         "VERB": "K AH0 N T EH1 N T S"
     },
-    "CONTEST": {
+    "contest": {
         "DEFAULT": "K AA1 N T EH0 S T",
         "VERB": "K AH0 N T EH1 S T"
     },
-    "CONTESTS": {
+    "contests": {
         "DEFAULT": "K AA1 N T EH0 S T S",
         "VERB": "K AH0 N T EH1 S T S"
     },
-    "CONTRACT": {
+    "contract": {
         "DEFAULT": "K AA1 N T R AE2 K T",
         "VERB": "K AH0 N T R AE1 K T"
     },
-    "CONTRACTS": {
+    "contracts": {
         "DEFAULT": "K AA1 N T R AE2 K T S",
         "VERB": "K AH0 N T R AE1 K T S"
     },
-    "CONTRAST": {
+    "contrast": {
         "DEFAULT": "K AA1 N T R AE0 S T",
         "VERB": "K AH0 N T R AE1 S T"
     },
-    "CONTRASTS": {
+    "contrasts": {
         "DEFAULT": "K AA1 N T R AE0 S T S",
         "VERB": "K AH0 N T R AE1 S T S"
     },
-    "CONVERSE": {
+    "converse": {
         "DEFAULT": "K AA1 N V ER0 S",
         "VERB": "K AH0 N V ER1 S"
     },
-    "CONVERT": {
+    "convert": {
         "DEFAULT": "K AA1 N V ER0 T",
         "VERB": "K AH0 N V ER1 T"
     },
-    "CONVERTS": {
+    "converts": {
         "DEFAULT": "K AA1 N V ER0 T S",
         "VERB": "K AH0 N V ER1 T S"
     },
-    "CONVICT": {
+    "convict": {
         "DEFAULT": "K AA1 N V IH0 K T",
         "VERB": "K AH0 N V IH1 K T"
     },
-    "CONVICTS": {
+    "convicts": {
         "DEFAULT": "K AA1 N V IH0 K T S",
         "VERB": "K AH0 N V IH1 K T S"
     },
-    "COORDINATE": {
+    "coordinate": {
         "DEFAULT": "K OW0 AO1 R D AH0 N AH0 T",
         "VERB": "K OW0 AO1 R D AH0 N EY2 T"
     },
-    "COORDINATES": {
+    "coordinates": {
         "DEFAULT": "K OW0 AO1 R D AH0 N AH0 T S",
         "VERB": "K OW0 AO1 R D AH0 N EY2 T S"
     },
-    "COUNTERBALANCE": {
+    "counterbalance": {
         "DEFAULT": "K AW2 N T ER0 B AE1 L AH0 N S",
         "VERB": "K AW1 N T ER0 B AE2 L AH0 N S"
     },
-    "COUNTERBALANCES": {
+    "counterbalances": {
         "DEFAULT": "K AW1 N T ER0 B AE2 L AH0 N S IH0 Z",
         "VERB": "K AW2 N T ER0 B AE1 L AH0 N S IH0 Z"
     },
-    "CRABBED": {
+    "crabbed": {
         "DEFAULT": "K R AE1 B IH0 D",
         "VERB": "K R AE1 B D"
     },
-    "CROOKED": {
+    "crooked": {
         "DEFAULT": "K R UH1 K AH0 D",
         "VERB": "K R UH1 K T"
     },
-    "CURATE": {
+    "curate": {
         "DEFAULT": "K Y UH1 R AH0 T",
         "VERB": "K Y UH0 R AH1 T"
     },
-    "CURSED": {
+    "cursed": {
         "DEFAULT": "K ER1 S IH0 D",
         "VERB": "K ER1 S T"
     },
-    "DECOY": {
+    "decoy": {
         "DEFAULT": "D IY1 K OY0",
         "VERB": "D IY0 K OY1"
     },
-    "DECOYS": {
+    "decoys": {
         "DEFAULT": "D IY1 K OY0 Z",
         "VERB": "D IY0 K OY1 Z"
     },
-    "DECREASE": {
+    "decrease": {
         "DEFAULT": "D IY1 K R IY2 S",
         "VERB": "D IH0 K R IY1 S"
     },
-    "DECREASES": {
+    "decreases": {
         "DEFAULT": "D IY1 K R IY2 S IH0 Z",
         "VERB": "D IH0 K R IY1 S IH0 Z"
     },
-    "DEFECT": {
+    "defect": {
         "DEFAULT": "D IY1 F EH0 K T",
         "VERB": "D IH0 F EH1 K T"
     },
-    "DEFECTS": {
+    "defects": {
         "DEFAULT": "D IY1 F EH0 K T S",
         "VERB": "D IH0 F EH1 K T S"
     },
-    "DEGENERATE": {
+    "degenerate": {
         "DEFAULT": "D IH0 JH EH1 N ER0 AH0 T",
         "VERB": "D IH0 JH EH1 N ER0 EY2 T"
     },
-    "DEGENERATES": {
+    "degenerates": {
         "DEFAULT": "D IH0 JH EH1 N ER0 AH0 T S",
         "VERB": "D IH0 JH EH1 N ER0 EY2 T S"
     },
-    "DELEGATE": {
+    "delegate": {
         "DEFAULT": "D EH1 L AH0 G AH0 T",
         "VERB": "D EH1 L AH0 G EY2 T"
     },
-    "DELEGATES": {
+    "delegates": {
         "DEFAULT": "D EH1 L AH0 G AH0 T S",
         "VERB": "D EH1 L AH0 G EY2 T S"
     },
-    "DELIBERATE": {
+    "deliberate": {
         "DEFAULT": "D IH0 L IH1 B ER0 AH0 T",
         "VERB": "D IH0 L IH1 B ER0 EY2 T"
     },
-    "DESERT": {
+    "desert": {
         "DEFAULT": "D EH1 Z ER0 T",
         "VERB": "D IH0 Z ER1 T"
     },
-    "DESERTS": {
+    "deserts": {
         "DEFAULT": "D EH1 Z ER0 T S",
         "VERB": "D IH0 Z ER1 T S"
     },
-    "DESOLATE": {
+    "desolate": {
         "DEFAULT": "D EH1 S AH0 L AH0 T",
         "VERB": "D EH1 S AH0 L EY2 T"
     },
-    "DIAGNOSES": {
+    "diagnoses": {
         "DEFAULT": "D AY2 AH0 G N OW1 S IY0 Z",
         "VERB": "D AY1 AH0 G N OW2 Z IY0 Z"
     },
-    "DICTATE": {
+    "dictate": {
         "DEFAULT": "D IH1 K T EY2 T",
         "VERB": "D IH0 K T EY1 T"
     },
-    "DICTATES": {
+    "dictates": {
         "DEFAULT": "D IH1 K T EY2 T S",
         "VERB": "D IH0 K T EY1 T S"
     },
-    "DIFFUSE": {
+    "diffuse": {
         "DEFAULT": "D IH0 F Y UW1 S",
         "VERB": "D IH0 F Y UW1 Z"
     },
-    "DIGEST": {
+    "digest": {
         "DEFAULT": "D AY1 JH EH0 S T",
         "VERB": "D AY0 JH EH1 S T"
     },
-    "DIGESTS": {
+    "digests": {
         "DEFAULT": "D AY1 JH EH0 S T S",
         "VERB": "D AY2 JH EH1 S T S"
     },
-    "DISCARD": {
+    "discard": {
         "DEFAULT": "D IH1 S K AA0 R D",
         "VERB": "D IH0 S K AA1 R D"
     },
-    "DISCARDS": {
+    "discards": {
         "DEFAULT": "D IH1 S K AA0 R D Z",
         "VERB": "D IH0 S K AA1 R D Z"
     },
-    "DISCHARGE": {
+    "discharge": {
         "DEFAULT": "D IH1 S CH AA2 R JH",
         "VERB": "D IH0 S CH AA1 R JH"
     },
-    "DISCHARGES": {
+    "discharges": {
         "DEFAULT": "D IH1 S CH AA2 R JH AH0 Z",
         "VERB": "D IH0 S CH AA1 R JH AH0 Z"
     },
-    "DISCOUNT": {
+    "discount": {
         "DEFAULT": "D IH1 S K AW0 N T",
         "VERB": "D IH0 S K AW1 N T"
     },
-    "DISCOUNTS": {
+    "discounts": {
         "DEFAULT": "D IH1 S K AW2 N T S",
         "VERB": "D IH0 S K AW1 N T S"
     },
-    "DISCOURSE": {
+    "discourse": {
         "DEFAULT": "D IH1 S K AO0 R S",
         "VERB": "D IH0 S K AO1 R S"
     },
-    "DISCOURSES": {
+    "discourses": {
         "DEFAULT": "D IH1 S K AO0 R S IH0 Z",
         "VERB": "D IH0 S K AO1 R S IH0 Z"
     },
-    "DOCUMENT": {
+    "document": {
         "DEFAULT": "D AA1 K Y AH0 M AH0 N T",
         "VERB": "D AA1 K Y UW0 M EH0 N T"
     },
-    "DOCUMENTS": {
+    "documents": {
         "DEFAULT": "D AA1 K Y AH0 M AH0 N T S",
         "VERB": "D AA1 K Y UW0 M EH0 N T S"
     },
-    "DOGGED": {
+    "dogged": {
         "DEFAULT": "D AO1 G D",
         "VERB": "D AO1 G IH0 D"
     },
-    "DUPLICATE": {
+    "duplicate": {
         "DEFAULT": "D UW1 P L AH0 K AH0 T",
         "VERB": "D UW1 P L AH0 K EY2 T"
     },
-    "DUPLICATES": {
+    "duplicates": {
         "DEFAULT": "D UW1 P L AH0 K AH0 T S",
         "VERB": "D UW1 P L AH0 K EY2 T S"
     },
-    "EJACULATE": {
+    "ejaculate": {
         "DEFAULT": "IH0 JH AE1 K Y UW0 L AH0 T",
         "VERB": "IH0 JH AE1 K Y UW0 L EY2 T"
     },
-    "EJACULATES": {
+    "ejaculates": {
         "DEFAULT": "IH0 JH AE1 K Y UW0 L AH0 T S",
         "VERB": "IH0 JH AE1 K Y UW0 L EY2 T S"
     },
-    "ELABORATE": {
+    "elaborate": {
         "DEFAULT": "IH0 L AE1 B R AH0 T",
         "VERB": "IH0 L AE1 B ER0 EY2 T"
     },
-    "ENTRANCE": {
+    "entrance": {
         "DEFAULT": "EH1 N T R AH0 N S",
         "VERB": "IH0 N T R AH1 N S"
     },
-    "ENTRANCES": {
+    "entrances": {
         "DEFAULT": "EH1 N T R AH0 N S AH0 Z",
         "VERB": "IH0 N T R AH1 N S AH0 Z"
     },
-    "ENVELOPE": {
+    "envelope": {
         "DEFAULT": "EH1 N V AH0 L OW2 P",
         "VERB": "IH0 N V EH1 L AH0 P"
     },
-    "ENVELOPES": {
+    "envelopes": {
         "DEFAULT": "EH1 N V AH0 L OW2 P S",
         "VERB": "IH0 N V EH1 L AH0 P S"
     },
-    "ESCORT": {
+    "escort": {
         "DEFAULT": "EH1 S K AO0 R T",
         "VERB": "EH0 S K AO1 R T"
     },
-    "ESCORTS": {
+    "escorts": {
         "DEFAULT": "EH1 S K AO0 R T S",
         "VERB": "EH0 S K AO1 R T S"
     },
-    "ESSAY": {
+    "essay": {
         "DEFAULT": "EH1 S EY2",
         "VERB": "EH0 S EY1"
     },
-    "ESSAYS": {
+    "essays": {
         "DEFAULT": "EH1 S EY2 Z",
         "VERB": "EH0 S EY1 Z"
     },
-    "ESTIMATE": {
+    "estimate": {
         "DEFAULT": "EH1 S T AH0 M AH0 T",
         "VERB": "EH1 S T AH0 M EY2 T"
     },
-    "ESTIMATES": {
+    "estimates": {
         "DEFAULT": "EH1 S T AH0 M AH0 T S",
         "VERB": "EH1 S T AH0 M EY2 T S"
     },
-    "EXCESS": {
+    "excess": {
         "DEFAULT": "EH1 K S EH2 S",
         "VERB": "IH0 K S EH1 S"
     },
-    "EXCISE": {
+    "excise": {
         "DEFAULT": "EH1 K S AY0 Z",
         "VERB": "EH0 K S AY1 S"
     },
-    "EXCUSE": {
+    "excuse": {
         "DEFAULT": "IH0 K S K Y UW1 S",
         "VERB": "IH0 K S K Y UW1 Z"
     },
-    "EXCUSES": {
+    "excuses": {
         "DEFAULT": "IH0 K S K Y UW1 S IH0 Z",
         "VERB": "IH0 K S K Y UW1 Z IH0 Z"
     },
-    "EXPATRIATE": {
+    "expatriate": {
         "DEFAULT": "EH0 K S P EY1 T R IY0 AH0 T",
         "VERB": "EH0 K S P EY1 T R IY0 EY2 T"
     },
-    "EXPATRIATES": {
+    "expatriates": {
         "DEFAULT": "EH0 K S P EY1 T R IY0 AH0 T S",
         "VERB": "EH0 K S P EY1 T R IY0 EY2 T S"
     },
-    "EXPLOIT": {
+    "exploit": {
         "DEFAULT": "EH2 K S P L OY1 T",
         "VERB": "EH1 K S P L OY2 T"
     },
-    "EXPLOITS": {
+    "exploits": {
         "DEFAULT": "EH2 K S P L OY1 T S",
         "VERB": "EH1 K S P L OY2 T S"
     },
-    "EXPORT": {
+    "export": {
         "DEFAULT": "EH1 K S P AO0 R T",
         "VERB": "IH0 K S P AO1 R T"
     },
-    "EXPORTS": {
+    "exports": {
         "DEFAULT": "EH1 K S P AO0 R T S",
         "VERB": "IH0 K S P AO1 R T S"
     },
-    "EXTRACT": {
+    "extract": {
         "DEFAULT": "EH1 K S T R AE2 K T",
         "VERB": "IH0 K S T R AE1 K T"
     },
-    "EXTRACTS": {
+    "extracts": {
         "DEFAULT": "EH1 K S T R AE2 K T S",
         "VERB": "IH0 K S T R AE1 K T S"
     },
-    "FERMENT": {
+    "ferment": {
         "DEFAULT": "F ER1 M EH0 N T",
         "VERB": "F ER0 M EH1 N T"
     },
-    "FERMENTS": {
+    "ferments": {
         "DEFAULT": "F ER1 M EH0 N T S",
         "VERB": "F ER0 M EH1 N T S"
     },
-    "FRAGMENT": {
+    "fragment": {
         "DEFAULT": "F R AE0 G M EH1 N T",
         "VERB": "F R AE1 G M AH0 N T"
     },
-    "FRAGMENTS": {
+    "fragments": {
         "DEFAULT": "F R AE1 G M AH0 N T S",
         "VERB": "F R AE0 G M EH1 N T S"
     },
-    "FREQUENT": {
+    "frequent": {
         "DEFAULT": "F R IY1 K W AH0 N T",
         "VERB": "F R IY1 K W EH2 N T"
     },
-    "GRADUATE": {
+    "graduate": {
         "DEFAULT": "G R AE1 JH AH0 W AH0 T",
         "VERB": "G R AE1 JH AH0 W EY2 T"
     },
-    "GRADUATES": {
+    "graduates": {
         "DEFAULT": "G R AE1 JH AH0 W AH0 T S",
         "VERB": "G R AE1 JH AH0 W EY2 T S"
     },
-    "HOUSE": {
+    "house": {
         "DEFAULT": "HH AW1 S",
         "VERB": "HH AW1 Z"
     },
-    "IMPACT": {
+    "impact": {
         "DEFAULT": "IH1 M P AE0 K T",
         "VERB": "IH2 M P AE1 K T"
     },
-    "IMPACTS": {
+    "impacts": {
         "DEFAULT": "IH1 M P AE0 K T S",
         "VERB": "IH2 M P AE1 K T S"
     },
-    "IMPLANT": {
+    "implant": {
         "DEFAULT": "IH1 M P L AE2 N T",
         "VERB": "IH2 M P L AE1 N T"
     },
-    "IMPLANTS": {
+    "implants": {
         "DEFAULT": "IH1 M P L AE2 N T S",
         "VERB": "IH2 M P L AE1 N T S"
     },
-    "IMPLEMENT": {
+    "implement": {
         "DEFAULT": "IH1 M P L AH0 M AH0 N T",
         "VERB": "IH1 M P L AH0 M EH0 N T"
     },
-    "IMPLEMENTS": {
+    "implements": {
         "DEFAULT": "IH1 M P L AH0 M AH0 N T S",
         "VERB": "IH1 M P L AH0 M EH0 N T S"
     },
-    "IMPORT": {
+    "import": {
         "DEFAULT": "IH1 M P AO2 R T",
         "VERB": "IH2 M P AO1 R T"
     },
-    "IMPORTS": {
+    "imports": {
         "DEFAULT": "IH1 M P AO2 R T S",
         "VERB": "IH2 M P AO1 R T S"
     },
-    "IMPRESS": {
+    "impress": {
         "DEFAULT": "IH1 M P R EH0 S",
         "VERB": "IH0 M P R EH1 S"
     },
-    "IMPRINT": {
+    "imprint": {
         "DEFAULT": "IH2 M P R IH1 N T",
         "VERB": "IH1 M P R IH0 N T"
     },
-    "IMPRINTS": {
+    "imprints": {
         "DEFAULT": "IH1 M P R IH0 N T S",
         "VERB": "IH2 M P R IH1 N T S"
     },
-    "INCENSE": {
+    "incense": {
         "DEFAULT": "IH1 N S EH2 N S",
         "VERB": "IH2 N S EH1 N S"
     },
-    "INCLINE": {
+    "incline": {
         "DEFAULT": "IH1 N K L AY0 N",
         "VERB": "IH2 N K L AY1 N"
     },
-    "INCLINES": {
+    "inclines": {
         "DEFAULT": "IH1 N K L AY0 N Z",
         "VERB": "IH2 N K L AY1 N Z"
     },
-    "INCORPORATE": {
+    "incorporate": {
         "DEFAULT": "IH2 N K AO1 R P ER0 AH0 T",
         "VERB": "IH2 N K AO1 R P ER0 EY2 T"
     },
-    "INCREASE": {
+    "increase": {
         "DEFAULT": "IH1 N K R IY2 S",
         "VERB": "IH2 N K R IY1 S"
     },
-    "INCREASES": {
+    "increases": {
         "DEFAULT": "IH1 N K R IY2 S IH0 Z",
         "VERB": "IH2 N K R IY1 S IH0 Z"
     },
-    "INDENT": {
+    "indent": {
         "DEFAULT": "IH1 N D EH0 N T",
         "VERB": "IH2 N D EH1 N T"
     },
-    "INDENTS": {
+    "indents": {
         "DEFAULT": "IH1 N D EH0 N T S",
         "VERB": "IH2 N D EH1 N T S"
     },
-    "INEBRIATE": {
+    "inebriate": {
         "DEFAULT": "IH2 N EH1 B R IY0 AH0 T",
         "VERB": "IH2 N EH1 B R IY0 EY2 T"
     },
-    "INEBRIATES": {
+    "inebriates": {
         "DEFAULT": "IH2 N EH1 B R IY0 AH0 T S",
         "VERB": "IH2 N EH1 B R IY0 EY2 T S"
     },
-    "INITIATE": {
+    "initiate": {
         "DEFAULT": "IH2 N IH1 SH IY0 AH0 T",
         "VERB": "IH2 N IH1 SH IY0 EY2 T"
     },
-    "INITIATES": {
+    "initiates": {
         "DEFAULT": "IH2 N IH1 SH IY0 AH0 T S",
         "VERB": "IH2 N IH1 SH IY0 EY2 T S"
     },
-    "INLAY": {
+    "inlay": {
         "DEFAULT": "IH1 N L EY2",
         "VERB": "IH2 N L EY1"
     },
-    "INLAYS": {
+    "inlays": {
         "DEFAULT": "IH1 N L EY2 Z",
         "VERB": "IH2 N L EY1 Z"
     },
-    "INSERT": {
+    "insert": {
         "DEFAULT": "IH1 N S ER2 T",
         "VERB": "IH2 N S ER1 T"
     },
-    "INSERTS": {
+    "inserts": {
         "DEFAULT": "IH1 N S ER2 T S",
         "VERB": "IH2 N S ER1 T S"
     },
-    "INSET": {
+    "inset": {
         "DEFAULT": "IH1 N S EH2 T",
         "VERB": "IH2 N S EH1 T"
     },
-    "INSETS": {
+    "insets": {
         "DEFAULT": "IH1 N S EH2 T S",
         "VERB": "IH2 N S EH1 T S"
     },
-    "INSTINCT": {
+    "instinct": {
         "DEFAULT": "IH1 N S T IH0 NG K T",
         "VERB": "IH2 N S T IH1 NG K T"
     },
-    "INSULT": {
+    "insult": {
         "DEFAULT": "IH1 N S AH2 L T",
         "VERB": "IH2 N S AH1 L T"
     },
-    "INSULTS": {
+    "insults": {
         "DEFAULT": "IH1 N S AH2 L T S",
         "VERB": "IH2 N S AH1 L T S"
     },
-    "INTERCHANGE": {
+    "interchange": {
         "DEFAULT": "IH1 N T ER0 CH EY2 N JH",
         "VERB": "IH2 T ER0 CH EY1 N JH"
     },
-    "INTERCHANGES": {
+    "interchanges": {
         "DEFAULT": "IH1 N T ER0 CH EY2 N JH IH0 Z",
         "VERB": "IH2 T ER0 CH EY1 N JH IH0 Z"
     },
-    "INTERDICT": {
+    "interdict": {
         "DEFAULT": "IH1 N T ER0 D IH2 K T",
         "VERB": "IH2 N T ER0 D IH1 K T"
     },
-    "INTERDICTS": {
+    "interdicts": {
         "DEFAULT": "IH1 N T ER0 D IH2 K T S",
         "VERB": "IH2 N T ER0 D IH1 K T S"
     },
-    "INTERN": {
+    "intern": {
         "DEFAULT": "IH1 N T ER0 N",
         "VERB": "IH0 N T ER1 N"
     },
-    "INTERNS": {
+    "interns": {
         "DEFAULT": "IH1 N T ER0 N Z",
         "VERB": "IH0 N T ER1 N Z"
     },
-    "INTIMATE": {
+    "intimate": {
         "DEFAULT": "IH1 N T AH0 M AH0 T",
         "VERB": "IH1 N T IH0 M EY2 T"
     },
-    "INTIMATES": {
+    "intimates": {
         "DEFAULT": "IH1 N T AH0 M AH0 T S",
         "VERB": "IH1 N T IH0 M EY2 T S"
     },
-    "INTRIGUE": {
+    "intrigue": {
         "DEFAULT": "IH1 N T R IY0 G",
         "VERB": "IH2 N T R IY1 G"
     },
-    "INTROVERT": {
+    "introvert": {
         "DEFAULT": "IH1 N T R AO0 V ER2 T",
         "VERB": "IH2 N T R AO0 V ER1 T"
     },
-    "INTROVERTS": {
+    "introverts": {
         "DEFAULT": "IH1 N T R AO0 V ER2 T S",
         "VERB": "IH2 N T R AO0 V ER1 T S"
     },
-    "INVERSE": {
+    "inverse": {
         "DEFAULT": "IH2 N V ER1 S",
         "VERB": "IH1 N V ER0 S"
     },
-    "INVITE": {
+    "invite": {
         "DEFAULT": "IH1 N V AY0 T",
         "VERB": "IH2 N V AY1 T"
     },
-    "INVITES": {
+    "invites": {
         "DEFAULT": "IH1 N V AY0 T S",
         "VERB": "IH2 N V AY1 T S"
     },
-    "JAGGED": {
+    "jagged": {
         "DEFAULT": "JH AE1 G IH0 D",
         "VERB": "JH AE1 G D"
     },
-    "LEARNED": {
+    "learned": {
         "DEFAULT": "L ER1 N D",
         "VERB": "L ER1 N IH0 D"
     },
-    "LEGITIMATE": {
+    "legitimate": {
         "DEFAULT": "L AH0 JH IH1 T AH0 M AH0 T",
         "VERB": "L AH0 JH IH1 T AH0 M EY2 T"
     },
-    "LIVE": {
+    "live": {
         "DEFAULT": "L AY1 V",
         "VERB": "L IH1 V"
     },
-    "LIVES": {
+    "lives": {
         "DEFAULT": "L AY1 V Z",
         "VERB": "L IH1 V Z"
     },
-    "MANDATE": {
+    "mandate": {
         "DEFAULT": "M AE2 N D EY1 T",
         "VERB": "M AE1 N D EY2 T"
     },
-    "MISCONDUCT": {
+    "misconduct": {
         "DEFAULT": "M IH2 S K AA0 N D AH1 K T",
         "VERB": "M IH2 S K AA1 N D AH0 K T"
     },
-    "MISPRINT": {
+    "misprint": {
         "DEFAULT": "M IH1 S P R IH0 N T",
         "VERB": "M IH2 S P R IH1 N T"
     },
-    "MISPRINTS": {
+    "misprints": {
         "DEFAULT": "M IH1 S P R IH0 N T S",
         "VERB": "M IH2 S P R IH1 N T S"
     },
-    "MISUSE": {
+    "misuse": {
         "DEFAULT": "M IH0 S Y UW1 Z",
         "VERB": "M IH0 S Y UW1 S"
     },
-    "MISUSES": {
+    "misuses": {
         "DEFAULT": "M IH0 S Y UW1 S IH0 Z",
         "VERB": "M IH0 S Y UW1 Z IH0 Z"
     },
-    "MODERATE": {
+    "moderate": {
         "DEFAULT": "M AA1 D ER0 AH0 T",
         "VERB": "M AA1 D ER0 EY2 T"
     },
-    "MODERATES": {
+    "moderates": {
         "DEFAULT": "M AA1 D ER0 AH0 T S",
         "VERB": "M AA1 D ER0 EY2 T S"
     },
-    "MOUTH": {
+    "mouth": {
         "DEFAULT": "M AW1 DH",
         "VERB": "M AW1 TH"
     },
-    "MOUTHS": {
+    "mouths": {
         "DEFAULT": "M AW1 TH S",
         "VERB": "M AW1 DH Z"
     },
-    "OBJECT": {
+    "object": {
         "DEFAULT": "AA1 B JH EH0 K T",
         "VERB": "AH0 B JH EH1 K T"
     },
-    "OBJECTS": {
+    "objects": {
         "DEFAULT": "AA1 B JH EH0 K T S",
         "VERB": "AH0 B JH EH1 K T S"
     },
-    "ORNAMENT": {
+    "ornament": {
         "DEFAULT": "AO1 R N AH0 M AH0 N T",
         "VERB": "AO1 R N AH0 M EH0 N T"
     },
-    "ORNAMENTS": {
+    "ornaments": {
         "DEFAULT": "AO1 R N AH0 M AH0 N T S",
         "VERB": "AO1 R N AH0 M EH0 N T S"
     },
-    "OVERCHARGE": {
+    "overcharge": {
         "DEFAULT": "OW1 V ER0 CH AA2 R JH",
         "VERB": "OW2 V ER0 CH AA1 R JH"
     },
-    "OVERCHARGES": {
+    "overcharges": {
         "DEFAULT": "OW1 V ER0 CH AA2 R JH IH0 Z",
         "VERB": "OW2 V ER0 CH AA1 R JH IH0 Z"
     },
-    "OVERFLOW": {
+    "overflow": {
         "DEFAULT": "OW1 V ER0 F L OW2",
         "VERB": "OW2 V ER0 F L OW1"
     },
-    "OVERFLOWS": {
+    "overflows": {
         "DEFAULT": "OW1 V ER0 F L OW2 Z",
         "VERB": "OW2 V ER0 F L OW1 Z"
     },
-    "OVERHANG": {
+    "overhang": {
         "DEFAULT": "OW1 V ER0 HH AE2 NG",
         "VERB": "OW2 V ER0 HH AE1 NG"
     },
-    "OVERHANGS": {
+    "overhangs": {
         "DEFAULT": "OW1 V ER0 HH AE2 NG Z",
         "VERB": "OW2 V ER0 HH AE1 NG Z"
     },
-    "OVERHAUL": {
+    "overhaul": {
         "DEFAULT": "OW1 V ER0 HH AO2 L",
         "VERB": "OW2 V ER0 HH AO1 L"
     },
-    "OVERHAULS": {
+    "overhauls": {
         "DEFAULT": "OW1 V ER0 HH AO2 L Z",
         "VERB": "OW2 V ER0 HH AO1 L Z"
     },
-    "OVERLAP": {
+    "overlap": {
         "DEFAULT": "OW1 V ER0 L AE2 P",
         "VERB": "OW2 V ER0 L AE1 P"
     },
-    "OVERLAPS": {
+    "overlaps": {
         "DEFAULT": "OW1 V ER0 L AE2 P S",
         "VERB": "OW2 V ER0 L AE1 P S"
     },
-    "OVERLAY": {
+    "overlay": {
         "DEFAULT": "OW1 V ER0 L EY2",
         "VERB": "OW2 V ER0 L EY1"
     },
-    "OVERLAYS": {
+    "overlays": {
         "DEFAULT": "OW1 V ER0 L EY2 Z",
         "VERB": "OW2 V ER0 L EY1 Z"
     },
-    "OVERWORK": {
+    "overwork": {
         "DEFAULT": "OW1 V ER0 W ER2 K",
         "VERB": "OW2 V ER0 W ER1 K"
     },
-    "PERFECT": {
+    "perfect": {
         "DEFAULT": "P ER1 F IH2 K T",
         "VERB": "P ER0 F EH1 K T"
     },
-    "PERFUME": {
+    "perfume": {
         "DEFAULT": "P ER1 F Y UW0 M",
         "VERB": "P ER0 F Y UW1 M"
     },
-    "PERFUMES": {
+    "perfumes": {
         "DEFAULT": "P ER1 F Y UW0 M Z",
         "VERB": "P ER0 F Y UW1 M Z"
     },
-    "PERMIT": {
+    "permit": {
         "DEFAULT": "P ER1 M IH2 T",
         "VERB": "P ER0 M IH1 T"
     },
-    "PERMITS": {
+    "permits": {
         "DEFAULT": "P ER1 M IH2 T S",
         "VERB": "P ER0 M IH1 T S"
     },
-    "PERVERT": {
+    "pervert": {
         "DEFAULT": "P ER1 V ER0 T",
         "VERB": "P ER0 V ER1 T"
     },
-    "PERVERTS": {
+    "perverts": {
         "DEFAULT": "P ER1 V ER0 T S",
         "VERB": "P ER0 V ER1 T S"
     },
-    "PONTIFICATE": {
+    "pontificate": {
         "DEFAULT": "P AA0 N T IH1 F AH0 K EY2 T",
         "VERB": "P AA0 N T IH1 F AH0 K AH0 T"
     },
-    "PONTIFICATES": {
+    "pontificates": {
         "DEFAULT": "P AA0 N T IH1 F AH0 K AH0 T S",
         "VERB": "P AA0 N T IH1 F AH0 K EY2 T S"
     },
-    "PRECIPITATE": {
+    "precipitate": {
         "DEFAULT": "P R IH0 S IH1 P IH0 T EY2 T",
         "VERB": "P R IH0 S IH1 P IH0 T AH0 T"
     },
-    "PREDICATE": {
+    "predicate": {
         "DEFAULT": "P R EH1 D AH0 K EY2 T",
         "VERB": "P R EH1 D IH0 K AH0 T"
     },
-    "PREDICATES": {
+    "predicates": {
         "DEFAULT": "P R EH1 D IH0 K AH0 T S",
         "VERB": "P R EH1 D AH0 K EY2 T S"
     },
-    "PREFIX": {
+    "prefix": {
         "DEFAULT": "P R IY1 F IH0 K S",
         "VERB": "P R IY2 F IH1 K S"
     },
-    "PREFIXES": {
+    "prefixes": {
         "DEFAULT": "P R IY1 F IH0 K S IH0 JH",
         "VERB": "P R IY2 F IH1 K S IH0 JH"
     },
-    "PRESAGE": {
+    "presage": {
         "DEFAULT": "P R EH1 S IH0 JH",
         "VERB": "P R EH2 S IH1 JH"
     },
-    "PRESAGES": {
+    "presages": {
         "DEFAULT": "P R EH1 S IH0 JH IH0 JH",
         "VERB": "P R EH2 S IH1 JH IH0 JH"
     },
-    "PRESENT": {
+    "present": {
         "DEFAULT": "P R EH1 Z AH0 N T",
         "VERB": "P R IY0 Z EH1 N T"
     },
-    "PRESENTS": {
+    "presents": {
         "DEFAULT": "P R EH1 Z AH0 N T S",
         "VERB": "P R IY0 Z EH1 N T S"
     },
-    "PROCEEDS": {
+    "proceeds": {
         "DEFAULT": "P R OW1 S IY0 D Z",
         "VERB": "P R AH0 S IY1 D Z"
     },
-    "PROCESS": {
+    "process": {
         "DEFAULT": "P R AA1 S EH2 S",
         "VERB": "P R AO2 S EH1 S"
     },
-    "PROCESSES": {
+    "processes": {
         "DEFAULT": "P R AO2 S EH1 S AH0 Z",
         "VERB": "P R AA1 S EH0 S AH0 Z"
     },
-    "PROCESSING": {
+    "processing": {
         "DEFAULT": "P R AA1 S EH0 S IH0 NG",
         "VERB": "P R AA0 S EH1 S IH0 NG"
     },
-    "PRODUCE": {
+    "produce": {
         "DEFAULT": "P R OW1 D UW0 S",
         "VERB": "P R AH0 D UW1 S"
     },
-    "PROGRESS": {
+    "progress": {
         "DEFAULT": "P R AA1 G R EH2 S",
         "VERB": "P R AH0 G R EH1 S"
     },
-    "PROGRESSES": {
+    "progresses": {
         "DEFAULT": "P R AA1 G R EH2 S AH0 Z",
         "VERB": "P R OW0 G R EH1 S AH0 Z"
     },
-    "PROJECT": {
+    "project": {
         "DEFAULT": "P R AA1 JH EH0 K T",
         "VERB": "P R AA0 JH EH1 K T"
     },
-    "PROJECTS": {
+    "projects": {
         "DEFAULT": "P R AA1 JH EH0 K T S",
         "VERB": "P R AA0 JH EH1 K T S"
     },
-    "PROSPECT": {
+    "prospect": {
         "DEFAULT": "P R AA1 S P EH0 K T",
         "VERB": "P R AH2 S P EH1 K T"
     },
-    "PROSPECTS": {
+    "prospects": {
         "DEFAULT": "P R AA1 S P EH0 K T S",
         "VERB": "P R AH2 S P EH1 K T S"
     },
-    "PROSTRATE": {
+    "prostrate": {
         "DEFAULT": "P R AA1 S T R EY0 T",
         "VERB": "P R AA0 S T R EY1 T"
     },
-    "PROTEST": {
+    "protest": {
         "DEFAULT": "P R OW1 T EH2 S T",
         "VERB": "P R AH0 T EH1 S T"
     },
-    "PROTESTS": {
+    "protests": {
         "DEFAULT": "P R OW1 T EH2 S T S",
         "VERB": "P R AH0 T EH1 S T S"
     },
-    "PURPORT": {
+    "purport": {
         "DEFAULT": "P ER1 P AO2 R T",
         "VERB": "P ER0 P AO1 R T"
     },
-    "QUADRUPLE": {
+    "quadruple": {
         "DEFAULT": "K W AA0 D R UW1 P AH0 L",
         "VERB": "K W AA1 D R UW0 P AH0 L"
     },
-    "QUADRUPLES": {
+    "quadruples": {
         "DEFAULT": "K W AA1 D R UW0 P AH0 L Z",
         "VERB": "K W AA0 D R UW1 P AH0 L Z"
     },
-    "RAGGED": {
+    "ragged": {
         "DEFAULT": "R AE1 G AH0 D",
         "VERB": "R AE1 G D"
     },
-    "RAMPAGE": {
+    "rampage": {
         "DEFAULT": "R AE1 M P EY2 JH",
         "VERB": "R AE2 M P EY1 JH"
     },
-    "RAMPAGES": {
+    "rampages": {
         "DEFAULT": "R AE1 M P EY2 JH IH0 Z",
         "VERB": "R AE2 M P EY1 JH IH0 Z"
     },
-    "READ": {
+    "read": {
         "DEFAULT": "R IY1 D",
         "VBD": "R EH1 D",
         "VBN": "R EH1 D",
         "VBP": "R EH1 D"
     },
-    "REBEL": {
+    "rebel": {
         "DEFAULT": "R IH0 B EH1 L",
         "VERB": "R EH1 B AH0 L"
     },
-    "REBELS": {
+    "rebels": {
         "DEFAULT": "R EH1 B AH0 L Z",
         "VERB": "R IH0 B EH1 L Z"
     },
-    "REBOUND": {
+    "rebound": {
         "DEFAULT": "R IY1 B AW0 N D",
         "VERB": "R IY0 B AW1 N D"
     },
-    "REBOUNDS": {
+    "rebounds": {
         "DEFAULT": "R IY1 B AW0 N D Z",
         "VERB": "R IY0 B AW1 N D Z"
     },
-    "RECALL": {
+    "recall": {
         "DEFAULT": "R IY1 K AO2 L",
         "VERB": "R IH0 K AO1 L"
     },
-    "RECALLS": {
+    "recalls": {
         "DEFAULT": "R IY1 K AO2 L Z",
         "VERB": "R IH0 K AO1 L Z"
     },
-    "RECAP": {
+    "recap": {
         "DEFAULT": "R IY1 K AE2 P",
         "VERB": "R IH0 K AE1 P"
     },
-    "RECAPPED": {
+    "recapped": {
         "DEFAULT": "R IY1 K AE2 P T",
         "VERB": "R IH0 K AE1 P T"
     },
-    "RECAPPING": {
+    "recapping": {
         "DEFAULT": "R IY1 K AE2 P IH0 NG",
         "VERB": "R IH0 K AE1 P IH0 NG"
     },
-    "RECAPS": {
+    "recaps": {
         "DEFAULT": "R IY1 K AE2 P S",
         "VERB": "R IH0 K AE1 P S"
     },
-    "RECORD": {
+    "record": {
         "DEFAULT": "R EH1 K ER0 D",
         "VERB": "R IH0 K AO1 R D"
     },
-    "RECORDS": {
+    "records": {
         "DEFAULT": "R EH1 K ER0 D Z",
         "VERB": "R IH0 K AO1 R D Z"
     },
-    "RECOUNT": {
+    "recount": {
         "DEFAULT": " R IH1 K AW0 N T",
         "VERB": "R IY2 K AW1 N T"
     },
-    "RECOUNTS": {
+    "recounts": {
         "DEFAULT": " R IH1 K AW0 N T S",
         "VERB": "R IY2 K AW1 N T S"
     },
-    "REFILL": {
+    "refill": {
         "DEFAULT": "R IY1 F IH0 L",
         "VERB": "R IY0 F IH1 L"
     },
-    "REFILLS": {
+    "refills": {
         "DEFAULT": "R IY1 F IH0 L Z",
         "VERB": "R IY0 F IH1 L Z"
     },
-    "REFIT": {
+    "refit": {
         "DEFAULT": "R IY1 F IH0 T",
         "VERB": "R IY0 F IH1 T"
     },
-    "REFITS": {
+    "refits": {
         "DEFAULT": "R IY1 F IH0 T S",
         "VERB": "R IY0 F IH1 T S"
     },
-    "REFRESH": {
+    "refresh": {
         "DEFAULT": "R IH1 F R EH0 SH",
         "VERB": "R IH0 F R EH1 SH"
     },
-    "REFUND": {
+    "refund": {
         "DEFAULT": "R IY1 F AH2 N D",
         "VERB": "R IH0 F AH1 N D"
     },
-    "REFUNDS": {
+    "refunds": {
         "DEFAULT": "R IY1 F AH2 N D Z",
         "VERB": "R IH0 F AH1 N D Z"
     },
-    "REFUSE": {
+    "refuse": {
         "DEFAULT": "R EH1 F Y UW2 Z",
         "VERB": "R IH0 F Y UW1 Z"
     },
-    "REGENERATE": {
+    "regenerate": {
         "DEFAULT": "R IY0 JH EH1 N ER0 AH0 T",
         "VERB": "R IY0 JH EH1 N ER0 EY2 T"
     },
-    "REHASH": {
+    "rehash": {
         "DEFAULT": "R IY1 HH AE0 SH",
         "VERB": "R IY0 HH AE1 SH"
     },
-    "REHASHES": {
+    "rehashes": {
         "DEFAULT": "R IY1 HH AE0 SH IH0 Z",
         "VERB": "R IY0 HH AE1 SH IH0 Z"
     },
-    "REINCARNATE": {
+    "reincarnate": {
         "DEFAULT": "R IY2 IH0 N K AA1 R N AH0 T",
         "VERB": "R IY2 IH0 N K AA1 R N EY2 T"
     },
-    "REJECT": {
+    "reject": {
         "DEFAULT": "R IY1 JH EH0 K T",
         "VERB": "R IH0 JH EH1 K T"
     },
-    "REJECTS": {
+    "rejects": {
         "DEFAULT": "R IY1 JH EH0 K T S",
         "VERB": "R IH0 JH EH1 K T S"
     },
-    "RELAY": {
+    "relay": {
         "DEFAULT": "R IY1 L EY2",
         "VERB": "R IY2 L EY1"
     },
-    "RELAYING": {
+    "relaying": {
         "DEFAULT": "R IY1 L EY2 IH0 NG",
         "VERB": "R IY2 L EY1 IH0 NG"
     },
-    "RELAYS": {
+    "relays": {
         "DEFAULT": "R IY1 L EY2 Z",
         "VERB": "R IY2 L EY1 Z"
     },
-    "REMAKE": {
+    "remake": {
         "DEFAULT": "R IY1 M EY0 K",
         "VERB": "R IY2 M EY1 K"
     },
-    "REMAKES": {
+    "remakes": {
         "DEFAULT": "R IY1 M EY0 K S",
         "VERB": "R IY2 M EY1 K S"
     },
-    "REPLAY": {
+    "replay": {
         "DEFAULT": "R IY1 P L EY0",
         "VERB": "R IY0 P L EY1"
     },
-    "REPLAYS": {
+    "replays": {
         "DEFAULT": "R IY1 P L EY0 Z",
         "VERB": "R IY0 P L EY1 Z"
     },
-    "REPRINT": {
+    "reprint": {
         "DEFAULT": "R IY1 P R IH0 N T",
         "VERB": "R IY0 P R IH1 N T"
     },
-    "REPRINTS": {
+    "reprints": {
         "DEFAULT": "R IY1 P R IH0 N T S",
         "VERB": "R IY0 P R IH1 N T S"
     },
-    "RERUN": {
+    "rerun": {
         "DEFAULT": "R IY1 R AH0 N",
         "VERB": "R IY2 R AH1 N"
     },
-    "RERUNS": {
+    "reruns": {
         "DEFAULT": "R IY1 R AH0 N Z",
         "VERB": "R IY2 R AH1 N Z"
     },
-    "RESUME": {
+    "resume": {
         "DEFAULT": "R EH1 Z AH0 M EY2",
         "VERB": "R IY0 Z UW1 M"
     },
-    "RETAKE": {
+    "retake": {
         "DEFAULT": "R IY1 T EY0 K",
         "VERB": "R IY0 T EY1 K"
     },
-    "RETAKES": {
+    "retakes": {
         "DEFAULT": "R IY1 T EY0 K S",
         "VERB": "R IY0 T EY1 K S"
     },
-    "RETHINK": {
+    "rethink": {
         "DEFAULT": "R IY1 TH IH0 NG K",
         "VERB": "R IY2 TH IH1 NG K"
     },
-    "RETHINKS": {
+    "rethinks": {
         "DEFAULT": "R IY1 TH IH0 NG K S",
         "VERB": "R IY2 TH IH1 NG K S"
     },
-    "RETREAD": {
+    "retread": {
         "DEFAULT": "R IY1 T R EH0 D",
         "VERB": "R IY2 T R EH1 D"
     },
-    "RETREADS": {
+    "retreads": {
         "DEFAULT": "R IY1 T R EH0 D Z",
         "VERB": "R IY2 T R EH1 D Z"
     },
-    "REWRITE": {
+    "rewrite": {
         "DEFAULT": "R IY1 R AY2 T",
         "VERB": "R IY0 R AY1 T"
     },
-    "REWRITES": {
+    "rewrites": {
         "DEFAULT": "R IY1 R AY2 T S",
         "VERB": "R IY0 R AY1 T S"
     },
-    "SEGMENT": {
+    "segment": {
         "DEFAULT": "S EH2 G M EH1 N T",
         "VERB": "S EH1 G M AH0 N T"
     },
-    "SEGMENTS": {
+    "segments": {
         "DEFAULT": "S EH1 G M AH0 N T S",
         "VERB": "S EH2 G M EH1 N T S"
     },
-    "SEPARATE": {
+    "separate": {
         "DEFAULT": "S EH1 P ER0 IH0 T",
         "VERB": "S EH1 P ER0 EY2 T"
     },
-    "SEPARATES": {
+    "separates": {
         "DEFAULT": "S EH1 P ER0 IH0 T S",
         "VERB": "S EH1 P ER0 EY2 T S"
     },
-    "SUBCONTRACT": {
+    "subcontract": {
         "DEFAULT": "S AH2 B K AA0 N T R AE1 K T",
         "VERB": "S AH0 B K AA1 N T R AE2 K T"
     },
-    "SUBCONTRACTS": {
+    "subcontracts": {
         "DEFAULT": "S AH0 B K AA1 N T R AE2 K T S",
         "VERB": "S AH2 B K AA0 N T R AE1 K T S"
     },
-    "SUBJECT": {
+    "subject": {
         "DEFAULT": "S AH1 B JH IH0 K T",
         "VERB": "S AH0 B JH EH1 K T"
     },
-    "SUBJECTS": {
+    "subjects": {
         "DEFAULT": "S AH1 B JH IH0 K T S",
         "VERB": "S AH0 B JH EH1 K T S"
     },
-    "SUBORDINATE": {
+    "subordinate": {
         "DEFAULT": "S AH0 B AO1 R D AH0 N AH0 T",
         "VERB": "S AH0 B AO1 R D AH0 N EY2 T"
     },
-    "SUBORDINATES": {
+    "subordinates": {
         "DEFAULT": "S AH0 B AO1 R D AH0 N AH0 T S",
         "VERB": "S AH0 B AO1 R D AH0 N EY2 T S"
     },
-    "SUPPLEMENT": {
+    "supplement": {
         "DEFAULT": "S AH1 P L AH0 M AH0 N T",
         "VERB": "S AH1 P L AH0 M EH0 N T"
     },
-    "SUPPLEMENTS": {
+    "supplements": {
         "DEFAULT": "S AH1 P L AH0 M AH0 N T S",
         "VERB": "S AH1 P L AH0 M EH0 N T S"
     },
-    "SURMISE": {
+    "surmise": {
         "DEFAULT": "S ER1 M AY0 Z",
         "VERB": "S ER0 M AY1 Z"
     },
-    "SURMISES": {
+    "surmises": {
         "DEFAULT": "S ER1 M AY0 Z IH0 Z",
         "VERB": "S ER0 M AY1 Z IH0 Z"
     },
-    "SURVEY": {
+    "survey": {
         "DEFAULT": "S ER1 V EY2",
         "VERB": "S ER0 V EY1"
     },
-    "SURVEYS": {
+    "surveys": {
         "DEFAULT": "S ER1 V EY2 Z",
         "VERB": "S ER0 V EY1 Z"
     },
-    "SUSPECT": {
+    "suspect": {
         "DEFAULT": "S AH1 S P EH2 K T",
         "VERB": "S AH0 S P EH1 K T"
     },
-    "SUSPECTS": {
+    "suspects": {
         "DEFAULT": "S AH1 S P EH2 K T S",
         "VERB": "S AH0 S P EH1 K T S"
     },
-    "SYNDICATE": {
+    "syndicate": {
         "DEFAULT": "S IH1 N D IH0 K AH0 T",
         "VERB": "S IH1 N D AH0 K EY2 T"
     },
-    "SYNDICATES": {
+    "syndicates": {
         "DEFAULT": "S IH1 N D IH0 K AH0 T S",
         "VERB": "S IH1 N D IH0 K EY2 T S"
     },
-    "TORMENT": {
+    "torment": {
         "DEFAULT": "T AO0 R M EH1 N T",
         "VERB": "T AO1 R M EH2 N T"
     },
-    "TRANSFER": {
+    "transfer": {
         "DEFAULT": "T R AE1 N S F ER0",
         "VERB": "T R AE0 N S F ER1"
     },
-    "TRANSFERS": {
+    "transfers": {
         "DEFAULT": "T R AE1 N S F ER0 Z",
         "VERB": "T R AE0 N S F ER1 Z"
     },
-    "TRANSPLANT": {
+    "transplant": {
         "DEFAULT": "T R AE1 N S P L AE0 N T",
         "VERB": "T R AE0 N S P L AE1 N T"
     },
-    "TRANSPLANTS": {
+    "transplants": {
         "DEFAULT": "T R AE1 N S P L AE0 N T S",
         "VERB": "T R AE0 N S P L AE1 N T S"
     },
-    "TRANSPORT": {
+    "transport": {
         "DEFAULT": "T R AE1 N S P AO0 R T",
         "VERB": "T R AE0 N S P AO1 R T"
     },
-    "TRANSPORTS": {
+    "transports": {
         "DEFAULT": "T R AE1 N S P AO0 R T S",
         "VERB": "T R AE0 N S P AO1 R T S"
     },
-    "TRIPLICATE": {
+    "triplicate": {
         "DEFAULT": "T R IH1 P L IH0 K AH0 T",
         "VERB": "T R IH1 P L IH0 K EY2 T"
     },
-    "TRIPLICATES": {
+    "triplicates": {
         "DEFAULT": "T R IH1 P L IH0 K AH0 T S",
         "VERB": "T R IH1 P L IH0 K EY2 T S"
     },
-    "UNDERCUT": {
+    "undercut": {
         "DEFAULT": "AH1 N D ER0 K AH2 T",
         "VERB": "AH2 N D ER0 K AH1 T"
     },
-    "UNDERESTIMATE": {
+    "underestimate": {
         "DEFAULT": "AH1 N D ER0 EH1 S T AH0 M AH0 T",
         "VERB": "AH1 N D ER0 EH1 S T AH0 M EY2 T"
     },
-    "UNDERESTIMATES": {
+    "underestimates": {
         "DEFAULT": "AH1 N D ER0 EH1 S T AH0 M AH0 T S",
         "VERB": "AH1 N D ER0 EH1 S T AH0 M EY2 T S"
     },
-    "UNDERLINE": {
+    "underline": {
         "DEFAULT": "AH1 N D ER0 L AY2 N",
         "VERB": "AH2 N D ER0 L AY1 N"
     },
-    "UNDERLINES": {
+    "underlines": {
         "DEFAULT": "AH1 N D ER0 L AY2 N Z",
         "VERB": "AH2 N D ER0 L AY1 N Z"
     },
-    "UNDERTAKING": {
+    "undertaking": {
         "DEFAULT": "AH1 N D ER0 T EY2 K IH0 NG",
         "VERB": "AH2 N D ER0 T EY1 K IH0 NG"
     },
-    "UNDERTAKINGS": {
+    "undertakings": {
         "DEFAULT": "AH1 N D ER0 T EY2 K IH0 NG Z",
         "VERB": "AH2 N D ER0 T EY1 K IH0 NG Z"
     },
-    "UNUSED": {
+    "unused": {
         "DEFAULT": "AH0 N Y UW1 S T",
         "VERB": "AH0 N Y UW1 Z D"
     },
-    "UPGRADE": {
+    "upgrade": {
         "DEFAULT": "AH1 P G R EY0 D",
         "VERB": "AH0 P G R EY1 D"
     },
-    "UPGRADES": {
+    "upgrades": {
         "DEFAULT": "AH1 P G R EY0 D Z",
         "VERB": "AH0 P G R EY1 D Z"
     },
-    "UPLIFT": {
+    "uplift": {
         "DEFAULT": "AH1 P L IH0 F T",
         "VERB": "AH2 P L IH1 F T"
     },
-    "UPSET": {
+    "upset": {
         "DEFAULT": "AH1 P S EH2 T",
         "VERB": "AH0 P S EH1 T"
     },
-    "UPSETS": {
+    "upsets": {
         "DEFAULT": "AH1 P S EH2 T S",
         "VERB": "AH0 P S EH1 T S"
     },
-    "USE": {
+    "use": {
         "DEFAULT": "Y UW1 S",
         "VERB": "Y UW1 Z"
     },
-    "USED": {
+    "used": {
         "DEFAULT": "Y UW1 S T",
         "VBN": "Y UW1 Z D"
     },
-    "USES": {
+    "uses": {
         "DEFAULT": "Y UW1 S IH0 Z",
         "VERB": "Y UW1 Z IH0 Z"
     }

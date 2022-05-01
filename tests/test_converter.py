@@ -21,7 +21,7 @@ def test_from_binary_delim():
     mock_data = mock.mock_open(read_data=test_data)
     with mock.patch('builtins.open', mock_data):
         result = converter.from_binary_delim("path/to/file", '|')
-    sub_dict = result["REPLAY"]
+    sub_dict = result["replay"]
     assert isinstance(sub_dict, dict)
     assert len(sub_dict) == 2
     assert sub_dict["DEFAULT"] == "R IY1 P L EY0"
