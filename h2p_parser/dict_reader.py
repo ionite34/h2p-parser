@@ -30,10 +30,6 @@ def parse_dict(lines: list) -> dict:
         # Split the line by double space into word and phoneme pairs
         pairs = line.split('  ')
 
-        # Skip if empty length
-        if len(pairs) == 0:
-            continue
-
         word = str.lower(pairs[0])  # Get word and lowercase it
         phonemes = ph.to_list(pairs[1])   # Convert to list of phonemes
         phonemes = [phonemes]  # Wrap in nested list
