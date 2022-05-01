@@ -21,7 +21,7 @@ def to_sds(ph: list or str) -> str or None:
     # Return None if None
     if ph is None:
         return None
-    
+
     # Return directly if str
     if isinstance(ph, str):
         return ph
