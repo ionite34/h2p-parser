@@ -14,7 +14,6 @@ class CMUDict(CMUDictExt):
         # file_or_path => Mapped to cmu_dict_path
         # heteronyms_path => Dropped as CMUDictExt uses H2p for heteronym parsing.
         # keep_ambiguous => Mapped to cmu_multi_mode | True => -2, False => -1
+        super().__init__(file_or_path, heteronyms_path)
         self._entries = {}
         self.heteronyms = []
-        if file_or_path is not None:
-            self.initialize(file_or_path, heteronyms_path, keep_ambiguous)
