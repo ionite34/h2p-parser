@@ -1,6 +1,7 @@
 # Extended Grapheme to Phoneme conversion using CMU Dictionary and Heteronym parsing.
 from __future__ import annotations
 
+import re
 from typing import Optional
 
 from .h2p import H2p
@@ -9,6 +10,9 @@ from . import format_ph as ph
 from .dict_reader import DictReader
 from .text.numbers import normalize_numbers
 from .filter import filter_text
+
+re_digit = re.compile(r"\((\d+)\)")
+re_bracket_with_digit = re.compile(r"\(.*\)")
 
 
 class CMUDictExt:
@@ -52,17 +56,65 @@ class CMUDictExt:
         self.dict = DictReader(self.cmu_dict_path).dict  # CMU Dictionary
         self.h2p = H2p(self.h2p_dict_path, preload=True)
 
-    def lookup(self, text: str) -> str | None:
+    def lookup(self, text: str, ph_format: str = 'sds') -> str | list | None:
         # noinspection GrazieInspection
         """
         Gets the CMU Dictionary entry for a word.
 
+        Options for ph_format:
+
+        - 'sds' space delimited string
+        - 'sds_b' space delimited string with curly brackets
+        - 'list' list of phoneme strings
+
+        :param ph_format: Format of the phonemes to return:
+        :type: str
         :param text: Word to lookup
         :type: str
         """
 
+        def format_as(phoneme):
+            if ph_format == 'sds':
+                output = ph.to_sds(phoneme)
+            elif ph_format == 'sds_b':
+                output = ph.to_sds(phoneme)
+                output = '{' + output + '}'
+            elif ph_format == 'list':
+                output = ph.to_list(phoneme)
+            else:
+                raise ValueError('Invalid value for ph_format: {}'.format(ph_format))
+            return output
+
         # Get the CMU Dictionary entry for the word
-        return self.dict.get(text.lower())
+        word = text.lower()
+
+        # Has entry, return it
+        entry = self.dict.get(word)
+        if entry is not None:
+            return format_as(entry)
+
+        # No entry, detect if this is a multi-word entry
+        if ('(' in word) and (')' in word) and any(char.isdigit() for char in word):
+            # Parse the integer from the word using regex
+            num = int(re.findall(re_digit, word)[0])
+            # If found
+            if num is not None:
+                # Remove the integer and bracket from the word
+                actual_word = re.sub(re_bracket_with_digit, "", word)
+                # See if this is a valid entry
+                result = self.dict.get(actual_word)
+                # If found:
+                if result is not None:
+                    # Check if the provided num is equal or less than the number of pronunciations
+                    if num < len(result):
+                        # Return the entry using the provided num index
+                        return format_as(result[num])
+                    # If entry is higher
+                    else:
+                        # Return the highest available entry
+                        return format_as(result[-1])
+        # If not found
+        return None
 
     def convert(self, text: str) -> str | None:
         # noinspection GrazieInspection
@@ -98,24 +150,18 @@ class CMUDictExt:
                 if entry is None:
                     if ur_mode == 'drop':
                         return None
-                    elif ur_mode == 'remove':
+                    if ur_mode == 'remove':
                         text = replace_first(word, '', text)
-                        continue
-                    else:
-                        continue
-                else:
-                    # Do replace
-                    f_ph = ph.with_cb(ph.to_sds(entry))
-                    text = replace_first(word, f_ph, text)
                     continue
-            # For word in h2p dict
-            else:
-                # Get phonemes
-                phonemes = self.h2p.dict.get_phoneme(word, pos)
-                # Format phonemes
-                f_ph = ph.with_cb(ph.to_sds(phonemes))
-                # Replace word with phonemes
+                # Do replace
+                f_ph = ph.with_cb(ph.to_sds(entry))
                 text = replace_first(word, f_ph, text)
-
+                continue
+            # For word in h2p dict, get phonemes
+            phonemes = self.h2p.dict.get_phoneme(word, pos)
+            # Format phonemes
+            f_ph = ph.with_cb(ph.to_sds(phonemes))
+            # Replace word with phonemes
+            text = replace_first(word, f_ph, text)
         # Return text
         return text
