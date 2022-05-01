@@ -1,2 +1,23 @@
-ignore:
-    - "/tests/*"
+coverage:
+    range: 50..75
+    round: up
+    precision: 2
+    status:
+        project:
+          default: false
+          tests:
+            target: 100%
+            paths: "tests/"
+          h2p_parser:
+            target: auto
+            threshold: 18%
+            base: auto
+            flags:
+              - unit
+            paths:
+              - "h2p_parser"
+            branches:
+              - main
+            if_ci_failed: error #success, failure, error, ignore
+            informational: true
+            only_pulls: false
