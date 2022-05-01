@@ -55,6 +55,7 @@ pos_tags = ['CC', 'CD', 'DT', 'EX', 'FW', 'IN', 'JJ', 'JJR', 'JJS', 'LS', 'MD', 
             'VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ', 'WDT', 'WP', 'WP$', 'WRB']
 pos_type_tags = ['VERB', 'NOUN', 'PRON', 'ADJ', 'ADV']
 pos_type_short_tags = ['V', 'N', 'P', 'A', 'R']
+pos_type_form_dict = {'V': 'VERB', 'N': 'NOUN', 'P': 'PRON', 'A': 'ADJ', 'R': 'ADV'}
 graphemes_set = set(graphemes)
 phonemes_set = set(phonemes)
 pos_tags_set = set(pos_tags)
