@@ -38,11 +38,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest pytest_cov pytest_mock pytest-github-actions-annotate-failures
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        python -m pip install -r requirements.txt
 
     - name: Generate Report
       run: |
-        python -m pytest --cov=h2p_parser/ --cov-report=xml --cov-fail-under=0.5 tests/
+        python -m pytest --cov-report=xml --cov-fail-under=0.5 tests/
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3.1.0
