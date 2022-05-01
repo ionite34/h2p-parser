@@ -18,6 +18,10 @@ def to_sds(ph: list or str) -> str or None:
     :param ph: Phoneme as str or list, supports nested lists
     :return: Phoneme as space delimited string
     """
+    # Return None if None
+    if ph is None:
+        return None
+
     # Return directly if str
     if isinstance(ph, str):
         return ph

@@ -1,129 +1,78 @@
-from unittest import TestCase
-from unittest.mock import patch, mock_open
+import json
+
+import pytest
+import pytest_mock
+import unittest.mock as mock
+
 from h2p_parser.dictionary import Dictionary
+import h2p_parser.dictionary as dictionary
 
 
-# Replacer for file exists check
-# noinspection PyUnusedLocal
-def always_exists(path):
-    return True
+# Test initialization of dictionary from confTest
+def test_init(mock_dict):
+    assert isinstance(mock_dict.dictionary, dict)
+    assert mock_dict.use_default is False
 
 
-# Replaces importlib.resources.path
-# noinspection PyUnusedLocal
-def always_none(name):
-    return None
+# Test default initialization of dictionary
+def test_init_default(mock_dict_def):
+    assert isinstance(mock_dict_def.dictionary, dict)
+    assert mock_dict_def.use_default is True
 
 
-class TestDictionary(TestCase):
-    def setUp(self):
-        self.file_mock_path = "file/path/mock"
-        self.file_mock_content = """
-        {
-            "absent": {
-                "VERB": "AH1 B S AE1 N T",
-                "DEFAULT": "AE1 B S AH0 N T"
-            },
-            "abstract": {
-                "VERB": "AE0 B S T R AE1 K T",
-                "DEFAULT": "AE1 B S T R AE2 K T"
-            },
-            "read": {
-                "VBD": "R EH1 D",
-                "VBN": "R EH1 D",
-                "VBP": "R EH1 D",
-                "DEFAULT": "R IY1 D"
-            }
-        }
-        """
-        self.expected_dict = {'absent': {'VERB': 'AH1 B S AE1 N T',
-                                         'DEFAULT': 'AE1 B S AH0 N T'},
-                              'abstract': {'VERB': 'AE0 B S T R AE1 K T',
-                                           'DEFAULT': 'AE1 B S T R AE2 K T'},
-                              'read': {'VBD': 'R EH1 D',
-                                       'VBN': 'R EH1 D',
-                                       'VBP': 'R EH1 D',
-                                       'DEFAULT': 'R IY1 D'},
-                              }
+# Test initialization exceptions, custom file
+def test_init_exceptions_custom(mock_dict):
+    with pytest.raises(FileNotFoundError):
+        Dictionary("file_not_exist.json")
 
-    # Constructs a dictionary while skipping file existence check
-    # noinspection PyUnusedLocal
-    @patch('h2p_parser.dictionary.exists', side_effect=always_exists)
-    def get_dict(self, exists_function, path=None):
-        with patch('builtins.open', mock_open(read_data=self.file_mock_content)):
-            assert open("path/to/open").read() == self.file_mock_content
-            return Dictionary(path)
 
-    # Test Initialization
-    def test_init(self):
-        test_dict = self.get_dict()
-        self.assertEqual(test_dict.dictionary, self.expected_dict)
-        self.assertEqual(test_dict.file_name, "dict.json")
-        self.assertEqual(test_dict.use_default, True)
+# Test init exceptions, custom file (empty)
+def test_init_exceptions_custom_empty(mocker):
+    # Patch builtins.open
+    mocked_dict_data = mock.mock_open(read_data="")
+    with mock.patch('builtins.open', mocked_dict_data):
+        # Patch Dictionary exist check
+        mocker.patch.object(dictionary, 'exists', return_value=True)
+        # Attempt to create Dictionary object
+        msg = 'Dictionary path.json file is not valid JSON'
+        with pytest.raises(ValueError, match=msg):
+            with pytest.raises(json.decoder.JSONDecodeError):
+                dictionary.Dictionary("path.json")
 
-    # Test Loading
-    def test_load_dictionary(self):
-        self.test_dictionary_init_default_ex()
-        self.test_dictionary_init_custom_ex()
-        self.test_dictionary_init_default()
-        self.test_dictionary_init_custom()
 
-    # Test initialization exceptions - Default Dictionary
-    @patch('h2p_parser.dictionary.pkg_resources.files', side_effect=always_none)
-    def test_dictionary_init_default_ex(self, mock_importlib):
-        # Try to use a file that doesn't exist
-        # Assert exception is raised
-        with self.assertRaises(FileNotFoundError) as context:
-            Dictionary()
-        # Check if the exception message is correct
-        self.assertEqual("Data folder not found",
-                         str(context.exception))
+# Test initialization exceptions, default file
+def test_init_exceptions_default(mocker, mock_dict_def):
+    mocker.patch('h2p_parser.dictionary.pkg_resources.files', return_value=None)
+    with pytest.raises(FileNotFoundError):
+        Dictionary()
 
-    # Test initialization exceptions - Custom Dictionary
-    def test_dictionary_init_custom_ex(self):
-        # Try to use a file that doesn't exist
-        # Assert exception is raised
-        with self.assertRaises(FileNotFoundError) as context:
-            Dictionary("file_not_exist.json")
-        # Check if the exception message is correct
-        self.assertEqual("Dictionary file_not_exist.json file not found",
-                         str(context.exception))
 
-    # Test default initialization
-    def test_dictionary_init_default(self):
-        # Create dictionary with default path and mock content
-        test_dict = self.get_dict()
-        # Check if it's the same as the expected dictionary
-        self.assertEqual(self.expected_dict, test_dict.dictionary)
+# Test contains
+@pytest.mark.parametrize("data, exp", [
+    ("absent", True),
+    ("ABsTRAct", True),
+    ("reject", True),
+    ("another", False),
+    ("##$$;;", False)
+])
+def test_contains(data, exp, mock_dict):
+    assert mock_dict.contains(data) is exp
 
-    # Test initialization with a file
-    def test_dictionary_init_custom(self):
-        # Create dictionary with a file path and mock content
-        test_dict = self.get_dict(self.file_mock_path)
-        # Check if it's the same as the expected dictionary
-        self.assertEqual(self.expected_dict, test_dict.dictionary)
 
-    # Test contains method
-    def test_contains(self):
-        test_dict = self.get_dict()
-        self.assertTrue(test_dict.contains("absent"))
-        self.assertTrue(test_dict.contains("ABsTRAct"))
-        self.assertFalse(test_dict.contains("another"))
-
-    # Test get_phoneme method
-    def test_get_phoneme(self):
-        test_dict = self.get_dict()
-        # Test Verb
-        self.assertEqual(test_dict.get_phoneme("absent", "VBD"), "AH1 B S AE1 N T")
-        self.assertEqual(test_dict.get_phoneme("abstract", "VB"), "AE0 B S T R AE1 K T")
-        # Test Noun
-        self.assertEqual(test_dict.get_phoneme("absent", "NNS"), "AE1 B S AH0 N T")
-        self.assertEqual(test_dict.get_phoneme("abstract", "NN"), "AE1 B S T R AE2 K T")
-        # Test Unknown default
-        self.assertEqual(test_dict.get_phoneme("absent", "RP"), "AE1 B S AH0 N T")
-        self.assertEqual(test_dict.get_phoneme("abstract", "UH"), "AE1 B S T R AE2 K T")
-        # Test Specific
-        self.assertEqual(test_dict.get_phoneme("read", "VBD"), "R EH1 D")
-        self.assertEqual(test_dict.get_phoneme("read", "VBN"), "R EH1 D")
-        self.assertEqual(test_dict.get_phoneme("read", "VBP"), "R EH1 D")
-        self.assertEqual(test_dict.get_phoneme("read", "NN"), "R IY1 D")
+# Test get_phoneme
+@pytest.mark.parametrize("word, pos, phoneme", [
+    ("absent", "VBD", "AH1 B S AE1 N T"),
+    ("abstract", "VB", "AE0 B S T R AE1 K T"),
+    ("absent", "NNS", "AE1 B S AH0 N T"),
+    ("abstract", "NN", "AE1 B S T R AE2 K T"),
+    ("absent", "RP", "AE1 B S AH0 N T"),
+    ("abstract", "UH", "AE1 B S T R AE2 K T"),
+    ("read", "VBD", "R EH1 D"),
+    ("read", "VBN", "R EH1 D"),
+    ("read", "VBP", "R EH1 D"),
+    ("read", "NN", "R IY1 D"),
+    ("read", "UH", "R IY1 D"),
+    ("(No-Default)", "UH", None)
+])
+def test_get_phoneme(word, pos, phoneme, mock_dict):
+    assert mock_dict.get_phoneme(word, pos) == phoneme
