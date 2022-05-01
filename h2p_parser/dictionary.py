@@ -37,30 +37,23 @@ class Dictionary:
 
     # Loads the dictionary from the json file
     def load_dictionary(self, path=None):
-        # Default Mode
         if path is None:
-            # If the file does not exist, throw an error
             data_path = get_data_path()
             dict_path = data_path.joinpath(self.file_name)
             with open(str(dict_path)) as def_file:
                 read_dict = json.load(def_file)
-                # Check dictionary has at least one entry
-                if len(read_dict) > 0:
-                    return read_dict
-                else:
-                    raise ValueError('Dictionary is empty or invalid')
-        # Custom Dictionary Path Mode
         else:
-            # If the file does not exist, throw an error
             if not exists(path):
                 raise FileNotFoundError(f'Dictionary {self.file_name} file not found')
             with open(path) as file:
-                read_dict = json.load(file)
-                # Check dictionary has at least one entry
-                if len(read_dict) > 0:
-                    return read_dict
-                else:
-                    raise ValueError('Dictionary is empty or invalid')
+                try:
+                    read_dict = json.load(file)
+                except json.decoder.JSONDecodeError:
+                    raise ValueError(f'Dictionary {self.file_name} file is not valid JSON')
+        # Check dictionary has at least one entry
+        if len(read_dict) == 0:
+            raise ValueError('Dictionary is empty or invalid')
+        return read_dict
 
     # Check if a word is in the dictionary
     def contains(self, word):
@@ -87,6 +80,6 @@ class Dictionary:
         # If not, check if the sub_dict contains a DEFAULT key
         if 'DEFAULT' in sub_dict:
             return sub_dict['DEFAULT']
-        else:
-            # If no default, return None
-            return None
+
+        # If no matches, return None
+        return None
