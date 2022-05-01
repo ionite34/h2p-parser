@@ -86,3 +86,12 @@ def test_convert_h2p():
     with patch('h2p_parser.__main__.converter.bin_delim_to_json') as mock_conv:
         main.convert_h2p("path/to/file", "path/to/file", "|")
         assert mock_conv.call_count == 1
+
+
+@pytest.mark.parametrize('mock_inq', [['select', 'Convert']], indirect=True)
+def test_entry(mock_inq):
+    with mock_inq:
+        with patch('h2p_parser.__main__.action_convert') as mock_action:
+            func = main.entry()
+            assert func is None
+            assert mock_action.call_count == 1
