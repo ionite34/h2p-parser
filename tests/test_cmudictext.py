@@ -15,7 +15,7 @@ cde_expected_results = [
     "{Y UW1} {SH UH1 D} {AH1 B S AE1 N T} {Y ER0 S EH1 L F} {F R AH1 M} {DH AH0} {M IY1 T IH0 NG}. "
     "{DH EH1 N} {Y UW1} {W UH1 D} {B IY1} {AE1 B S AH0 N T}.",
     "{DH AH0} {M AH0 SH IY1 N} {W UH1 D} {AO2 T AH0 M AE1 T IH0 K L IY0} {R IH0 JH EH1 K T} "
-    "{P R AA1 D AH0 K T S}. {DH IY1 Z} {W ER0} {DH AH0} {R IY1 JH EH0 K T} {P R AA1 D AH0 K T S}."
+    "{P R AA1 D AH0 K T S}. {DH IY1 Z} {W ER1} {DH AH0} {R IY1 JH EH0 K T} {P R AA1 D AH0 K T S}."
 ]
 
 
