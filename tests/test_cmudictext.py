@@ -52,9 +52,3 @@ def test_lookup(cde, word, phoneme):
 @pytest.mark.parametrize("line, ph_line", zip(cde_lines, cde_expected_results))
 def test_convert(cde, line, ph_line):
     assert cde.convert(line) == ph_line
-
-# Test for convert - with unresolved_mode='keep' (default)
-
-
-
-
