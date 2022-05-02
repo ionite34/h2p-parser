@@ -61,6 +61,7 @@ phonemes_set = set(phonemes)
 pos_tags_set = set(pos_tags)
 pos_type_tags_set = set(pos_type_tags)
 pos_type_short_tags_set = set(pos_type_short_tags)
+punctuation = {'.', ',', ':', ';', '?', '!', '-', '_', '\'', '\"', '`', '~', '@', '#', '$'}
 
 
 # Method to convert from short type tags to full type tags.
