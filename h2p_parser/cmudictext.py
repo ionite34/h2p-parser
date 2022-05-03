@@ -70,10 +70,10 @@ class CMUDictExt:
         self.h2p = H2p(self.h2p_dict_path, preload=True)  # H2p parser
         self.lemmatize = WordNetLemmatizer().lemmatize  # WordNet Lemmatizer - used to find singular form
         self.stem = SnowballStemmer('english').stem  # Snowball Stemmer - used to find stem root of words
+        self.segment = pywordsegment.WordSegmenter().segment # Word Segmenter
         self.p = Processor(self)  # Processor for processing text
 
         # Features
-        self.segment = pywordsegment.WordSegmenter().segment
         # Auto pluralization and de-pluralization
         self.ft_auto_plural = True
         # Auto splits and infers possessive forms of original words
@@ -140,48 +140,23 @@ class CMUDictExt:
             if res is not None:
                 return format_as(res)
 
-        # For word ending with "'ll" or "'d"
-        if self.ft_auto_ll and word.endswith("'ll"):
-            word = word[:-3]  # Get core word without possessive
-            entry = self.dict.get(word)  # find core word
-            if entry is not None:  # if core word exists
-                phoneme = entry[0]  # get the inner phoneme
-                # Add 'L' to the end of the phoneme
-                phoneme += 'L'
-                # Increment feature usage stats
-                self.ft_stats['ll'] += 1
-                return format_as(phoneme)
+        # Auto Contractions for "ll" or "d"
+        if self.ft_auto_ll:
+            res = self.p.auto_contractions(word)
+            if res is not None:
+                return format_as(res)
 
-        # Check for possible compound words
+        # Check for hyphenated words
+        if self.ft_auto_hyphenated:
+            res = self.p.auto_hyphenated(word)
+            if res is not None:
+                return format_as(res)
+
+        # Check for compound words
         if self.ft_auto_compound:
-            split = self.segment(word)
-            # If match
-            if len(split) > 1:
-                # Recursively lookup each part
-                all_exists = True
-                for part in split:
-                    part_ph = self.lookup(part, ph_format=ph_format)
-                    if part_ph is None:
-                        all_exists = False
-                # If all parts exist, return the compound
-                if all_exists:
-                    self.ft_stats['compound'] += 1  # Increment feature usage stats
-                    return format_as(' '.join(self.lookup(part, ph_format='sds') for part in split))
-
-        # CHeck for hyphenated words
-        if self.ft_auto_hyphenated and '-' in word:
-            # Split the word into two parts
-            split = word.split('-')
-            # Lookup each part
-            all_exists = True
-            for part in split:
-                part_ph = self.lookup(part, ph_format=ph_format)
-                if part_ph is None:
-                    all_exists = False
-            # If all parts exist, return the compound
-            if all_exists:
-                self.ft_stats['hyphenated'] += 1  # Increment feature usage stats
-                return format_as(' '.join(self.lookup(part, ph_format='sds') for part in split))
+            res = self.p.auto_compound(word)
+            if res is not None:
+                return format_as(res)
 
         # No entry, detect if this is a multi-word entry
         if '(' in word and ')' in word and any(char.isdigit() for char in word):
