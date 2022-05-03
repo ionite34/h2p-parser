@@ -15,6 +15,7 @@ from .dict_reader import DictReader
 from .text.numbers import normalize_numbers
 from .filter import filter_text
 from .processors import Processor
+from copy import deepcopy
 
 re_digit = re.compile(r"\((\d+)\)")
 re_bracket_with_digit = re.compile(r"\(.*\)")
@@ -70,7 +71,7 @@ class CMUDictExt:
         self.h2p = H2p(self.h2p_dict_path, preload=True)  # H2p parser
         self.lemmatize = WordNetLemmatizer().lemmatize  # WordNet Lemmatizer - used to find singular form
         self.stem = SnowballStemmer('english').stem  # Snowball Stemmer - used to find stem root of words
-        self.segment = pywordsegment.WordSegmenter().segment # Word Segmenter
+        self.segment = pywordsegment.WordSegmenter().segment  # Word Segmenter
         self.p = Processor(self)  # Processor for processing text
 
         # Features
@@ -87,18 +88,10 @@ class CMUDictExt:
         # Analyzes word root stem and infers pronunciation separately
         # i.e. 'generously' -> 'generous' + 'ly'
         self.ft_stem = True
+        # Forces compound words using manual lookup
+        self.ft_auto_compound_l2 = True
 
-        # Holds number stats on feature usage
-        self.ft_stats = {
-            'plural': 0,
-            'pos': 0,
-            'hyphenated': 0,
-            'compound': 0,
-            'stem': 0,
-            'll': 0,
-        }
-
-    def lookup(self, text: str, ph_format: str = 'sds') -> str | list | None:
+    def lookup(self, text: str, pos: str = None, ph_format: str = 'sds') -> str | list | None:
         # noinspection GrazieInspection
         """
         Gets the CMU Dictionary entry for a word.
@@ -109,6 +102,7 @@ class CMUDictExt:
         - 'sds_b' space delimited string with curly brackets
         - 'list' list of phoneme strings
 
+        :param pos: Part of speech tag (Optional)
         :param ph_format: Format of the phonemes to return:
         :type: str
         :param text: Word to lookup
@@ -128,7 +122,7 @@ class CMUDictExt:
 
         # Get the CMU Dictionary entry for the word
         word = text.lower()
-        entry = self.dict.get(word)
+        entry = deepcopy(self.dict.get(word))  # Ensure safe copy of entry
 
         # Has entry, return it directly
         if entry is not None:
@@ -167,7 +161,7 @@ class CMUDictExt:
                 # Remove the integer and bracket from the word
                 actual_word = re.sub(re_bracket_with_digit, "", word)
                 # See if this is a valid entry
-                result = self.dict.get(actual_word)
+                result = deepcopy(self.dict.get(actual_word))  # Ensure safe copy of entry
                 # If found:
                 if result is not None:
                     # Translate the integer to index
@@ -184,36 +178,9 @@ class CMUDictExt:
         # Auto de-pluralization
         # This is placed near the end because we need to do a pos-tag process
         if self.ft_auto_plural:
-            # Do tag
-            tag = self.h2p.tag(word)
-            # Check if tag valid
-            if tag is not None and len(tag) > 0:
-                # If tag is a plural noun or plural proper noun
-                if tag[0] == 'NNS' or tag[0] == 'NNPS':
-                    # Get singular form using lemmatization
-                    singular = self.lemmatize(word, 'n')
-                    # First check if the singular is in the dictionary, if not there's no point to continue
-                    if self.dict.get(singular) is not None:
-                        # If singular ends in 's', 'ss', 'sh', 'ch', 'x', or 'z', add 'es' to predict the plural
-                        if len(singular) > 2 and (singular[-2] in ['ss', 'sh', 'ch'] or singular[-1] in ['s', 'x', 'z']):
-                            predicted_plural = singular + 'es'
-                            # If match
-                            if word == predicted_plural:
-                                # Recursively lookup the singular
-                                ph_singular = self.lookup(singular, ph_format='sds')
-                                ph_es = 'AH0 Z'
-                                self.ft_stats['plural'] += 1  # Increment feature usage stats
-                                return format_as(' '.join([ph_singular, ph_es]))
-                        else:
-                            # Otherwise, predict by just adding 's'
-                            predicted_plural = singular + 's'
-                            # If match
-                            if word == predicted_plural:
-                                # Recursively lookup the singular
-                                ph_singular = self.lookup(singular, ph_format='sds')
-                                ph_s = 'Z'
-                                self.ft_stats['plural'] += 1  # Increment feature usage stats
-                                return format_as(' '.join([ph_singular, ph_s]))
+            res = self.p.auto_plural(word, pos)
+            if res is not None:
+                return format_as(res)
 
         # Stem check
         # noinspection SpellCheckingInspection
@@ -222,36 +189,15 @@ class CMUDictExt:
         "ing", "ingly", "ly"
         """
         if self.ft_stem:
-            if word.endswith('ing'):
-                # Check if the base word is in the dictionary
-                if self.dict.get(word[:-3]) is not None:
-                    # Verify stem is valid
-                    if self.stem(word) == word[:-3]:
-                        # Recursively join the root and 'ing'
-                        ph_root = self.lookup(word[:-3], ph_format='sds')
-                        ph_ing = 'IH0 NG'
-                        self.ft_stats['stem'] += 1  # Increment feature usage stats
-                        return format_as(' '.join([ph_root, ph_ing]))
-            elif word.endswith('ingly'):
-                # Check if the base word is in the dictionary
-                if self.dict.get(word[:-5]) is not None:
-                    # Verify stem is valid
-                    if self.stem(word) == word[:-5]:
-                        # Recursively join the root and 'ingly'
-                        ph_root = self.lookup(word[:-5], ph_format='sds')
-                        ph_ingly = 'IH0 NG L IY0'
-                        self.ft_stats['stem'] += 1  # Increment feature usage stats
-                        return format_as(' '.join([ph_root, ph_ingly]))
-            elif word.endswith('ly'):
-                # Check if the base word is in the dictionary
-                if self.dict.get(word[:-2]) is not None:
-                    # Verify stem is valid
-                    if self.stem(word) == word[:-2]:
-                        # Recursively join the root and 'ly'
-                        ph_root = self.lookup(word[:-2], ph_format='sds')
-                        ph_ly = 'L IY0'
-                        self.ft_stats['stem'] += 1  # Increment feature usage stats
-                        return format_as(' '.join([ph_root, ph_ly]))
+            res = self.p.auto_stem(word)
+            if res is not None:
+                return format_as(res)
+
+        # Force compounding
+        if self.ft_auto_compound_l2:
+            res = self.p.auto_compound_l2(word)
+            if res is not None:
+                return format_as(res)
 
         # If not found
         return None
@@ -274,7 +220,7 @@ class CMUDictExt:
         if self.process_numbers:
             text = normalize_numbers(text)
         # Filter and Tokenize
-        f_text = filter_text(text)
+        f_text = filter_text(text, preserve_case=True)
         words = self.h2p.tokenize(f_text)
         # Run POS tagging
         tags = self.h2p.get_tags(words)
@@ -286,7 +232,7 @@ class CMUDictExt:
                 continue
             # If word not in h2p dict, check CMU dict
             if not self.h2p.dict.contains(word):
-                entry = self.lookup(word)
+                entry = self.lookup(word, pos)
                 if entry is None:
                     if ur_mode == 'drop':
                         return None
