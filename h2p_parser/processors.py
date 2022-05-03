@@ -13,6 +13,8 @@ _re_digit = re.compile(r'\d+')
 class Processor:
     def __init__(self, cde: CMUDictExt):
         self._lookup = cde.lookup
+        self._segment = cde.segment
+        self._tag = cde.h2p.tag
         # Number of times respective methods were called
         self.stat_hits = {
             'plural': 0,
@@ -111,15 +113,102 @@ class Processor:
         """
         """
         Supported contractions:
-        - 's'
-        - 've'
-        - 'll'
-        - 'd'
-        - 're'
+        - 'll
+        - 'd
         """
         # First, check if the word is a contraction
         parts = word.split("\'")  # Split on [']
-        if len(parts) == 1:
+        if len(parts) == 1 or parts[1] not in {'ll', 'd'}:
             return None  # No contraction found
+        if len(parts) > 2:
+            self.stat_unexpected['contraction'] += word
+            return None  # More than 2 parts, can't be a contraction
         # If initial check passes, register a hit
         self.stat_hits['contractions'] += 1
+
+        # Get the core word
+        core = parts[0]
+        # Get the phoneme for the core word recursively
+        ph = self._lookup(core, ph_format='list')
+        if ph is None:
+            return None  # Core word not found
+        # Add the phoneme with the appropriate suffix
+        if parts[1] == 'll':
+            ph += 'L'
+        elif parts[1] == 'd':
+            ph += 'D'
+        # Return the phoneme
+        self.stat_resolves['contractions'] += 1
+        return ph
+
+    def auto_hyphenated(self, word: str) -> str | None:
+        """
+        Splits hyphenated words and attempts to resolve components
+        :param word:
+        :return:
+        """
+        # First, check if the word is a hyphenated word
+        if '-' not in word:
+            return None  # No hyphen found
+        # If initial check passes, register a hit
+        self.stat_hits['hyphen'] += 1
+        # Split the word into parts
+        parts = word.split('-')
+        # Get the phonemes for each part
+        ph = []
+        for part in parts:
+            ph_part = self._lookup(part, ph_format='sds')
+            if ph_part is None:
+                return None  # Part not found
+            ph.append(ph_part)
+        # Join the phonemes
+        ph = ' '.join(ph)
+        # Return the phoneme
+        self.stat_resolves['hyphenated'] += 1
+        return ph
+
+    def auto_compound(self, word: str) -> str | None:
+        """
+        Splits compound words and attempts to resolve components
+        :param word:
+        :return:
+        """
+        # Split word into parts
+        parts = self._segment(word)
+        if len(parts) == 1:
+            return None  # No compound found
+        # If initial check passes, register a hit
+        self.stat_hits['compound'] += 1
+        # Get the phonemes for each part
+        ph = []
+        for part in parts:
+            ph_part = self._lookup(part, ph_format='sds')
+            if ph_part is None:
+                return None  # Part not found
+            ph.append(ph_part)
+        # Join the phonemes
+        ph = ' '.join(ph)
+        # Return the phoneme
+        self.stat_resolves['compound'] += 1
+        return ph
+
+    def auto_plural(self, word: str) -> str | None:
+        """
+        Finds singular form of plurals and attempts to resolve seperately
+        :param word:
+        :return:
+        """
+        # First, check if the word is a replaceable plural
+        # Needs to end in 's' or 'es'
+        if word[-1] != 's':
+            return None  # No plural found
+        # Now check if the word is a plural using pos
+        tag = self._tag(word)
+        if tag is None or len(tag) == 0 or tag[0] != 'NNS' or tag[0] != 'NNPS':
+            return None  # No tag found
+        # If initial check passes, register a hit
+        self.stat_hits['plural'] += 1
+        # Get the singular form
+
+
+
