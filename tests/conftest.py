@@ -39,7 +39,7 @@ cmu_dict_path = "path/to/custom_cmu.txt"
 cmu_dict_content = [
     ";;; This is a comment",
     ";;; This is another comment",
-    "; This might be a comment",
+    ";;; This might be a comment",
     "",
     "!EXCLAMATION-POINT  EH2 K S K L AH0 M EY1 SH AH0 N P OY2 N T",
     "\"CLOSE-QUOTE  K L OW1 Z K W OW1 T",
@@ -115,9 +115,13 @@ def mock_dict_reader() -> dict_reader.DictReader:
     yield result
 
 
-# Creates a dict_reader with live nltk dictionary
+# Creates a dict_reader with default dictionary
 @pytest.fixture
-def mock_dict_reader_live() -> dict_reader.DictReader:
-    result = dict_reader.DictReader()
+def mock_dict_reader() -> dict_reader.DictReader:
+    # Patch builtins.open
+    mocked_dict_data = mock.mock_open(read_data='\n'.join(cmu_dict_content[1:]))
+    with mock.patch('builtins.open', mocked_dict_data):
+        result = dict_reader.DictReader(cmu_dict_path)
     assert isinstance(result, dict_reader.DictReader)
+    assert result.filename == cmu_dict_path
     yield result

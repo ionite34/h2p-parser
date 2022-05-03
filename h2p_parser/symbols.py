@@ -61,6 +61,9 @@ phonemes_set = set(phonemes)
 pos_tags_set = set(pos_tags)
 pos_type_tags_set = set(pos_type_tags)
 pos_type_short_tags_set = set(pos_type_short_tags)
+punctuation = {'.', ',', ':', ';', '?', '!', '-', '_', '\'', '\"', '`', '~', '@', '#', '$'}
+consonants = {'B', 'CH', 'D', 'DH', 'F', 'G', 'HH', 'JH', 'K', 'L', 'M', 'N', 'NG', 'P', 'R',
+              'S', 'SH', 'T', 'TH', 'V', 'W', 'Y', 'Z', 'ZH'}
 
 
 # Method to convert from short type tags to full type tags.

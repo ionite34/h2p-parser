@@ -1,34 +1,62 @@
 # This reads a CMUDict formatted dictionary as a dictionary object
 import re
 import h2p_parser.format_ph as ph
-import nltk
-from nltk.corpus import cmudict
+from . import DATA_PATH
 
 
-def read_dict(filename):
+_dict_primary = 'cmudict.dict'
+
+
+def read_dict(filename: str) -> list:
+    # Read the file
     with open(filename, encoding='utf-8', mode='r') as f:
         # Read the file into lines
         lines = f.readlines()
-    # Remove trailing whitespaces
-    lines = [line.rstrip() for line in lines]
+    # Remove any line starting with ";;;"
+    lines = [line for line in lines if not line.startswith(';;;')]
     return lines
 
 
 def parse_dict(lines: list) -> dict:
     # Create a dictionary to store the parsed data
     parsed_dict = {}
+    # Detect file format
+
+    # We will read the first 10 lines to determine the format
+    # Default to SSD format unless we find otherwise
+    dict_form = 'SSD'
+    for line in lines[:10]:
+        # Strip new lines
+        line = line.strip()
+        if line == '':
+            continue
+        """
+        Format 1 (Double Space Delimited):
+        - Comment allowed to start with ";;;"
+        WORD  W ER1 D
+        
+        Format 2 (Single Space Delimited):
+        - Comment allowed at end of any line using "#"
+        WORD W ER1 D # Comment
+        """
+        if '  ' in line:
+            dict_form = 'DSD'
+            break
+
     # Iterate over the lines
     for line in lines:
-        # Skip beginning comments that begin with ";;;"
-        if line.startswith(';;;') or line == '':
+        # Skip empty lines and lines with no space
+        line = line.strip()
+        if line == '' and ' ' not in line:
             continue
 
-        # Skip if no delimiter is found
-        if '  ' not in line:
-            continue
-
-        # Split the line by double space into word and phoneme pairs
-        pairs = line.split('  ')
+        # Split depending on format
+        if dict_form == 'DSD':
+            pairs = line.split('  ')
+        else:
+            space_index = line.find(' ')
+            line_split = line[:space_index], line[space_index + 1:]
+            pairs = line_split[0], line_split[1].split('#')[0]
 
         word = str.lower(pairs[0])  # Get word and lowercase it
         phonemes = ph.to_list(pairs[1])   # Convert to list of phonemes
@@ -67,22 +95,15 @@ def parse_dict(lines: list) -> dict:
     return parsed_dict
 
 
-def get_cmu_dict() -> dict:
-    # Get the CMU dictionary from nltk
-    # Ensure nltk data downloaded
-    try:
-        nltk.data.find('corpora/cmudict.zip')
-    except LookupError:
-        nltk.download('cmudict')
-    return cmudict.dict()
-
-
 class DictReader:
     def __init__(self, filename=None):
-        # If filename is None, use the default dictionary (nltk)
         self.filename = filename
         self.dict = {}
-        if self.filename is not None:
-            self.dict = parse_dict(read_dict(self.filename))
+        # If filename is None, use the default dictionary
+        # default = 'data' uses the dictionary file in the data module
+        # default = 'nltk' uses the nltk cmudict
+        if filename is not None:
+            self.dict = parse_dict(read_dict(filename))
         else:
-            self.dict = get_cmu_dict()
+            with DATA_PATH.joinpath(_dict_primary) as f:
+                self.dict = parse_dict(read_dict(f))

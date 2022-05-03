@@ -67,7 +67,7 @@ class H2p:
     # Method to replace heteronyms in a text line to phonemes
     def replace_het(self, text):
         # Filter the text
-        working_text = ft(text)
+        working_text = ft(text, preserve_case=True)
         # Tokenize
         words = self.tokenize(working_text)
         # Get pos tags
@@ -89,7 +89,7 @@ class H2p:
     # Slightly faster than replace_het() called on each line
     def replace_het_list(self, text_list):
         # Filter the text
-        working_text_list = [ft(text) for text in text_list]
+        working_text_list = [ft(text, preserve_case=True) for text in text_list]
         # Tokenize
         list_sentence_words = [self.tokenize(text) for text in working_text_list]
         # Get pos tags list
@@ -112,7 +112,7 @@ class H2p:
     # Method to tag a text line, returns a list of tags
     def tag(self, text):
         # Filter the text
-        working_text = ft(text)
+        working_text = ft(text, preserve_case=True)
         # Tokenize
         words = self.tokenize(working_text)
         # Get pos tags

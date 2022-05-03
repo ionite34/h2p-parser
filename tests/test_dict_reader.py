@@ -18,10 +18,10 @@ def test_init(mock_dict_reader):
     assert r1[0] == ["P", "AA1", "R", "K"]
 
 
-# Test Init with Default (live from nltk)
-def test_init_default(mock_dict_reader_live):
+# Test Init with Default
+def test_init_default():
     # Test the init function of the DictReader class
-    dr = mock_dict_reader_live
+    dr = dict_reader.DictReader()
     assert isinstance(dr, dict_reader.DictReader)
     assert len(dr.dict) > 123400
     r1 = dr.dict["park"]
@@ -42,20 +42,3 @@ def test_init_default(mock_dict_reader_live):
 def test_parse_dict(mock_dict_reader, word, phoneme, index):
     dr = mock_dict_reader
     assert dr.dict[word][index] == phoneme
-
-
-# Fake Download Function
-# noinspection PyUnusedLocal
-def fake_download(file):
-    return
-
-
-# Test nltk download
-def test_get_cmu_dict(mocker, mock_dict_reader_live):
-    # We need to patch nltk.data.find to raise an error
-    mocker.patch("nltk.data.find", side_effect=LookupError)
-    mocker.patch("h2p_parser.dict_reader.cmudict.dict", return_value={})
-    downloader = mocker.patch("nltk.download", side_effect=fake_download)
-    var = dict_reader.get_cmu_dict()
-    assert isinstance(var, dict)
-    downloader.assert_called_once_with("cmudict")
