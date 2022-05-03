@@ -18,10 +18,10 @@ def test_init(mock_dict_reader):
     assert r1[0] == ["P", "AA1", "R", "K"]
 
 
-# Test Init with Default (live from nltk)
-def test_init_default(mock_dict_reader_live):
+# Test Init with Default
+def test_init_default():
     # Test the init function of the DictReader class
-    dr = mock_dict_reader_live
+    dr = dict_reader.DictReader()
     assert isinstance(dr, dict_reader.DictReader)
     assert len(dr.dict) > 123400
     r1 = dr.dict["park"]

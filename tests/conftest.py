@@ -113,3 +113,15 @@ def mock_dict_reader() -> dict_reader.DictReader:
     assert isinstance(result, dict_reader.DictReader)
     assert result.filename == cmu_dict_path
     yield result
+
+
+# Creates a dict_reader with default dictionary
+@pytest.fixture
+def mock_dict_reader() -> dict_reader.DictReader:
+    # Patch builtins.open
+    mocked_dict_data = mock.mock_open(read_data='\n'.join(cmu_dict_content[1:]))
+    with mock.patch('builtins.open', mocked_dict_data):
+        result = dict_reader.DictReader(cmu_dict_path)
+    assert isinstance(result, dict_reader.DictReader)
+    assert result.filename == cmu_dict_path
+    yield result
