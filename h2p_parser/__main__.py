@@ -130,9 +130,17 @@ def action_parse_file():
     color_print([("#7e3b41", "[Words Resolved by H2p]: "),
                  ("#ffffff", f"{result.n_words_het}/{result.n_words_res}"
                              f" | {result.percent_word_h2p()}%")])
-    color_print([("#25a0c8", "[Words Resolved by CMUDict]: "),
-                 ("#ffffff", f"{result.n_words_cmu}/{result.n_words_res}"
-                             f" | {result.percent_word_cmu()}%")])
+    # Calcs
+    feature_res = result.n_words_fet
+    feature_percent = round(feature_res / result.n_words_res * 100, 2)
+    cmu_res = result.n_words_cmu
+    cmu_percent = round(cmu_res / result.n_words_res * 100, 2)
+    color_print([("#c8bd20", "[Transformed Resolves]: "),
+                 ("#ffffff", f"{feature_res}/{result.n_words_res}"
+                             f" | {feature_percent}%")])
+    color_print([("#25a0c8", "[Words in CMUDict]: "),
+                 ("#ffffff", f"{cmu_res}/{result.n_words_res}"
+                             f" | {cmu_percent}%")])
 
     color_print([("#4ce5c8", "-" * 10)])
 
