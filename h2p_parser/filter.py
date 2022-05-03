@@ -2,8 +2,8 @@ from unicodedata import normalize
 import re
 
 # Pre-compile regex
-re_filter = re.compile(r"[^ a-z'.,?!()\-]")
-re_filter_with_num = re.compile(r"[^ a-z\d'.,?!()\-]")
+re_filter = re.compile(r"[^ A-Za-z'.,?!()\-]")
+re_filter_with_num = re.compile(r"[^ A-Za-z\d'.,?!()\-]")
 re_multi_space = re.compile(r"\s\s+")
 
 
