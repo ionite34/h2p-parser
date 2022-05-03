@@ -24,7 +24,7 @@ def read_file(file_name, delimiter) -> list:
 # Checks a list of lines for unresolvable words
 # Returns a list of lines with unresolvable words, or None if no unresolvable words
 def check_lines(lines: list) -> ParseResult:
-    cde = cmudictext.CMUDictExt(cmu_dict_path="h2p_parser/data/cmudict-0.7b.txt")
+    cde = cmudictext.CMUDictExt()
     # Holds result
     result = ParseResult()
     # Loop with nqdm
