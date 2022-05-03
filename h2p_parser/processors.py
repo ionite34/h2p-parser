@@ -1,6 +1,7 @@
 # Transformations of text sequences for matching
 from __future__ import annotations
 from typing import TYPE_CHECKING
+from .symbols import consonants
 
 import re
 
@@ -13,8 +14,10 @@ _re_digit = re.compile(r'\d+')
 class Processor:
     def __init__(self, cde: CMUDictExt):
         self._lookup = cde.lookup
+        self._cmu_get = cde.dict.get
         self._segment = cde.segment
         self._tag = cde.h2p.tag
+        self._stem = cde.stem
         # Number of times respective methods were called
         self.stat_hits = {
             'plural': 0,
@@ -22,6 +25,7 @@ class Processor:
             'contractions': 0,
             'hyphenated': 0,
             'compound': 0,
+            'compound_l2': 0,
             'stem': 0
         }
         # Number of times respective methods returned value (not None)
@@ -31,6 +35,7 @@ class Processor:
             'contractions': 0,
             'hyphenated': 0,
             'compound': 0,
+            'compound_l2': 0,
             'stem': 0
         }
         # Holds events when features encountered unexpected language syntax
@@ -40,6 +45,7 @@ class Processor:
             'contractions': [],
             'hyphenated': [],
             'compound': [],
+            'compound_l2': [],
             'stem': []
         }
 
@@ -76,12 +82,10 @@ class Processor:
             self.stat_resolves['possessives'] += 1
             return phoneme
 
-        word = word[:-2]  # Get core word without possessive
-        entry = self._lookup(word, ph_format='sds')  # find core word using recursive search
-        if entry is None:
+        core = word[:-2]  # Get core word without possessive
+        ph = self._lookup(core, ph_format='list')  # find core word using recursive search
+        if ph is None:
             return None  # Core word not found
-
-        ph = entry[0]  # get the inner phoneme
         # [Case 1]
         if ph[-1] in {'S', 'Z', 'CH', 'JH', 'SH', 'ZH'}:
             ph += 'IH0' + 'Z'
@@ -95,7 +99,7 @@ class Processor:
         To simplify matching, we will check for the listed single-letter variants and 'NG'
         and then check for any numbered variant
         """
-        if ph[-1] in {'B', 'D', 'G', 'M', 'N', 'R', 'L', 'NG'} or ph[-1:][-1:].isdigit():
+        if ph[-1] in {'B', 'D', 'G', 'M', 'N', 'R', 'L', 'NG'} or ph[-1][-1].isdigit():
             ph += 'Z'
             return _resolve(ph)
         # [Case 3]
@@ -151,7 +155,7 @@ class Processor:
         if '-' not in word:
             return None  # No hyphen found
         # If initial check passes, register a hit
-        self.stat_hits['hyphen'] += 1
+        self.stat_hits['hyphenated'] += 1
         # Split the word into parts
         parts = word.split('-')
         # Get the phonemes for each part
@@ -192,9 +196,13 @@ class Processor:
         self.stat_resolves['compound'] += 1
         return ph
 
-    def auto_plural(self, word: str) -> str | None:
+    def auto_plural(self, word: str, pos: str = None) -> str | None:
         """
-        Finds singular form of plurals and attempts to resolve seperately
+        Finds singular form of plurals and attempts to resolve separately
+        Optionally a pos tag can be provided.
+        If no tags are provided, there will be a single word pos inference,
+        which is not ideal.
+        :param pos:
         :param word:
         :return:
         """
@@ -203,12 +211,182 @@ class Processor:
         if word[-1] != 's':
             return None  # No plural found
         # Now check if the word is a plural using pos
-        tag = self._tag(word)
-        if tag is None or len(tag) == 0 or tag[0] != 'NNS' or tag[0] != 'NNPS':
+        if pos is None:
+            pos = self._tag(word)
+        if pos is None or len(pos) == 0 or (pos[0] != 'NNS' and pos[0] != 'NNPS'):
             return None  # No tag found
         # If initial check passes, register a hit
         self.stat_hits['plural'] += 1
-        # Get the singular form
 
+        """
+        Case 1:
+        > Word ends in 'oes'
+        > Remove the 'es' to get the singular
+        """
+        if len(word) > 3 and word[-3:] == 'oes':
+            singular = word[:-2]
+            # Look up the possessive form (since the pronunciation is the same)
+            ph = self.auto_possessives(singular + "'s")
+            if ph is not None:
+                self.stat_resolves['plural'] += 1
+                return ph  # Return the phoneme
 
+        """
+        Case 2:
+        > Word ends in 's'
+        > Remove the 's' to get the singular
+        """
+        if len(word) > 1 and word[-1] == 's':
+            singular = word[:-1]
+            # Look up the possessive form (since the pronunciation is the same)
+            ph = self.auto_possessives(singular + "'s")
+            if ph is not None:
+                self.stat_resolves['plural'] += 1
+                return ph  # Return the phoneme
 
+        # If no matches, return None
+        return None
+
+    def auto_stem(self, word: str) -> str | None:
+        """
+        Attempts to resolve using the root stem of a word.
+        Supported modes:
+            - "ing"
+            - "ingly"
+            - "ly"
+        :param word:
+        :return:
+        """
+
+        # noinspection SpellCheckingInspection
+        """
+        'ly' has no special rules, always add phoneme 'L IY0'
+        
+        'ing' relevant rules:
+        
+        > If the original verb ended in [e], remove it and add [ing]
+            - i.e. take -> taking, make -> making
+            - We will search once with the original verb, and once with [e] added
+                - 1st attempt: tak, mak
+                - 2nd attempt: take, make
+            
+        > If the input word has a repeated consonant before [ing], it's likely that
+        the original verb has only 1 of the consonants
+            - i.e. running -> run, stopping -> stop
+            - We will search for repeated consonants, and perform 2 attempts:
+                - 1st attempt: without the repeated consonant (run, stop)
+                - 2nd attempt: with the repeated consonant (runn, stopp)
+        """
+        # Discontinue if word is too short
+        if len(word) < 3 or (not word.endswith('ly') and not word.endswith('ing')):
+            return None
+        # Register a hit
+        self.stat_hits['stem'] += 1  # Register hit
+
+        # For ly case
+        if word.endswith('ly'):
+            # Get the root word
+            root = word[:-2]
+            # Recursively get the root
+            ph_root = self._lookup(root, ph_format='sds')
+            # If not exist, return None
+            if ph_root is None:
+                return None
+            ph_ly = 'L IY0'
+            ph_joined = ' '.join([ph_root, ph_ly])
+            self.stat_resolves['stem'] += 1
+            return ph_joined
+
+        # For ing case
+        if word.endswith('ing'):
+            # Get the root word
+            root = word[:-3]
+            # Recursively get the root
+            ph_root = self._lookup(root, ph_format='sds')
+            # If not exist, return None
+            if ph_root is None:
+                return None
+            ph_ly = 'IH0 NG'
+            ph_joined = ' '.join([ph_root, ph_ly])
+            self.stat_resolves['stem'] += 1
+            return ph_joined
+
+    def auto_component(self, word: str) -> str | None:
+        """
+        Searches for target word as component of a larger word
+        :param word:
+        :return:
+        """
+
+        """
+        This processing step checks for words as a component of a larger word
+        - i.e. 'synth' is not in the cmu dictionary
+        - Stage 1: We will search for any word beginning with 'synth' (10 matches)
+            - This is because most unseen short words are likely shortened versions
+            - We will split 
+        - Stage 2: Search for any word containing 'synth' (13 matches)
+        
+        """
+        raise NotImplementedError
+
+    def auto_compound_l2(self, word: str, recursive: bool = True) -> str | None:
+        """
+        Searches for target word as a compound word.
+        > Does not use n-gram splitting like auto_compound()
+        > Splits words manually into every possible combination
+        > Returns the match with the highest length of both words
+        :param recursive: True to enable recursive lookups, otherwise only use base CMU dictionary
+        :param word:
+        :return:
+        """
+        # Word must be fully alphabetic
+        if not word.isalpha() or len(word) < 3:
+            return None
+        self.stat_hits['compound_l2'] += 1  # Register hit
+
+        # Define lookup mode
+        def _lu(search_word: str) -> str | None:
+            if recursive:
+                return self._lookup(search_word, ph_format='sds')
+            else:
+                return self._cmu_get(search_word)
+
+        # Check if the last part is a single character
+        # And that it is repeated in the last char of the first part
+        # This is likely silent so remove it
+        # i.e. 'Derakk' -> 'Derak'
+        # If the word contains a repeated consonant at the end, remove it
+        # First check repeated last 2 letters
+        if word[-2:][0] == word[-2:][1]:
+            # Remove the last char from the word
+            word = word[:-1]
+
+        # Holds all matches as tuples
+        # (len1, len2, p1, p2, ph1, ph2)
+        matches = []
+
+        # Splits the word into every possible combination
+        for i in range(1, len(word)):
+            p1 = word[:i]
+            p2 = word[i:]
+            # Looks up both words
+            ph1 = _lu(p1)
+            if ph1 is None:
+                continue  # Skip if not found
+            ph2 = _lu(p2)
+            if ph2 is None:
+                continue  # Skip if not found
+            # If both words exist, add to list as tuple
+            matches.append((len(p1), len(p2), p1, p2, ph1, ph2))
+
+        # Pick the match with the highest length of both words
+        if len(matches) == 0:
+            return None
+        else:
+            # Sort by the minimum of len1 and len2
+            matches.sort(key=lambda x: min(x[0], x[1]))
+            # Get the highest minimum length match
+            match = matches[-1]
+            # Otherwise, return the full joined match
+            self.stat_resolves['compound_l2'] += 1  # Register resolve
+            return match[4] + ' ' + match[5]
