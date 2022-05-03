@@ -49,7 +49,10 @@ def check_lines(lines: list) -> ParseResult:
             result.all_words.append(word)
             result.words.add(word)
             # Check if word is resolvable
-            if not cde.h2p.contains_het(word) and not cde.lookup(word):
+            h2p_res = cde.h2p.contains_het(word)
+            cmu_res = cde.dict.get(word) is not None
+            fet_res = cde.lookup(word) is not None
+            if not h2p_res and not cmu_res and not fet_res:
                 # If word ends in "'s", remove it and add the base word
                 if word.endswith("'s"):
                     word = word[:-2]
@@ -57,16 +60,18 @@ def check_lines(lines: list) -> ParseResult:
                 result.unres_all_words.append(word)
                 result.unres_lines.add(line)
                 result.unres_words.add(word)
-            # If the word is resolvable, add to result
-            else:
+            elif h2p_res:
                 result.n_words_res += 1
-                if cde.h2p.contains_het(word):
-                    result.n_words_het += 1
-                else:
-                    result.n_words_cmu += 1
+                result.n_words_het += 1
+            elif cmu_res:
+                result.n_words_res += 1
+                result.n_words_cmu += 1
+            elif fet_res:
+                result.n_words_res += 1
+                result.n_words_fet += 1
 
     # Also pass stats
-    result.ft_stats = cde.ft_stats
+    result.ft_stats = cde.p.stat_resolves
 
     return result
 
@@ -87,6 +92,7 @@ class ParseResult:
         # Numerical stats
         self.n_words_res = 0  # Number of total resolved words
         self.n_words_cmu = 0  # Resolved words from CMU
+        self.n_words_fet = 0  # Resolved words from Features
         self.n_words_het = 0  # Resolved words from H2p
         # Stats from cmudictext
         self.ft_stats = None
