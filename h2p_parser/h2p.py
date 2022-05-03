@@ -55,7 +55,7 @@ class H2p:
     # Method to check if a text line contains a heteronym
     def contains_het(self, text):
         # Filter the text
-        text = ft(text, preserve_case=True)
+        text = ft(text)
         # Tokenize
         words = self.tokenize(text)
         # Check match with dictionary
