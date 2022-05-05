@@ -1,3 +1,7 @@
+# Project Specific
+h2p_parser/data/cache.db
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
