@@ -1,8 +1,11 @@
 # This reads a CMUDict formatted dictionary as a dictionary object
 import re
+
+from tqdm import tqdm
+
 import h2p_parser.format_ph as ph
 from . import DATA_PATH
-
+from ipapy.arpabetmapper import ARPABETMapper
 
 _dict_primary = 'cmudict.dict'
 
@@ -17,93 +20,128 @@ def read_dict(filename: str) -> list:
     return lines
 
 
-def parse_dict(lines: list) -> dict:
-    # Create a dictionary to store the parsed data
-    parsed_dict = {}
-    # Detect file format
-
-    # We will read the first 10 lines to determine the format
-    # Default to SSD format unless we find otherwise
-    dict_form = 'SSD'
-    for line in lines[:10]:
-        # Strip new lines
-        line = line.strip()
-        if line == '':
-            continue
-        """
-        Format 1 (Double Space Delimited):
-        - Comment allowed to start with ";;;"
-        WORD  W ER1 D
-        
-        Format 2 (Single Space Delimited):
-        - Comment allowed at end of any line using "#"
-        WORD W ER1 D # Comment
-        """
-        if '  ' in line:
-            dict_form = 'DSD'
-            break
-
-    # Iterate over the lines
-    for line in lines:
-        # Skip empty lines and lines with no space
-        line = line.strip()
-        if line == '' and ' ' not in line:
-            continue
-
-        # Split depending on format
-        if dict_form == 'DSD':
-            pairs = line.split('  ')
-        else:
-            space_index = line.find(' ')
-            line_split = line[:space_index], line[space_index + 1:]
-            pairs = line_split[0], line_split[1].split('#')[0]
-
-        word = str.lower(pairs[0])  # Get word and lowercase it
-        phonemes = ph.to_list(pairs[1])   # Convert to list of phonemes
-        phonemes = [phonemes]  # Wrap in nested list
-        word_num = 0
-        word_orig = None
-
-        # Detect if this is a multi-word entry
-        if ('(' in word) and (')' in word) and any(char.isdigit() for char in word):
-            # Parse the integer from the word using regex
-            result = int(re.findall(r"\((\d+)\)", word)[0])
-            # If found
-            if result is not None:
-                # Set the original word
-                word_orig = word
-                # Remove the integer and bracket from the word
-                word = re.sub(r"\(.*\)", "", word)
-                # Set the word number to the result
-                word_num = result
-
-        # Check existing key
-        if word in parsed_dict:
-            # If word number is 0, ignore
-            if word_num == 0:
-                continue
-            # If word number is not 0, add phoneme to existing key at index
-            parsed_dict[word].extend(phonemes)
-            # Also add the original word if it exists
-            if word_orig is not None:
-                parsed_dict[word_orig] = phonemes
-        else:
-            # Create a new key
-            parsed_dict[word] = phonemes
-
-    # Return the dictionary
-    return parsed_dict
-
-
 class DictReader:
-    def __init__(self, filename=None):
+    def __init__(self, filename=None, convert_ipa=False, report_unmappable=True, with_progress=False):
         self.filename = filename
         self.dict = {}
+        self.unmappable_words = {}  # words that can't be mapped from IPA
+        self.convert_ipa = convert_ipa
+        self.report_unmappable = report_unmappable
+        self.with_progress = with_progress
         # If filename is None, use the default dictionary
         # default = 'data' uses the dictionary file in the data module
         # default = 'nltk' uses the nltk cmudict
         if filename is not None:
-            self.dict = parse_dict(read_dict(filename))
+            self.dict = self.parse_from_file(filename)
         else:
             with DATA_PATH.joinpath(_dict_primary) as f:
-                self.dict = parse_dict(read_dict(f))
+                self.dict = self.parse_from_file(f)
+
+    def parse_from_file(self, filename: str) -> dict:
+        return self.parse_dict(read_dict(filename))
+
+    def parse_dict(self, lines: list) -> dict:
+        # Create a dictionary to store the parsed data
+        parsed_dict = {}
+        # Detect file format
+
+        # We will read the first 10 lines to determine the format
+        # Default to SSD format unless we find otherwise
+        dict_form = 'SSD'
+        for line in lines[:10]:
+            # Strip new lines
+            line = line.strip()
+            if line == '':
+                continue
+            """
+            Format 1 (Double Space Delimited):
+            - Comment allowed to start with ";;;"
+            WORD  W ER1 D
+
+            Format 2 (Single Space Delimited):
+            - Comment allowed at end of any line using "#"
+            WORD W ER1 D # Comment
+
+            Format 3 (Tab Delimited):
+            - Detects tab in any line
+            """
+            if '  ' in line:
+                dict_form = 'SSD'
+                break
+
+            if '\t' in line:
+                dict_form = 'TD'
+                break
+
+        # Reset unmappable words
+        self.unmappable_words = {}
+
+        # Iterate over the lines
+        for line in tqdm(lines, position=1, leave=False, disable=not self.with_progress):
+            # Skip empty lines and lines with no space
+            line = line.strip()
+            if line == '' and ' ' not in line:
+                continue
+
+            # Split depending on format
+            if dict_form == 'DSD':
+                pairs = line.split('  ')
+            elif dict_form == 'TD':
+                pairs = line.split('\t')
+            elif dict_form == 'SSD':
+                space_index = line.find(' ')
+                line_split = line[:space_index], line[space_index + 1:]
+                pairs = line_split[0], line_split[1].split('#')[0]
+            else:
+                raise ValueError('Unknown dictionary format')
+
+            word = str.lower(pairs[0])  # Get word and lowercase it
+
+            # If IPA mode is on, convert from IPA to ARPAbet
+            if self.convert_ipa:
+                mapper = ARPABETMapper()
+                source_ipa = ph.to_sds(pairs[1]).encode('ascii', 'ignore')
+                try:
+                    phonemes = mapper.map_ipa_string(source_ipa, return_as_list=True)
+                except ValueError:
+                    # If the IPA is not in the ARPAbet map, skip it
+                    if self.report_unmappable:
+                        self.unmappable_words[word] = source_ipa
+                    # Try anyway
+                    phonemes = mapper.map_ipa_string(source_ipa, ignore=True, return_as_list=True)
+            else:
+                # Convert to list of phonemes
+                phonemes = ph.to_list(pairs[1])
+
+            phonemes = [phonemes]  # Wrap in nested list
+            word_num = 0
+            word_orig = None
+
+            # Detect if this is a multi-word entry
+            if ('(' in word) and (')' in word) and any(char.isdigit() for char in word):
+                # Parse the integer from the word using regex
+                result = int(re.findall(r"\((\d+)\)", word)[0])
+                # If found
+                if result is not None:
+                    # Set the original word
+                    word_orig = word
+                    # Remove the integer and bracket from the word
+                    word = re.sub(r"\(.*\)", "", word)
+                    # Set the word number to the result
+                    word_num = result
+
+            # Check existing key
+            if word in parsed_dict:
+                # If word number is 0, ignore
+                if word_num == 0:
+                    continue
+                # If word number is not 0, add phoneme to existing key at index
+                parsed_dict[word].extend(phonemes)
+                # Also add the original word if it exists
+                if word_orig is not None:
+                    parsed_dict[word_orig] = phonemes
+            else:
+                # Create a new key
+                parsed_dict[word] = phonemes
+
+        return parsed_dict
