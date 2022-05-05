@@ -12,11 +12,15 @@ def run_time(method, n):
     # Run the method n times
     times = timeit(method, number=n)
     # Return the mean time
-    return times
+    times = times * 1000
+    if times < 1:
+        return times, f'{round(times * 1000, 2)} μs'
+    else:
+        return times, f"{round(times, 2)} ms"
 
 
 # noinspection SpellCheckingInspection
-def test_perf_accent_norm(iters):
+def perf_accent_norm(iters):
     # Tests performance of accent normalization
     no_accents = "aeinou"
     accents = "áéíñóú"
@@ -44,27 +48,27 @@ def test_perf_accent_norm(iters):
         # Time m1
         t1_acc = run_time(lambda: m1(accents_line), iters)
         t2_acc = run_time(lambda: m2(accents_line), iters)
-        print(f"T1, Accents: {t1_acc} ms")
-        print(f"T2, Accents: {t2_acc} ms")
+        print(f"T1, Accents: {t1_acc[1]} ms")
+        print(f"T2, Accents: {t2_acc[1]} ms")
         # Calculate winner
-        if t1_acc < t2_acc:
+        if t1_acc[0] < t2_acc[0]:
             # percent difference
-            print(f"Type 1 is {round(t2_acc / t1_acc * 100, 2)}% faster")
+            print(f"Type 1 is {round(t2_acc[0] / t1_acc[0] * 100, 2)}% faster")
         else:
-            print(f"Type 2 is {round(t1_acc / t2_acc * 100, 2)}% faster")
+            print(f"Type 2 is {round(t1_acc[0] / t2_acc[0] * 100, 2)}% faster")
         print("-" * 5)
         print("No Accents:")
         t1_no_acc = run_time(lambda: m1(no_accents_line), iters)
         t2_no_acc = run_time(lambda: m2(no_accents_line), iters)
-        print(f"T1, No Accents: {t1_no_acc} ms")
-        print(f"T2, No Accents: {t2_no_acc} ms")
+        print(f"T1, No Accents: {t1_no_acc[1]}")
+        print(f"T2, No Accents: {t2_no_acc[1]}")
         # Calculate winner
-        if t1_no_acc < t2_no_acc:
+        if t1_no_acc[0] < t2_no_acc[0]:
             # percent difference
-            print(f"Type 1 is {round(t2_no_acc / t1_no_acc * 100, 2)}% faster")
+            print(f"Type 1 is {round(t2_no_acc[0] / t1_no_acc[0] * 100, 2)}% faster")
         else:
-            print(f"Type 2 is {round(t1_no_acc / t2_no_acc * 100, 2)}% faster")
+            print(f"Type 2 is {round(t1_no_acc[0] / t2_no_acc[0] * 100, 2)}% faster")
 
 
 if __name__ == '__main__':
-    test_perf_accent_norm(30)
+    perf_accent_norm(30)
