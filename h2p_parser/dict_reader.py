@@ -5,7 +5,6 @@ from tqdm import tqdm
 
 import h2p_parser.format_ph as ph
 from . import DATA_PATH
-from ipapy.arpabetmapper import ARPABETMapper
 
 _dict_primary = 'cmudict.dict'
 
@@ -21,12 +20,9 @@ def read_dict(filename: str) -> list:
 
 
 class DictReader:
-    def __init__(self, filename=None, convert_ipa=False, report_unmappable=True):
+    def __init__(self, filename=None):
         self.filename = filename
         self.dict = {}
-        self.unmappable_words = {}  # words that can't be mapped from IPA
-        self.convert_ipa = convert_ipa
-        self.report_unmappable = report_unmappable
         # If filename is None, use the default dictionary
         # default = 'data' uses the dictionary file in the data module
         # default = 'nltk' uses the nltk cmudict
@@ -72,9 +68,6 @@ class DictReader:
                 dict_form = 'TD'
                 break
 
-        # Reset unmappable words
-        self.unmappable_words = {}
-
         # Iterate over the lines
         for line in lines:
             # Skip empty lines and lines with no space
@@ -95,23 +88,8 @@ class DictReader:
                 raise ValueError('Unknown dictionary format')
 
             word = str.lower(pairs[0])  # Get word and lowercase it
-
-            # If IPA mode is on, convert from IPA to ARPAbet
-            if self.convert_ipa:
-                mapper = ARPABETMapper()
-                source_ipa = ph.to_sds(pairs[1]).encode('ascii', 'ignore')
-                try:
-                    phonemes = mapper.map_ipa_string(source_ipa, return_as_list=True)
-                except ValueError:
-                    # If the IPA is not in the ARPAbet map, skip it
-                    if self.report_unmappable:
-                        self.unmappable_words[word] = source_ipa
-                    # Try anyway
-                    phonemes = mapper.map_ipa_string(source_ipa, ignore=True, return_as_list=True)
-            else:
-                # Convert to list of phonemes
-                phonemes = ph.to_list(pairs[1])
-
+            # Convert to list of phonemes
+            phonemes = ph.to_list(pairs[1])
             phonemes = [phonemes]  # Wrap in nested list
             word_num = 0
             word_orig = None
