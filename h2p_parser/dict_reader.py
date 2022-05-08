@@ -21,13 +21,12 @@ def read_dict(filename: str) -> list:
 
 
 class DictReader:
-    def __init__(self, filename=None, convert_ipa=False, report_unmappable=True, with_progress=False):
+    def __init__(self, filename=None, convert_ipa=False, report_unmappable=True):
         self.filename = filename
         self.dict = {}
         self.unmappable_words = {}  # words that can't be mapped from IPA
         self.convert_ipa = convert_ipa
         self.report_unmappable = report_unmappable
-        self.with_progress = with_progress
         # If filename is None, use the default dictionary
         # default = 'data' uses the dictionary file in the data module
         # default = 'nltk' uses the nltk cmudict
@@ -66,7 +65,7 @@ class DictReader:
             - Detects tab in any line
             """
             if '  ' in line:
-                dict_form = 'SSD'
+                dict_form = 'DSD'
                 break
 
             if '\t' in line:
@@ -77,10 +76,10 @@ class DictReader:
         self.unmappable_words = {}
 
         # Iterate over the lines
-        for line in tqdm(lines, position=1, leave=False, disable=not self.with_progress):
+        for line in lines:
             # Skip empty lines and lines with no space
             line = line.strip()
-            if line == '' and ' ' not in line:
+            if line == '':
                 continue
 
             # Split depending on format
