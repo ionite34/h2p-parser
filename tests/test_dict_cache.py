@@ -18,6 +18,11 @@ def test_dict_cache_add():
 
 def test_dict_cache_get():
     cache = dict_cache.DictCache()
-    assert cache.get('JARL') is None
-    cache.load()
-    assert cache.get('JARL')[0] == 'Y AA1 R L'
+    # Add item to cache
+    cache.add('JARL', 'Y AA1 R L')
+    assert cache.get('JARL') == ('Y AA1 R L', None, False)
+    cache.save()
+    # Load new cache
+    cache2 = dict_cache.DictCache()
+    cache2.load()
+    assert cache2.get('JARL') == ('Y AA1 R L', None, False)
