@@ -14,26 +14,29 @@ _cache_db = 'cache.db'
 class DictCache:
     def __init__(self):
         self._cache = {}
+        self._check_db_table()
 
     # Check if database table exists, if not create it
-    def _check_db_table(self, db):
-        # Word, Phoneme, Source
-        # Word is the default key, phoneme is the value
-        # Word cannot have duplicate entries
-        # Word and Phoneme cannot be null
-        db.execute('''CREATE TABLE IF NOT EXISTS cache
-                            (
-                                word TEXT primary key not null on conflict ignore,
-                                phoneme TEXT not null,
-                                source_parser TEXT,
-                                checked BOOLEAN default false
-                            )''')
+    @staticmethod
+    def _check_db_table():
+        with DATA_PATH.joinpath(_cache_db) as f, sqlite3.connect(str(f)) as db:
+            # Word, Phoneme, Source
+            # Word is the default key, phoneme is the value
+            # Word cannot have duplicate entries
+            # Word and Phoneme cannot be null
+            db.execute('''CREATE TABLE IF NOT EXISTS cache
+                                (
+                                    word TEXT primary key not null on conflict ignore,
+                                    phoneme TEXT not null,
+                                    source_parser TEXT,
+                                    checked BOOLEAN default false
+                                )''')
 
     # Loads database to dictionary
     def load(self):
         with DATA_PATH.joinpath(_cache_db) as f:
             with sqlite3.connect(str(f)) as db:
-                self._check_db_table(db)
+                self._check_db_table()
                 cursor = db.cursor()
                 cursor.execute('''SELECT word, phoneme, source_parser, checked FROM cache''')
                 for row in cursor.fetchall():
