@@ -41,28 +41,28 @@ def prompt_parsing_choices():
 
 
 def menu_main():
-    choices = [
-        Choice("parse", name="Grapheme-Phoneme Parsing", enabled=True),
-        Choice("local", name="Edit Custom Dictionary"),
-        Choice("tests", name="Testing and Validation Tools"),
-        Choice("cache", name="Cache Options"),
-        Choice(value=None, name="Exit"),
-    ]
-    selections = inquirer.select(
-        message="Main Menu:",
-        choices=choices,
-    ).execute()
-    if selections is None:
-        exit(0)  # Direct Exit
-    if selections == "parse":
-        menu_parse()
-    elif selections == "local":
-        print("Local Dictionary Editing is not yet implemented.")
-        menu_main()
-    elif selections == "tests":
-        menu_tests()
-    elif selections == "cache":
-        menu_cache()
+    while True:
+        choices = [
+            Choice("parse", name="Grapheme-Phoneme Parsing", enabled=True),
+            Choice("local", name="Edit Custom Dictionary"),
+            Choice("tests", name="Testing and Validation Tools"),
+            Choice("cache", name="Cache Options"),
+            Choice(value=None, name="Exit"),
+        ]
+        selections = inquirer.select(
+            message="Main Menu:",
+            choices=choices,
+        ).execute()
+        if selections is None:
+            exit(0)  # Direct Exit
+        if selections == "parse":
+            menu_parse()
+        elif selections == "local":
+            print("Local Dictionary Editing is not yet implemented.")
+        elif selections == "tests":
+            menu_tests()
+        elif selections == "cache":
+            menu_cache()
 
 
 def menu_tests():
