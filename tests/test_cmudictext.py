@@ -20,11 +20,11 @@ cde_expected_results = [
 
 
 # CMUDictExt Creation
-@pytest.fixture
+@pytest.fixture(scope='module')
 def cde() -> cmudictext.CMUDictExt:
     instance = cmudictext.CMUDictExt()
     assert isinstance(instance, cmudictext.CMUDictExt)
-    return instance
+    yield instance
 
 
 # Test Invalid Args

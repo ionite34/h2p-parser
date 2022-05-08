@@ -1,13 +1,13 @@
 # Extended Grapheme to Phoneme conversion using CMU Dictionary and Heteronym parsing.
 from __future__ import annotations
-
 import re
-from typing import Optional
+from copy import deepcopy
 
 import pywordsegment
 import nltk
 from nltk.stem import WordNetLemmatizer
 from nltk.stem.snowball import SnowballStemmer
+
 from .h2p import H2p
 from .h2p import replace_first
 from . import format_ph as ph
@@ -15,7 +15,7 @@ from .dict_reader import DictReader
 from .text.numbers import normalize_numbers
 from .filter import filter_text
 from .processors import Processor
-from copy import deepcopy
+from .dict_cache import DictCache
 
 re_digit = re.compile(r"\((\d+)\)")
 re_bracket_with_digit = re.compile(r"\(.*\)")
@@ -73,6 +73,7 @@ class CMUDictExt:
         self.stem = SnowballStemmer('english').stem  # Snowball Stemmer - used to find stem root of words
         self.segment = pywordsegment.WordSegmenter().segment  # Word Segmenter
         self.p = Processor(self)  # Processor for processing text
+        self.cache = DictCache()  # Cache for storing processed text
 
         # Features
         # Auto pluralization and de-pluralization
@@ -89,9 +90,9 @@ class CMUDictExt:
         # i.e. 'generously' -> 'generous' + 'ly'
         self.ft_stem = True
         # Forces compound words using manual lookup
-        self.ft_auto_compound_l2 = True
+        self.ft_auto_compound_l2 = False
 
-    def lookup(self, text: str, pos: str = None, ph_format: str = 'sds') -> str | list | None:
+    def lookup(self, text: str, pos: str = None, ph_format: str = 'sds', cache: bool = True) -> str | list | None:
         # noinspection GrazieInspection
         """
         Gets the CMU Dictionary entry for a word.
@@ -102,6 +103,7 @@ class CMUDictExt:
         - 'sds_b' space delimited string with curly brackets
         - 'list' list of phoneme strings
 
+        :param cache: If True, uses a cache to speed up lookups.
         :param pos: Part of speech tag (Optional)
         :param ph_format: Format of the phonemes to return:
         :type: str
@@ -128,16 +130,34 @@ class CMUDictExt:
         if entry is not None:
             return format_as(entry)
 
+        # Check if cache has the entry
+        if cache:
+            entry = self.cache.get(word)
+            if entry is not None:
+                # Check the feature source and increment the feature count
+                if entry[1] is not None:
+                    # Remove the leading 'auto_' from the feature name
+                    feature = entry[1][5:]
+                    self.p.stat_hits[feature] += 1
+                    self.p.stat_resolves[feature] += 1
+                return format_as(entry[0])
+
         # Auto Possessive Processor
         if self.ft_auto_pos:
             res = self.p.auto_possessives(word)
             if res is not None:
+                # Add to cache
+                if cache:
+                    self.cache.add(word, res, 'auto_possessives')
                 return format_as(res)
 
         # Auto Contractions for "ll" or "d"
         if self.ft_auto_ll:
             res = self.p.auto_contractions(word)
             if res is not None:
+                # Add to cache
+                if cache:
+                    self.cache.add(word, res, 'auto_contractions')
                 return format_as(res)
 
         # Check for hyphenated words
@@ -150,6 +170,9 @@ class CMUDictExt:
         if self.ft_auto_compound:
             res = self.p.auto_compound(word)
             if res is not None:
+                # Add to cache
+                if cache:
+                    self.cache.add(word, res, 'auto_compound')
                 return format_as(res)
 
         # No entry, detect if this is a multi-word entry
@@ -180,6 +203,9 @@ class CMUDictExt:
         if self.ft_auto_plural:
             res = self.p.auto_plural(word, pos)
             if res is not None:
+                # Add to cache
+                if cache:
+                    self.cache.add(word, res, 'auto_plural')
                 return format_as(res)
 
         # Stem check
@@ -191,12 +217,18 @@ class CMUDictExt:
         if self.ft_stem:
             res = self.p.auto_stem(word)
             if res is not None:
+                # Add to cache
+                if cache:
+                    self.cache.add(word, res, 'auto_stem')
                 return format_as(res)
 
         # Force compounding
         if self.ft_auto_compound_l2:
             res = self.p.auto_compound_l2(word)
             if res is not None:
+                # Add to cache
+                if cache:
+                    self.cache.add(word, res, 'auto_compound_l2')
                 return format_as(res)
 
         # If not found

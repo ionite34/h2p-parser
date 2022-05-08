@@ -1,39 +1,20 @@
-# For more configuration details:
-# https://docs.codecov.io/docs/codecov-yaml
+codecov:
+  require_ci_to_pass: yes
 
-# Check if this file is valid by running in bash:
-# curl -X POST --data-binary @.codecov.yml https://codecov.io/validate
-
-# Coverage configuration
-# ----------------------
 coverage:
-  range: 70..90     # First number represents red, and second represents green
-  # (default is 70..100)
-  round: up       # up, down, or nearest
-  precision: 2      # Number of decimal places, between 0 and 5
+  precision: 2
+  round: up
+  range: "70...90"
 
-  status:
-    project:
-      default:
-        enabled: yes
-        target: auto
-        threshold: 18%
-        if_not_found: success
-        if_ci_failed: error
-    patch:
-      default:
-        enabled: yes
-        target: auto
-        threshold: 18%
-        base: auto
-        if_ci_failed: error
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+  require_changes: no
 
-
-# Ignoring Paths
-# --------------
-# which folders/files to ignore
 ignore:
-  - /tests/.*
-  - /tests_old/.*
-  - /h2p_parser/data/.*
-  - setup.py
+  - "tests/**"
+  - "test_*.py"
+  - "h2p_parser/utils/**"
+  - "h2p_parser/data/**"
+  - "**/__main__.py"
+  - "**/__init__.py"
