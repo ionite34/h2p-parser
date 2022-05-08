@@ -49,7 +49,7 @@ class Processor:
             'stem': []
         }
 
-    def auto_possessives(self, word: str) -> str | None:
+    def auto_possessives(self, word: str) -> list | None:
         """
         Auto-possessives
         :param word: Input of possible possessive word
@@ -78,7 +78,7 @@ class Processor:
         """
 
         # Method to return phoneme and increment stat
-        def _resolve(phoneme: str) -> str:
+        def _resolve(phoneme: list) -> list:
             self.stat_resolves['possessives'] += 1
             return phoneme
 
@@ -88,7 +88,8 @@ class Processor:
             return None  # Core word not found
         # [Case 1]
         if ph[-1] in {'S', 'Z', 'CH', 'JH', 'SH', 'ZH'}:
-            ph += 'IH0' + 'Z'
+            ph.append('IH0')
+            ph.append('Z')
             return _resolve(ph)
         # [Case 2]
         """
@@ -196,7 +197,7 @@ class Processor:
         self.stat_resolves['compound'] += 1
         return ph
 
-    def auto_plural(self, word: str, pos: str = None) -> str | None:
+    def auto_plural(self, word: str, pos: str = None) -> list | None:
         """
         Finds singular form of plurals and attempts to resolve separately
         Optionally a pos tag can be provided.
@@ -289,29 +290,40 @@ class Processor:
             root = word[:-2]
             # Recursively get the root
             ph_root = self._lookup(root, ph_format='sds')
-            # If not exist, return None
-            if ph_root is None:
-                return None
-            ph_ly = 'L IY0'
-            ph_joined = ' '.join([ph_root, ph_ly])
-            self.stat_resolves['stem'] += 1
-            return ph_joined
+            # Output if exists
+            if ph_root is not None:
+                ph_ly = 'L IY0'
+                ph_joined = ' '.join([ph_root, ph_ly])
+                self.stat_resolves['stem'] += 1
+                return ph_joined
 
-        # For ing case
+        # For ing case 1
         if word.endswith('ing'):
             # Get the root word
             root = word[:-3]
             # Recursively get the root
             ph_root = self._lookup(root, ph_format='sds')
-            # If not exist, return None
-            if ph_root is None:
-                return None
-            ph_ly = 'IH0 NG'
-            ph_joined = ' '.join([ph_root, ph_ly])
-            self.stat_resolves['stem'] += 1
-            return ph_joined
+            # Output if exists
+            if ph_root is not None:
+                ph_ly = 'IH0 NG'
+                ph_joined = ' '.join([ph_root, ph_ly])
+                self.stat_resolves['stem'] += 1
+                return ph_joined
 
-    def auto_component(self, word: str) -> str | None:
+        # For ing case 2
+        if word.endswith('ing'):
+            # Get the root word, add [e]
+            root = word[:-3] + 'e'
+            # Recursively get the root
+            ph_root = self._lookup(root, ph_format='sds')
+            # Output if exists
+            if ph_root is not None:
+                ph_ly = 'IH0 NG'
+                ph_joined = ' '.join([ph_root, ph_ly])
+                self.stat_resolves['stem'] += 1
+                return ph_joined
+
+    def auto_component(self, word: str):
         """
         Searches for target word as component of a larger word
         :param word:
