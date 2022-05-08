@@ -42,7 +42,7 @@ jobs:
 
     - name: Generate Report
       run: |
-        python -m pytest --cov-report=xml --cov-fail-under=0.5 tests/
+        python -m pytest --cov=./h2p_parser/ --cov-report=xml --cov-fail-under=50
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3.1.0
