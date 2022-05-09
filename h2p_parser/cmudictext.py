@@ -30,8 +30,9 @@ except LookupError:
 
 
 class CMUDictExt:
-    def __init__(self, cmu_dict_path: str = None, h2p_dict_path: str = None, cmu_multi_mode: int = 0,
-                 process_numbers: bool = True, phoneme_brackets: bool = True, unresolved_mode: str = 'keep'):
+    def __init__(self, ph_format: str = 'sds_b', cmu_dict_path: str = None, h2p_dict_path: str = None,
+                 cmu_multi_mode: int = 0, process_numbers: bool = True, phoneme_brackets: bool = True,
+                 unresolved_mode: str = 'keep'):
         # noinspection GrazieInspection
         """
         Initialize CMUDictExt - Extended Grapheme to Phoneme conversion using CMU Dictionary with Heteronym parsing.
@@ -62,6 +63,7 @@ class CMUDictExt:
             raise ValueError('Invalid value for unresolved_mode: {}'.format(unresolved_mode))
         self.unresolved_mode = unresolved_mode
 
+        self.ph_format = ph_format
         self.cmu_dict_path = cmu_dict_path  # Path to CMU dictionary file (.txt), if None, uses built-in
         self.h2p_dict_path = h2p_dict_path  # Path to Custom H2p dictionary (.json), if None, uses built-in
         self.cmu_multi_mode = cmu_multi_mode  # CMU multi-entry resolution mode
@@ -92,7 +94,18 @@ class CMUDictExt:
         # Forces compound words using manual lookup
         self.ft_auto_compound_l2 = False
 
-    def lookup(self, text: str, pos: str = None, ph_format: str = 'sds', cache: bool = True) -> str | list | None:
+    def _format_as(self, in_phoneme):
+        if self.ph_format == 'sds':
+            output = ph.to_sds(in_phoneme)
+        elif self.ph_format == 'sds_b':
+            output = ph.with_cb(ph.to_sds(in_phoneme))
+        elif self.ph_format == 'list':
+            output = ph.to_list(in_phoneme)
+        else:
+            raise ValueError(f'Invalid value for ph_format: {self.ph_format}')
+        return output
+
+    def lookup(self, text: str, pos: str = None, cache: bool = True) -> str | list | None:
         # noinspection GrazieInspection
         """
         Gets the CMU Dictionary entry for a word.
@@ -110,17 +123,6 @@ class CMUDictExt:
         :param text: Word to lookup
         :type: str
         """
-
-        def format_as(in_phoneme):
-            if ph_format == 'sds':
-                output = ph.to_sds(in_phoneme)
-            elif ph_format == 'sds_b':
-                output = ph.with_cb(ph.to_sds(in_phoneme))
-            elif ph_format == 'list':
-                output = ph.to_list(in_phoneme)
-            else:
-                raise ValueError('Invalid value for ph_format: {}'.format(ph_format))
-            return output
 
         # Get the CMU Dictionary entry for the word
         word = text.lower()
@@ -263,7 +265,7 @@ class CMUDictExt:
             if word == '.':
                 continue
             # If word not in h2p dict, check CMU dict
-            if not self.h2p.dict.contains(word):
+            if word not in self.h2p.dict:
                 entry = self.lookup(word, pos)
                 if entry is None:
                     if ur_mode == 'drop':
