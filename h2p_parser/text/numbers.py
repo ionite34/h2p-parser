@@ -153,7 +153,7 @@ def _expand_number(m):
     return text
 
 
-def normalize_numbers(text):
+def normalize_numbers(text: str) -> str:
     text = re.sub(_comma_number_re, _remove_commas, text)
     text = re.sub(_currency_re, _expand_currency, text)
     text = re.sub(_decimal_number_re, _expand_decimal_point, text)
