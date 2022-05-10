@@ -10,8 +10,8 @@ from . import DATA_PATH
 
 
 class DictCache:
-    def __init__(self):
-        self._db_name = 'cache.db'
+    def __init__(self, db_name='cache.db'):
+        self._db_name = db_name
         self._cache = {}
         self._check_db_table()
 
