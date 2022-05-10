@@ -97,8 +97,6 @@ class DictCache:
 
     # Add a new word-phoneme entry to the sqlite3 database
     def add(self, word: str, phoneme: str, source: str = None, checked: bool = False):
-        if word in self._cache:
-            return
         # Convert all phonemes to sds
         ph = format_ph.to_sds(phoneme)
         self._cache[word] = (ph, source, checked)  # Also add to cache
