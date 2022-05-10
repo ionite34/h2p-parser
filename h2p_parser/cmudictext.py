@@ -277,7 +277,7 @@ class CMUDictExt:
             if word == '.':
                 continue
             # If word not in h2p dict, check CMU dict
-            if word not in self.h2p.dict:
+            if not self.h2p.dict.contains(word):
                 entry = self.lookup(word, pos)
                 if entry is None:
                     if ur_mode == 'drop':
