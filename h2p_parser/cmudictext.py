@@ -94,18 +94,21 @@ class CMUDictExt:
         # Forces compound words using manual lookup
         self.ft_auto_compound_l2 = False
 
-    def _format_as(self, in_phoneme):
-        if self.ph_format == 'sds':
+    def format_as(self, in_phoneme, override_format=None):
+        cur_form = self.ph_format
+        if override_format is not None:
+            cur_form = override_format
+        if cur_form == 'sds':
             output = ph.to_sds(in_phoneme)
-        elif self.ph_format == 'sds_b':
+        elif cur_form == 'sds_b':
             output = ph.with_cb(ph.to_sds(in_phoneme))
-        elif self.ph_format == 'list':
+        elif cur_form == 'list':
             output = ph.to_list(in_phoneme)
         else:
-            raise ValueError(f'Invalid value for ph_format: {self.ph_format}')
+            raise ValueError(f'Invalid value for ph_format: {cur_form}')
         return output
 
-    def lookup(self, text: str, pos: str = None, cache: bool = True) -> str | list | None:
+    def lookup(self, text: str, pos: str = None, cache: bool = True, ph_format=None) -> str | list | None:
         # noinspection GrazieInspection
         """
         Gets the CMU Dictionary entry for a word.
@@ -130,7 +133,7 @@ class CMUDictExt:
 
         # Has entry, return it directly
         if entry is not None:
-            return format_as(entry)
+            return self.format_as(entry, ph_format)
 
         # Check if cache has the entry
         if cache:
@@ -142,40 +145,46 @@ class CMUDictExt:
                     feature = entry[1][5:]
                     self.p.stat_hits[feature] += 1
                     self.p.stat_resolves[feature] += 1
-                return format_as(entry[0])
+                return self.format_as(entry[0], ph_format)
 
         # Auto Possessive Processor
         if self.ft_auto_pos:
             res = self.p.auto_possessives(word)
             if res is not None:
+                res = self.format_as(res, ph_format)
                 # Add to cache
                 if cache:
                     self.cache.add(word, res, 'auto_possessives')
-                return format_as(res)
+                return res
 
         # Auto Contractions for "ll" or "d"
         if self.ft_auto_ll:
             res = self.p.auto_contractions(word)
             if res is not None:
+                res = self.format_as(res, ph_format)
                 # Add to cache
                 if cache:
                     self.cache.add(word, res, 'auto_contractions')
-                return format_as(res)
+                return res
 
         # Check for hyphenated words
         if self.ft_auto_hyphenated:
             res = self.p.auto_hyphenated(word)
             if res is not None:
-                return format_as(res)
+                res = self.format_as(res, ph_format)
+                if cache:
+                    self.cache.add(word, res, 'auto_hyphenated')
+                return res
 
         # Check for compound words
         if self.ft_auto_compound:
             res = self.p.auto_compound(word)
             if res is not None:
+                res = self.format_as(res, ph_format)
                 # Add to cache
                 if cache:
                     self.cache.add(word, res, 'auto_compound')
-                return format_as(res)
+                return res
 
         # No entry, detect if this is a multi-word entry
         if '(' in word and ')' in word and any(char.isdigit() for char in word):
@@ -194,21 +203,22 @@ class CMUDictExt:
                     # Check if index is less than the number of pronunciations
                     if index < len(result):
                         # Return the entry using the provided num index
-                        return format_as(result[index])
+                        return self.format_as(result[index], ph_format)
                     # If entry is higher
                     else:
                         # Return the highest available entry
-                        return format_as(result[-1])
+                        return self.format_as(result[-1], ph_format)
 
         # Auto de-pluralization
         # This is placed near the end because we need to do a pos-tag process
         if self.ft_auto_plural:
             res = self.p.auto_plural(word, pos)
             if res is not None:
+                res = self.format_as(res, ph_format)
                 # Add to cache
                 if cache:
                     self.cache.add(word, res, 'auto_plural')
-                return format_as(res)
+                return res
 
         # Stem check
         # noinspection SpellCheckingInspection
@@ -219,19 +229,21 @@ class CMUDictExt:
         if self.ft_stem:
             res = self.p.auto_stem(word)
             if res is not None:
+                res = self.format_as(res, ph_format)
                 # Add to cache
                 if cache:
                     self.cache.add(word, res, 'auto_stem')
-                return format_as(res)
+                return res
 
         # Force compounding
         if self.ft_auto_compound_l2:
             res = self.p.auto_compound_l2(word)
             if res is not None:
+                res = self.format_as(res, ph_format)
                 # Add to cache
                 if cache:
                     self.cache.add(word, res, 'auto_compound_l2')
-                return format_as(res)
+                return res
 
         # If not found
         return None
