@@ -4,19 +4,14 @@ import os
 from h2p_parser import dict_cache
 from h2p_parser import DATA_PATH
 
-test_f1 = f'temp_{uuid.uuid4()}.db'
-test_f2 = f'temp_{uuid.uuid4()}.db'
-test_f3 = f'temp_{uuid.uuid4()}.db'
-test_exp = f'temp_{uuid.uuid4()}.dict'
 
-
-# Fixture to remove temp db files
-@pytest.fixture(scope='session')
-def clear_files_teardown(request):
-    yield None
+# Fixture to generate a db file that will be cleared after test
+@pytest.fixture(scope='function')
+def gen_db():
+    file_name = f'temp_{uuid.uuid4()}.db'
+    yield file_name
     # Remove the requested file
-    print(f'Removing {request.param}')
-    with DATA_PATH.joinpath(request.param) as f:
+    with DATA_PATH.joinpath(file_name) as f:
         os.remove(f)
         assert not os.path.exists(f)
 
@@ -27,33 +22,30 @@ def test_dict_cache():
     assert isinstance(cache, dict_cache.DictCache)
 
 
-@pytest.mark.parametrize('clear_files_teardown', [test_f1], indirect=True)
-def test_dict_cache_add(clear_files_teardown):
-    cache = dict_cache.DictCache(test_f1)
+def test_dict_cache_add(gen_db):
+    cache = dict_cache.DictCache(gen_db)
     # Add item to cache
     cache.add('JARL', 'Y AA1 R L')
     assert cache._cache['JARL'][0] == 'Y AA1 R L'
     assert cache.get('JARL') == ('Y AA1 R L', None, False)
 
 
-@pytest.mark.parametrize('clear_files_teardown', [test_f1], indirect=True)
-def test_dict_cache_get(clear_files_teardown):
-    cache = dict_cache.DictCache(test_f1)
+def test_dict_cache_get(gen_db):
+    cache = dict_cache.DictCache(gen_db)
     cache.add('ALTA', 'AA1 L T AH0')
     assert cache.get('ALTA') == ('AA1 L T AH0', None, False)
     cache.save()
     # Load new cache
-    cache2 = dict_cache.DictCache(test_f1)
+    cache2 = dict_cache.DictCache(gen_db)
     cache2.load()
     assert len(cache2._cache) == 1
     assert cache2.get('ALTA') == ('AA1 L T AH0', None, False)
 
 
 # Test for clear and check_clear
-@pytest.mark.parametrize('clear_files_teardown', [test_f2], indirect=True)
-def test_clear(clear_files_teardown):
+def test_clear(gen_db):
     # Create a new db
-    cache = dict_cache.DictCache(test_f2)
+    cache = dict_cache.DictCache(gen_db)
     # Add items
     cache.add('TEST', 'T EH1 S T')
     cache.add('ALRIGHT', 'AO2 L R AY1 T')
@@ -67,16 +59,16 @@ def test_clear(clear_files_teardown):
     assert cache.check_clear() == (1, 2)
 
 
-@pytest.mark.parametrize('clear_files_teardown', [test_f3], indirect=True)
-def test_export(clear_files_teardown):
+def test_export(gen_db):
     # Create a new db
-    cache = dict_cache.DictCache(test_f3)
+    cache = dict_cache.DictCache(gen_db)
     # Add some items
     cache.add('TEST', 'T EH1 S T', checked=True)
     cache.add('ALRIGHT', 'AO2 L R AY1 T')
     cache.add('ALTA', 'AA1 L T AH0', checked=True)
     cache.save()
     # Export to file
+    test_exp = f'temp_{uuid.uuid4()}.dict'
     with DATA_PATH.joinpath(test_exp) as f:
         try:
             cache.export(f)
