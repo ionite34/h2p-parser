@@ -1,5 +1,5 @@
 codecov:
-  require_ci_to_pass: yes
+  require_ci_to_pass: false
 
 coverage:
   precision: 2
@@ -11,11 +11,14 @@ coverage:
         target: auto
         threshold: 15%
         base: auto
+    patch:
+      default:
+        target: 0%
 
 comment:
   layout: "reach,diff,flags,files,footer"
   behavior: default
-  require_changes: no
+  require_changes: false
 
 ignore:
   - "tests/**"
