@@ -24,6 +24,8 @@ def test__expand_decimal_point():
     ("In $0 line.", "In zero dollars line."),
     ("In €50 line.", "In fifty euros line."),
     ("In £50 line.", "In fifty pounds line."),
+    ("In £2,000,000 line.", "In two million pounds line."),
+    ("In $2,000,000,000 line.", "In two billion dollars line."),
 ])
 def test__expand_currency(text, expected):
     result = re.sub(numbers._currency_re, numbers._expand_currency, text)
@@ -93,6 +95,10 @@ def test__expand_roman(text, expected):
     ("585", "five hundred and eighty five"),
     ("1200", "twelve hundred"),
     ("2000", "two thousand"),
+    ("2005", "two thousand five"),
+    ("2801", "twenty eight oh one"),
+    ("2000's", "two thousand's"),
+    ("1720's", "seventeen twenties"),
     ("5890", "five thousand eight hundred and ninety"),
     ("6500000", "six million five hundred thousand"),
     ("1000000", "one million"),

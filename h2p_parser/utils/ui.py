@@ -129,18 +129,44 @@ def menu_parse_file():
 
 def menu_cache():
     choices = [
-        Choice("clear-generated", name="Remove generated non-verified entries", enabled=True),
+        Choice("export-checked", name="Export Checked Entries"),
+        Choice("export-all", name="Export All Entries"),
+        Choice("clear-generated", name="Remove Non-Checked entries", enabled=True),
         Choice("clear-all", name="Remove all entries"),
         Separator("-" * 5),
         Choice(value=None, name="[Back]"),
     ]
     selections = inquirer.select(
         message="Cache Options:",
+        choices=choices,
+        default=choices[0],
     ).execute()
     if selections is None:
         menu_main()  # Back to main menu
     # Create cache link
     cache = dict_cache.DictCache()
     if selections == "clear-generated":
-        cache.clear_generated()
-        print("Generated entries removed.")
+        entries = cache.check_clear()
+        res = inquirer.confirm(f"{entries[0]}/{entries[1]} records will be removed. Confirm?").execute()
+        if res:
+            cache.clear()
+        print(f'{entries} entries removed.')
+    elif selections == "clear-all":
+        entries = cache.check_clear(clear_all=True)
+        res = inquirer.confirm(f"{entries[0]} records will be removed. Confirm?").execute()
+        if res:
+            cache.clear(clear_all=True)
+        print(f'{entries} entries removed.')
+    elif selections == "export-checked":
+        # Prompt enter file name
+        file_name = inquirer.filepath('Export to file:').execute()
+        cache.export(file_name)
+        print(f'{file_name} exported.')
+    elif selections == "export-all":
+        # Prompt enter file name
+        file_name = inquirer.filepath('Export to file:').execute()
+        cache.export(file_name, only_checked=False)
+        print(f'{file_name} exported.')
+    # Return
+    print("-" * 5)
+    menu_cache()

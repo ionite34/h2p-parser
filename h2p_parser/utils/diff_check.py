@@ -63,7 +63,9 @@ class UIDiffCheck:
             ui.menu_tests()  # Return to tests menu
         elif mode == "File":
             selected = prompt_f_input()
-            pass
+            self.run_file(selected)
+            print()
+            ui.menu_tests()  # Return to tests menu
 
     def run_directory(self, directory, convert_ipa: bool = False):
         # Runs diff check on all dictionaries in a directory
@@ -78,7 +80,7 @@ class UIDiffCheck:
         for file in tqdm(files, desc='Reading files', unit='files', position=0):
             # Get full path to file
             file_path = os.path.join(directory, file)
-            dr = dict_reader.DictReader(file_path, convert_ipa, with_progress=True)
+            dr = dict_reader.DictReader(file_path)
             result_unmappable.update(dr.unmappable_words)
             result.update(dr.dict)
         # Run diff check on combined dictionary
@@ -100,10 +102,34 @@ class UIDiffCheck:
                 ("orange", " words not mappable to ARPAbet from IPA.")])
         # Ask user if they'd like to list the results
         if len(result) > 0 and inquirer.confirm(
-            message='Would you like to browse the OOV words?',
-            default=True,
+                message='Would you like to browse the OOV words?',
+                default=True,
         ).execute():
             # List the OOV words by using parse_line
             UIParseLine().execute_cmu(result)
 
-
+    def run_file(self, file_path):
+        # Runs diff check for specified file
+        # Get a list of all files in the directory
+        dr = dict_reader.DictReader(file_path)
+        result = dr.dict
+        # Run diff check on combined dictionary
+        oov = set()  # Unique OOV words
+        oov_dict = {}  # OOV words and their corresponding entries
+        all_words = set()  # Unique All words
+        for word in tqdm(result, desc='Checking OOV words'):
+            all_words.add(word.lower())
+            if word.lower() not in self.cmu:
+                oov.add(word)
+                oov_dict[word] = result[word]
+        # Print results
+        print()  # Newline
+        cp([("#d21205", "Found: "), ("white", f"{len(oov)}/{len(all_words)}"),
+            ("#d21205", " words not in CMU dict.")])
+        # Ask user if they'd like to list the results
+        if len(result) > 0 and inquirer.confirm(
+                message='Would you like to browse the OOV words?',
+                default=True,
+        ).execute():
+            # List the OOV words by using parse_line
+            UIParseLine().execute_cmu(oov_dict)

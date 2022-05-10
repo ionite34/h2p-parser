@@ -22,9 +22,10 @@ def to_sds(ph: list or str) -> str or None:
     if ph is None:
         return None
 
-    # Return directly if str
+    # Return directly if str, with curly brackets removed
     if isinstance(ph, str):
-        return ph
+        return ph.replace('{', '').replace('}', '')
+
     # If is list, convert each element
     if isinstance(ph, list):
         # If list empty, return None
