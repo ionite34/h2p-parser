@@ -13,7 +13,8 @@ coverage:
         base: auto
     patch:
       default:
-        target: 0%
+        target: 75%
+        threshold: 75%
 
 comment:
   layout: "reach,diff,flags,files,footer"
