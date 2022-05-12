@@ -33,8 +33,8 @@ def test_auto_possessives(pc, word, expected):
 # noinspection SpellCheckingInspection
 @pytest.mark.parametrize("word, expected", [
     ("UNKN'll", None),
-    ("System'll", "S IH1 S T AH0 M L"),
-    ("Cyprus'll", "S AY1 P R AH0 S L"),
+    ("System'll", "S IH1 S T AH0 M AH0 L"),
+    ("Cyprus'll", "S AY1 P R AH0 S AH0 L"),
     ("Victory'd", "V IH1 K T ER0 IY0 D"),
     ("Such'd", "S AH1 CH D"),
 ])

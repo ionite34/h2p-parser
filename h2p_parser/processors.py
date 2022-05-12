@@ -139,9 +139,10 @@ class Processor:
             return None  # Core word not found
         # Add the phoneme with the appropriate suffix
         if parts[1] == 'll':
-            ph += 'L'
+            ph.append('AH0')
+            ph.append('L')
         elif parts[1] == 'd':
-            ph += 'D'
+            ph.append('D')
         # Return the phoneme
         self.stat_resolves['contractions'] += 1
         return ph
@@ -182,6 +183,10 @@ class Processor:
         parts = self._segment(word)
         if len(parts) == 1:
             return None  # No compound found
+        # If length of any part is 1, return None
+        for part in parts:
+            if len(part) == 1:
+                return None
         # If initial check passes, register a hit
         self.stat_hits['compound'] += 1
         # Get the phonemes for each part
