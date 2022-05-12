@@ -59,7 +59,7 @@ def test_auto_hyphenated(pc, word, expected):
 # noinspection SpellCheckingInspection
 @pytest.mark.parametrize("word, expected", [
     ("UNKNUNKNV", None),
-    ("Getatoy", "G EH1 T AH0 T OY1"),
+    ("Getatoy", None),  # Unresolvable due to presense of single letter (a)
     ("JetBrains", "JH EH1 T B R EY1 N Z"),
     ("Superfreeze", "S UW1 P ER0 F R IY1 Z"),
 ])
