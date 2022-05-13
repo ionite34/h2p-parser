@@ -1,7 +1,6 @@
 import json
 
 import pytest
-import pytest_mock
 import unittest.mock as mock
 
 from h2p_parser.dictionary import Dictionary
@@ -11,13 +10,11 @@ import h2p_parser.dictionary as dictionary
 # Test initialization of dictionary from confTest
 def test_init(mock_dict):
     assert isinstance(mock_dict.dictionary, dict)
-    assert mock_dict.use_default is False
 
 
 # Test default initialization of dictionary
 def test_init_default(mock_dict_def):
     assert isinstance(mock_dict_def.dictionary, dict)
-    assert mock_dict_def.use_default is True
 
 
 # Test initialization exceptions, custom file
@@ -41,8 +38,8 @@ def test_init_exceptions_custom_empty(mocker):
 
 
 # Test initialization exceptions, default file
-def test_init_exceptions_default(mocker, mock_dict_def):
-    mocker.patch('h2p_parser.dictionary.pkg_resources.files', return_value=None)
+def test_init_exceptions_default(mocker):
+    mocker.patch.object(dictionary, 'exists', return_value=False)
     with pytest.raises(FileNotFoundError):
         Dictionary()
 
@@ -72,7 +69,12 @@ def test_contains(data, exp, mock_dict):
     ("read", "VBP", "R EH1 D"),
     ("read", "NN", "R IY1 D"),
     ("read", "UH", "R IY1 D"),
-    ("(No-Default)", "UH", None)
+    ("(no-default)", "UH", None)
 ])
 def test_get_phoneme(word, pos, phoneme, mock_dict):
     assert mock_dict.get_phoneme(word, pos) == phoneme
+
+
+def test_get_phoneme_key_error(mock_dict):
+    with pytest.raises(KeyError):
+        mock_dict.get_phoneme("notfound", "NN")
