@@ -17,6 +17,5 @@ else:
 __version__ = "1.0.0"
 
 # Data module
-DATA_PATH = files(__name__ + '.data')
-# Iterable collection of all files in data.
-DATA_FILES = DATA_PATH.iterdir()
+import data
+DATA_PATH = files(data.__name__)
