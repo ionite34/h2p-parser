@@ -1,6 +1,5 @@
 # Fixtures for dictionary setup
 import pytest
-import pytest_mock
 import unittest.mock as mock
 from h2p_parser import dictionary
 from h2p_parser import dict_reader
@@ -28,7 +27,7 @@ file_mock_content = """
         "VBP": "R EH1 D",
         "DEFAULT": "R IY1 D"
     },
-    "(No-Default)": {
+    "(no-default)": {
         "VBD": "R EH1 D",
         "VBN": "R EH1 D",
         "VBP": "R EH1 D"
