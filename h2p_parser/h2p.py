@@ -106,7 +106,7 @@ class H2p:
             text = replace_first(word, f_ph, text)
         return text
 
-    def replace_het_list(self, text_list: list[str]) -> list[str]:
+    def replace_het_list(self, text_list: list[str]) -> list:
         """
         Replaces heteronyms in a list of text lines
         :param text_list: List of text lines
@@ -133,7 +133,7 @@ class H2p:
                 text_list[index] = replace_first(word, f_ph, text_list[index])
         return text_list
 
-    def tag(self, text: str) -> list[str]:
+    def tag(self, text: str) -> list:
         """
         Tags a text line
         :param text: Text line to tag
