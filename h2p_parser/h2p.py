@@ -21,7 +21,7 @@ def replace_first(target, replacement, text):
     if target is None or target == '':
         return text
     # Replace the first instance of a word with its phonemes
-    return re.sub(r'(?i)\b' + target + r'\b', replacement, text, 1)
+    return re.sub(r'(?i)\b' + re.escape(target) + r'\b', replacement, text, 1)
 
 
 class H2p:
