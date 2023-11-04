@@ -1,10 +1,10 @@
-from setuptools import setup
+from setuptools import find_packages, setup
 
 setup(
     name='h2p_parser',
     version='1.0.0',
-    packages=[''],
-    package_dir={'': 'h2p_parser'},
+    packages=find_packages(include=["h2p_parser*"]),
+    package_data={"h2p_parser.data": ["*.db", "*.dict", "*.json", "*.txt"]},
     install_requires=['nltk', 'inflect'],
     python_requires='>=3.7',
     url='https://github.com/ionite34/h2p-parser',
